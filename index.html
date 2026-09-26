@@ -136,6 +136,39 @@
       pointer-events: none;
     }
 
+    /* Active room pulse animation */
+    @keyframes roomPulseGlow {
+      0%, 100% {
+        stroke: #facc15 !important;
+        stroke-width: 3.5px !important;
+        filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.95)) brightness(1.3);
+      }
+      50% {
+        stroke: #ffffff !important;
+        stroke-width: 4px !important;
+        filter: drop-shadow(0 0 22px rgba(168, 85, 247, 0.95)) brightness(1.6);
+      }
+    }
+
+    .room-active-highlight {
+      animation: roomPulseGlow 1.2s ease-in-out infinite alternate !important;
+      fill: #6d28d9 !important;
+    }
+
+    .blueprint-room.room-dimmed {
+      opacity: 0.25 !important;
+      filter: grayscale(0.7) !important;
+      transition: all 0.25s ease;
+    }
+
+    .blueprint-room.room-matched {
+      stroke: #facc15 !important;
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.7)) brightness(1.3);
+      fill: #581c87 !important;
+      transition: all 0.25s ease;
+    }
+
     /* Smooth floor transition overlay */
     .floor-zoom-enter {
       animation: zoomFloorIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -178,30 +211,53 @@
     <div class="mt-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar" id="floor-quicknav">
       <button onclick="selectFloor(-1)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="-1">Subsuelo Eléctrica</button>
+        data-floor="-1">Subsuelo</button>
       <button onclick="selectFloor(0)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-400 bg-upl-accent text-white shadow"
         data-floor="0">Planta Baja</button>
       <button onclick="selectFloor(1)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="1">1° SAU / Kiosco</button>
+        data-floor="1">1° PISO</button>
       <button onclick="selectFloor(2)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="2">2° Mecánica</button>
+        data-floor="2">2° PISO</button>
       <button onclick="selectFloor(3)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="3">3° Química</button>
+        data-floor="3">3° PISO</button>
       <button onclick="selectFloor(4)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="4">4° Civil</button>
+        data-floor="4">4° PISO</button>
       <button onclick="selectFloor(5)"
         class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="5">5° Sistemas</button>
+        data-floor="5">5° PISO</button>
     </div>
   </header>
 
-  <!-- Main View Container -->
+    <!-- Main View Container -->
   <main class="flex-1 relative flex flex-col p-3 overflow-y-auto" id="viewport">
+
+    <!-- Global Interactive Campus Search Bar -->
+    <div id="global-search-container" class="relative mb-3 z-40">
+      <div class="relative flex items-center">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-purple-400 text-xs pointer-events-none"></i>
+        <input type="text" id="room-search-input"
+          oninput="handleSearchInput()"
+          onfocus="handleSearchFocus()"
+          onkeydown="handleSearchKeydown(event)"
+          placeholder="Buscar aula, lab, fotocopiadora, cantina, bedelía..."
+          autocomplete="off"
+          class="w-full bg-[#170a29]/95 backdrop-blur-md border border-purple-600/40 hover:border-purple-500/60 focus:border-purple-400 rounded-xl pl-9 pr-9 py-2 text-xs text-purple-100 placeholder-purple-400/60 focus:outline-none focus:ring-1 focus:ring-purple-400 shadow-md transition">
+        <button id="search-clear-btn" onclick="clearSearch()" type="button"
+          class="hidden absolute right-3 w-5 h-5 flex items-center justify-center rounded-full bg-purple-800/60 hover:bg-purple-700 text-purple-200 text-[10px] transition">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Dropdown Results / Suggestions Floating Menu -->
+      <div id="search-results-dropdown"
+        class="hidden absolute left-0 right-0 top-full mt-1.5 max-h-80 overflow-y-auto bg-[#180b2a]/98 backdrop-blur-xl border border-purple-500/50 rounded-xl shadow-2xl z-50 divide-y divide-purple-900/40">
+      </div>
+    </div>
 
     <!-- Mode Toggle: Building 3D View vs Overhead Blueprint View -->
     <div class="flex items-center justify-between bg-purple-950/60 p-1.5 rounded-xl border border-purple-800/40 mb-3">
@@ -460,13 +516,7 @@
         </button>
       </div>
 
-      <!-- Quick Room Search Filter inside Floor -->
-      <div class="mb-2 relative">
-        <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-purple-400 text-xs"></i>
-        <input type="text" id="room-search-input" onkeyup="filterRoomsOnMap()"
-          placeholder="Buscar aula, lab, fotocopiadora, baño..."
-          class="w-full bg-[#180a29] border border-purple-800/60 rounded-xl pl-8 pr-3 py-1.5 text-xs text-purple-100 placeholder-purple-400/60 focus:outline-none focus:border-purple-400 transition">
-      </div>
+      
 
       <!-- Interactive Blueprint Canvas Container -->
       <div
@@ -1031,9 +1081,347 @@
       }
     }
 
+    let allCampusRooms = [];
+    let activeResultIndex = -1;
+
+    function normalizeText(str) {
+      return (str || '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function escapeJs(str) {
+      return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+
+    function getRoomIcon(name, desc) {
+      const text = (name + ' ' + desc).toLowerCase();
+      if (text.includes('ascensor')) return 'fa-solid fa-elevator text-cyan-400';
+      if (text.includes('escalera')) return 'fa-solid fa-stairs text-slate-400';
+      if (text.includes('kiosco') || text.includes('cantina') || text.includes('bar')) return 'fa-solid fa-utensils text-amber-400';
+      if (text.includes('fotocopia')) return 'fa-solid fa-print text-emerald-400';
+      if (text.includes('biblioteca') || text.includes('sum')) return 'fa-solid fa-book-open-reader text-blue-400';
+      if (text.includes('microsoft') || text.includes('informática') || text.includes('sistemas')) return 'fa-solid fa-laptop-code text-indigo-400';
+      if (text.includes('química')) return 'fa-solid fa-flask-vial text-rose-400';
+      if (text.includes('física') || text.includes('básicas')) return 'fa-solid fa-atom text-teal-400';
+      if (text.includes('eléctrica') || text.includes('electrónica')) return 'fa-solid fa-bolt text-yellow-400';
+      if (text.includes('mecánica') || text.includes('civil')) return 'fa-solid fa-gears text-orange-400';
+      if (text.includes('sau') || text.includes('alumnado') || text.includes('pae')) return 'fa-solid fa-id-card text-purple-400';
+      if (text.includes('auditorio') || text.includes('actos')) return 'fa-solid fa-masks-theater text-pink-400';
+      if (text.includes('profesor') || text.includes('bedelía') || text.includes('dirección') || text.includes('oficina')) return 'fa-solid fa-briefcase text-sky-400';
+      return 'fa-solid fa-location-dot text-upl-highlight';
+    }
+
+    function buildCampusRoomsIndex() {
+      allCampusRooms = [];
+      for (const [floorKey, data] of Object.entries(floorData)) {
+        const fNum = parseInt(floorKey);
+        const regex = /selectRoom\('([^']+)',\s*'([^']+)'\)/g;
+        let match;
+        while ((match = regex.exec(data.svg)) !== null) {
+          const roomName = match[1];
+          const roomDesc = match[2];
+          let keywords = [];
+          if (/microsoft|software|servidor/i.test(roomName + ' ' + roomDesc)) keywords.push('computacion', 'pc', 'laboratorio', 'sistemas');
+          if (/bedel[ií]a/i.test(roomName)) keywords.push('alumnos', 'asistencia', 'profesores', 'aulas');
+          if (/cantina|bar|kiosco|buffet/i.test(roomName)) keywords.push('comida', 'almuerzo', 'cafe', 'snack', 'merienda');
+          if (/fotocopia/i.test(roomName)) keywords.push('apuntes', 'impresion', 'anillados', 'scanner');
+          if (/sau|asuntos universitarios/i.test(roomName)) keywords.push('becas', 'tutorias', 'deportes', 'gremio', 'estudiantes');
+          if (/alumnado/i.test(roomName)) keywords.push('tramites', 'inscripcion', 'certificado', 'titulo', 'examen');
+          if (/biblioteca|sum/i.test(roomName)) keywords.push('estudio', 'libros', 'silencio', 'mesas');
+          if (/ascensor/i.test(roomName)) keywords.push('elevador', 'accesibilidad', 'movilidad');
+          if (/escalera/i.test(roomName)) keywords.push('subir', 'bajar', 'acceso');
+          if (/auditorio/i.test(roomName)) keywords.push('charlas', 'conferencias', 'actos', 'defensa tesis');
+          if (/pae/i.test(roomName)) keywords.push('apoyo', 'orientacion', 'tutor');
+          if (/baño|sanitario/i.test(roomName + ' ' + roomDesc)) keywords.push('banos', 'wc', 'sanitarios', 'toilette');
+
+          allCampusRooms.push({
+            floor: fNum,
+            floorTitle: data.title,
+            badge: data.badge,
+            name: roomName,
+            description: roomDesc,
+            keywords: keywords.join(' ')
+          });
+        }
+      }
+    }
+
+    function handleSearchFocus() {
+      const input = document.getElementById('room-search-input');
+      const dropdown = document.getElementById('search-results-dropdown');
+      const q = input.value.trim();
+
+      if (!q) {
+        // Show quick frequent searches
+        const frequent = [
+          { name: 'Bedelía Subsuelo', floor: -1, floorTitle: 'SUBSUELO', desc: 'Atención para cursado de Eléctrica y Electrónica' },
+          { name: 'Fotocopiadora Planta Baja', floor: 0, floorTitle: 'PLANTA BAJA', desc: 'Apuntes, material de cátedra y anillados UPL' },
+          { name: 'Cantina 2° Piso', floor: 2, floorTitle: '2° PISO', desc: 'Comedor universitario, menú del día y mesas de estudio' },
+          { name: 'Secretaría Asuntos Universitarios (SAU)', floor: 1, floorTitle: '1° PISO', desc: 'Becas, deportes, tutorías, pasantías y atención gremial' },
+          { name: 'Laboratorio Microsoft', floor: 5, floorTitle: '5° PISO', desc: 'Desarrollo de software, servidores de prueba y certificaciones' },
+          { name: 'Auditorio 4° Piso', floor: 4, floorTitle: '4° PISO', desc: 'Charlas técnicas, disertaciones y defensas de tesis' },
+          { name: 'Biblioteca Central & SUM', floor: 0, floorTitle: 'PLANTA BAJA', desc: 'Espacio de estudio silencioso y préstamos bibliográficos' },
+          { name: 'Oficina de Alumnado', floor: 0, floorTitle: 'PLANTA BAJA', desc: 'Trámites de inscripciones, certificados y legajos' }
+        ];
+
+        let html = '<div class="p-2 text-[10px] uppercase font-bold tracking-wider text-purple-400 bg-purple-950/60 px-3 flex items-center gap-1.5"><i class="fa-solid fa-fire text-amber-400"></i> Sectores frecuentes</div>';
+        frequent.forEach((item, idx) => {
+          const icon = getRoomIcon(item.name, item.desc);
+          html += `
+            <div onclick="selectRoomFromSearch('${escapeJs(item.name)}', '${escapeJs(item.desc)}', ${item.floor})"
+              class="search-item px-3 py-2 flex items-center justify-between cursor-pointer hover:bg-purple-900/40 transition gap-2"
+              data-idx="${idx}">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-7 h-7 rounded-lg bg-purple-900/60 border border-purple-700/50 flex items-center justify-center flex-shrink-0 text-xs">
+                  <i class="${icon}"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-white truncate">${escapeHtml(item.name)}</div>
+                  <div class="text-[10px] text-purple-300/80 truncate">${escapeHtml(item.desc)}</div>
+                </div>
+              </div>
+              <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-900/80 text-purple-200 border border-purple-500/30 font-mono">${item.floorTitle}</span>
+            </div>
+          `;
+        });
+        dropdown.innerHTML = html;
+        dropdown.classList.remove('hidden');
+        activeResultIndex = -1;
+      } else {
+        handleSearchInput();
+      }
+    }
+
+    function handleSearchInput() {
+      const input = document.getElementById('room-search-input');
+      const clearBtn = document.getElementById('search-clear-btn');
+      const dropdown = document.getElementById('search-results-dropdown');
+      const q = input.value.trim();
+
+      if (!q) {
+        clearBtn.classList.add('hidden');
+        resetMapHighlights();
+        handleSearchFocus();
+        return;
+      }
+
+      clearBtn.classList.remove('hidden');
+      const normQ = normalizeText(q);
+
+      // Score and rank matches
+      const matches = [];
+      allCampusRooms.forEach(room => {
+        const normName = normalizeText(room.name);
+        const normDesc = normalizeText(room.description);
+        const normKw = normalizeText(room.keywords);
+        const normFloor = normalizeText(room.floorTitle);
+
+        let score = 0;
+        if (normName === normQ) score += 120;
+        else if (normName.startsWith(normQ)) score += 90;
+        else if (normName.includes(normQ)) score += 70;
+
+        if (normKw.includes(normQ)) score += 45;
+        if (normDesc.includes(normQ)) score += 30;
+        if (normFloor.includes(normQ)) score += 15;
+
+        if (score > 0) {
+          matches.push({ ...room, score });
+        }
+      });
+
+      matches.sort((a, b) => b.score - a.score);
+
+      // Render Dropdown
+      if (matches.length === 0) {
+        dropdown.innerHTML = `
+          <div class="p-4 text-center text-xs text-purple-300">
+            <i class="fa-solid fa-circle-question text-purple-400 text-lg mb-1.5 block"></i>
+            No se encontraron aulas o sectores para "<span class="text-white font-semibold">${escapeHtml(q)}</span>"
+          </div>
+        `;
+      } else {
+        let html = `<div class="p-2 text-[10px] uppercase font-bold tracking-wider text-purple-400 bg-purple-950/60 px-3 flex items-center justify-between">
+          <span>Resultados (${matches.length})</span>
+          <span class="text-[9px] text-purple-300 font-normal">Tocá para ir directamente</span>
+        </div>`;
+        matches.slice(0, 10).forEach((item, idx) => {
+          const icon = getRoomIcon(item.name, item.description);
+          html += `
+            <div onclick="selectRoomFromSearch('${escapeJs(item.name)}', '${escapeJs(item.description)}', ${item.floor})"
+              class="search-item px-3 py-2 flex items-center justify-between cursor-pointer hover:bg-purple-900/40 transition gap-2"
+              data-idx="${idx}">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-7 h-7 rounded-lg bg-purple-900/60 border border-purple-700/50 flex items-center justify-center flex-shrink-0 text-xs">
+                  <i class="${icon}"></i>
+                </div>
+                <div class="min-w-0">
+                  <div class="text-xs font-bold text-white truncate">${escapeHtml(item.name)}</div>
+                  <div class="text-[10px] text-purple-300/80 truncate">${escapeHtml(item.description)}</div>
+                </div>
+              </div>
+              <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-900/80 text-purple-200 border border-purple-500/30 font-mono">${item.floorTitle}</span>
+            </div>
+          `;
+        });
+        dropdown.innerHTML = html;
+      }
+      dropdown.classList.remove('hidden');
+      activeResultIndex = -1;
+
+      // Also filter on current floor blueprint if active
+      if (currentView === 'floor') {
+        filterCurrentFloorSvg(normQ);
+      }
+    }
+
+    function handleSearchKeydown(e) {
+      const dropdown = document.getElementById('search-results-dropdown');
+      if (dropdown.classList.contains('hidden')) return;
+
+      const items = dropdown.querySelectorAll('.search-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        activeResultIndex = (activeResultIndex + 1) % items.length;
+        updateActiveDropdownItem(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeResultIndex = (activeResultIndex - 1 + items.length) % items.length;
+        updateActiveDropdownItem(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (activeResultIndex >= 0 && items[activeResultIndex]) {
+          items[activeResultIndex].click();
+        } else if (items[0]) {
+          items[0].click();
+        }
+      } else if (e.key === 'Escape') {
+        dropdown.classList.add('hidden');
+      }
+    }
+
+    function updateActiveDropdownItem(items) {
+      items.forEach((it, i) => {
+        if (i === activeResultIndex) {
+          it.classList.add('bg-purple-800/80');
+          it.scrollIntoView({ block: 'nearest' });
+        } else {
+          it.classList.remove('bg-purple-800/80');
+        }
+      });
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('room-search-input');
+      input.value = '';
+      document.getElementById('search-clear-btn').classList.add('hidden');
+      document.getElementById('search-results-dropdown').classList.add('hidden');
+      resetMapHighlights();
+      input.focus();
+    }
+
+    function selectRoomFromSearch(roomName, roomDesc, floorNum) {
+      const input = document.getElementById('room-search-input');
+      input.value = roomName;
+      document.getElementById('search-clear-btn').classList.remove('hidden');
+      document.getElementById('search-results-dropdown').classList.add('hidden');
+
+      // Navigate to floor
+      activeFloor = floorNum;
+      renderFloorMap(floorNum);
+
+      if (currentView !== 'floor') {
+        switchMainView('floor');
+      }
+
+      selectRoom(roomName, roomDesc);
+      highlightSpecificRoomInSvg(roomName);
+
+      // Smooth scroll to blueprint
+      const viewport = document.getElementById('viewport');
+      if (viewport) {
+        viewport.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function filterCurrentFloorSvg(normQ) {
+      const rooms = document.querySelectorAll('#svg-map-wrapper .blueprint-room');
+      const labels = document.querySelectorAll('#svg-map-wrapper text');
+
+      let anyMatch = false;
+
+      rooms.forEach(el => {
+        const oc = el.getAttribute('onclick') || '';
+        const normOc = normalizeText(oc);
+        if (normOc.includes(normQ)) {
+          el.classList.add('room-matched');
+          el.classList.remove('room-dimmed');
+          anyMatch = true;
+        } else {
+          el.classList.remove('room-matched');
+          el.classList.add('room-dimmed');
+        }
+      });
+
+      labels.forEach(lbl => {
+        const text = lbl.textContent.trim();
+        if (!text) return;
+        const normText = normalizeText(text);
+        if (normText.includes(normQ)) {
+          lbl.style.fill = '#facc15';
+          lbl.style.fontWeight = 'bold';
+        } else {
+          lbl.style.fill = 'rgba(255,255,255,0.2)';
+        }
+      });
+    }
+
+    function resetMapHighlights() {
+      const rooms = document.querySelectorAll('#svg-map-wrapper .blueprint-room');
+      rooms.forEach(el => {
+        el.classList.remove('room-matched', 'room-dimmed', 'room-active-highlight');
+      });
+
+      const labels = document.querySelectorAll('#svg-map-wrapper text');
+      labels.forEach(lbl => {
+        lbl.style.fill = '#ffffff';
+        lbl.style.fontWeight = '600';
+      });
+    }
+
+    function highlightSpecificRoomInSvg(roomName) {
+      resetMapHighlights();
+
+      const normTarget = normalizeText(roomName);
+      const rooms = document.querySelectorAll('#svg-map-wrapper .blueprint-room');
+      rooms.forEach(el => {
+        const oc = el.getAttribute('onclick') || '';
+        const normOc = normalizeText(oc);
+        if (normOc.includes(normTarget)) {
+          el.classList.add('room-active-highlight');
+        }
+      });
+
+      const labels = document.querySelectorAll('#svg-map-wrapper text');
+      labels.forEach(lbl => {
+        const text = lbl.textContent.trim();
+        if (text && normTarget.includes(normalizeText(text))) {
+          lbl.style.fill = '#facc15';
+          lbl.style.fontWeight = 'bold';
+        }
+      });
+    }
+
     function selectRoom(name, description) {
       document.getElementById('room-detail-name').innerText = name;
       document.getElementById('room-detail-desc').innerText = description;
+
+      highlightSpecificRoomInSvg(name);
 
       // Flash card border
       const card = document.getElementById('room-detail-card');
@@ -1042,19 +1430,7 @@
     }
 
     function filterRoomsOnMap() {
-      const q = document.getElementById('room-search-input').value.toLowerCase();
-      const labels = document.querySelectorAll('#svg-map-wrapper text');
-      labels.forEach(lbl => {
-        if (!q) {
-          lbl.style.fill = '#ffffff';
-          lbl.style.transform = 'scale(1)';
-        } else if (lbl.textContent.toLowerCase().includes(q)) {
-          lbl.style.fill = '#facc15'; // highlight in bright yellow
-          lbl.style.fontWeight = 'bold';
-        } else {
-          lbl.style.fill = 'rgba(255,255,255,0.2)';
-        }
-      });
+      handleSearchInput();
     }
 
     function highlightElevatorPath() {
@@ -1083,8 +1459,17 @@
       }
     }
 
-    // Initialize Default View
+    // Close search dropdown on click outside
+    document.addEventListener('click', (e) => {
+      const container = document.getElementById('global-search-container');
+      if (container && !container.contains(e.target)) {
+        document.getElementById('search-results-dropdown')?.classList.add('hidden');
+      }
+    });
+
+    // Initialize Default View and build search index
     window.addEventListener('DOMContentLoaded', () => {
+      buildCampusRoomsIndex();
       renderFloorMap(0);
     });
   </script>
