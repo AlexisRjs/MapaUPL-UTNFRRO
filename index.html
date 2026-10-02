@@ -653,76 +653,103 @@
             <rect width="500" height="700" fill="#321650" />
             
             <!-- Round Biblioteca / SUM in Patio -->
-            <circle cx="250" cy="100" r="70" fill="#3e1766" stroke="#ffffff" stroke-width="2.5" class="blueprint-room" onclick="selectRoom('Biblioteca Central & SUM', 'Espacio de estudio silencioso, préstamos bibliográficos y eventos.')" />
-            <text x="250" y="98" class="room-label" style="font-size:14.5px;">Biblioteca / SUM</text>
-            <text x="250" y="116" class="sub-label">Estudio y Préstamos</text>
-            <text x="250" y="190" class="sub-label" style="fill:#a855f7; font-weight:700;">ÁREA DE PATIO DESCUBIERTO</text>
+            <circle cx="250" cy="100" r="65" fill="#3e1766" stroke="#ffffff" stroke-width="2.5" class="blueprint-room" onclick="selectRoom('Biblioteca/SUM', 'Espacio de estudio silencioso y préstamos bibliográficos.')" />
+            <text x="250" y="105" class="room-label" style="font-size:14.5px;">Biblioteca/SUM</text>
+            <text x="250" y="185" class="room-label" style="fill:#a855f7; font-weight:700; font-size:13.5px;">Patio</text>
 
-            <!-- Main Building Boundary -->
-            <rect x="25" y="210" width="450" height="430" fill="none" class="blueprint-line" stroke-width="3" />
+            <!-- Outer Building Walls -->
+            <line x1="25" y1="210" x2="205" y2="210" class="blueprint-line" stroke-width="3" />
+            <line x1="295" y1="210" x2="475" y2="210" class="blueprint-line" stroke-width="3" />
+            <line x1="25" y1="210" x2="25" y2="640" class="blueprint-line" stroke-width="3" />
+            <line x1="475" y1="210" x2="475" y2="640" class="blueprint-line" stroke-width="3" />
+            <line x1="25" y1="640" x2="475" y2="640" class="blueprint-line" stroke-width="3" />
 
-            <!-- Top PB: Alumnado -->
-            <rect x="25" y="210" width="180" height="75" fill="#291143" class="blueprint-room" onclick="selectRoom('Oficina de Alumnado', 'Trámites de inscripciones, certificados y legajos.')" />
-            <text x="115" y="255" class="room-label">Alumnado</text>
-            <line x1="25" y1="285" x2="205" y2="285" class="blueprint-line" />
+            <!-- Top PB Left: Alumnado -->
+            <rect x="25" y="210" width="180" height="65" fill="#291143" class="blueprint-room" onclick="selectRoom('Alumnado', 'Trámites de inscripciones, certificados y legajos.')" />
+            <text x="115" y="248" class="room-label">Alumnado</text>
+            <line x1="25" y1="275" x2="205" y2="275" class="blueprint-line" />
 
-            <rect x="295" y="210" width="180" height="75" fill="#250e3d" class="blueprint-room" onclick="selectRoom('Aulas Planta Baja', 'Aulas magnas y sector administrativo.')" />
-            <text x="385" y="255" class="room-label">Aulas / Adm</text>
-            <line x1="295" y1="285" x2="475" y2="285" class="blueprint-line" />
+            <!-- Top PB Right: Sector Norte (sin texto de aulas, fiel al plano) -->
+            <rect x="295" y="210" width="180" height="65" fill="#230e38" class="blueprint-room" />
+            <line x1="295" y1="275" x2="475" y2="275" class="blueprint-line" />
 
-            <!-- Fotocopiadora -->
-            <rect x="25" y="285" width="180" height="75" fill="#38155d" class="blueprint-room" onclick="selectRoom('Fotocopiadora Planta Baja', 'Apuntes, material de cátedra y anillados UPL.')" />
-            <text x="115" y="330" class="room-label">Fotocopiadora</text>
-            <line x1="25" y1="360" x2="205" y2="360" class="blueprint-line" />
+            <!-- Pasillo Horizontal Transversal -->
+            <rect x="25" y="275" width="450" height="45" fill="#1b0a2c" />
+            <line x1="25" y1="297" x2="475" y2="297" class="blueprint-dashed" />
+            <text x="115" y="302" class="sub-label" style="fill:#d8b4fe; font-size:12px; font-weight:700;">Pasillo</text>
+            <text x="385" y="302" class="sub-label" style="fill:#d8b4fe; font-size:12px; font-weight:700;">Pasillo</text>
+
+            <!-- Line under horizontal pasillo -->
+            <line x1="25" y1="320" x2="205" y2="320" class="blueprint-line" />
+            <line x1="295" y1="320" x2="475" y2="320" class="blueprint-line" />
+
+            <!-- Fotocopiadora (debajo del pasillo horizontal) -->
+            <rect x="25" y="320" width="180" height="65" fill="#38155d" class="blueprint-room" onclick="selectRoom('fotocopiadora', 'Servicio de fotocopias, apuntes y anillados.')" />
+            <text x="115" y="358" class="room-label">fotocopiadora</text>
+            <line x1="25" y1="385" x2="205" y2="385" class="blueprint-line" />
+
+            <!-- Vertical dividing line between Bicicletero and Núcleo de Servicios -->
+            <line x1="145" y1="385" x2="145" y2="640" class="blueprint-line" />
 
             <!-- Bicicletero & Ingreso Lateral -->
-            <rect x="25" y="360" width="125" height="280" fill="#210c33" class="blueprint-room" onclick="selectRoom('Bicicletero Estudiantil', 'Estacionamiento seguro de bicicletas para la comunidad.')" />
-            <text x="87" y="490" class="room-label">Bicicletero</text>
-            <line x1="150" y1="360" x2="150" y2="640" class="blueprint-line" />
-
-            <text x="87" y="615" class="sub-label">Ingreso lateral</text>
-            <path d="M 87,632 L 87,622 M 83,626 L 87,622 L 91,626" stroke="#a855f7" stroke-width="1.8" fill="none" />
+            <rect x="25" y="385" width="120" height="255" fill="#210c33" class="blueprint-room" onclick="selectRoom('Bicicletero', 'Estacionamiento de bicicletas para estudiantes.')" />
+            <text x="85" y="495" class="room-label">Bicicletero</text>
+            <text x="85" y="612" class="sub-label" style="font-size:12px; font-weight:600;">Ingreso lateral</text>
+            <path d="M 85,630 L 85,618 M 81,624 L 85,618 L 89,624" stroke="#a855f7" stroke-width="2" fill="none" />
 
             <!-- Escaleras de subsuelo y 1er piso -->
-            <g class="blueprint-room" onclick="selectRoom('Núcleo de Escaleras PB', 'Acceso directo a Subsuelo y Primer Piso')">
-              <rect x="150" y="360" width="55" height="110" fill="#1c0b2d" stroke="#ffffff" stroke-width="1.5" />
-              <line x1="150" y1="385" x2="205" y2="385" stroke="#fff" stroke-width="1" />
-              <line x1="150" y1="415" x2="205" y2="415" stroke="#fff" stroke-width="1" />
-              <line x1="150" y1="440" x2="205" y2="440" stroke="#fff" stroke-width="1" />
-              <line x1="177" y1="360" x2="177" y2="470" stroke="#fff" stroke-width="1" />
-              <text x="177" y="405" class="room-label" style="font-size:11.5px;">← 1°</text>
-              <text x="177" y="450" class="room-label" style="font-size:11.5px;">← SS</text>
+            <g class="blueprint-room" onclick="selectRoom('Escaleras', 'Conexión vertical con subsuelo y primer piso.')">
+              <rect x="145" y="385" width="60" height="90" fill="#1c0b2d" stroke="#ffffff" stroke-width="1.5" />
+              <line x1="145" y1="407" x2="205" y2="407" stroke="#fff" stroke-width="1" />
+              <line x1="145" y1="430" x2="205" y2="430" stroke="#fff" stroke-width="1" />
+              <line x1="145" y1="453" x2="205" y2="453" stroke="#fff" stroke-width="1" />
+              <line x1="175" y1="385" x2="175" y2="475" stroke="#fff" stroke-width="1" />
+              <text x="175" y="420" class="room-label" style="font-size:11.5px;">← 1°</text>
+              <text x="175" y="462" class="room-label" style="font-size:11.5px;">← subsuelo</text>
             </g>
+            <line x1="145" y1="475" x2="205" y2="475" class="blueprint-line" />
 
             <!-- Portería -->
-            <rect x="150" y="490" width="55" height="90" fill="#2a1144" class="blueprint-room" onclick="selectRoom('Portería & Seguridad', 'Informes generales, llaves y control de acceso.')" />
-            <text x="177" y="540" class="room-label" style="font-size:12.5px;">Portería</text>
-            <line x1="150" y1="490" x2="205" y2="490" class="blueprint-line" />
+            <rect x="145" y="475" width="60" height="85" fill="#2a1144" class="blueprint-room" onclick="selectRoom('Portería', 'Informes generales y control de acceso.')" />
+            <text x="175" y="523" class="room-label" style="font-size:12.5px;">Portería</text>
+            <line x1="145" y1="560" x2="205" y2="560" class="blueprint-line" />
 
-            <!-- Bar Estudiantil -->
-            <rect x="150" y="580" width="55" height="60" fill="#3c1662" class="blueprint-room" onclick="selectRoom('Bar Estudiantil', 'Cafetería, minutas y espacio de encuentro estudiantil.')" />
-            <text x="177" y="615" class="room-label" style="font-size:12.5px;">Bar</text>
+            <!-- Bar -->
+            <rect x="145" y="560" width="60" height="80" fill="#3c1662" class="blueprint-room" onclick="selectRoom('Bar', 'Cafetería y espacio de encuentro.')" />
+            <text x="175" y="605" class="room-label" style="font-size:12.5px;">Bar</text>
 
             <!-- Escalera Principal Ingreso -->
-            <rect x="205" y="580" width="90" height="60" fill="#190a2a" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Escalera Principal', 'Hall central de distribución y entrada Zeballos.')" />
+            <rect x="205" y="580" width="90" height="60" fill="#190a2a" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Escalera principal', 'Ingreso central desde Zeballos.')" />
             <line x1="205" y1="600" x2="295" y2="600" stroke="#fff" stroke-width="1" />
             <line x1="205" y1="620" x2="295" y2="620" stroke="#fff" stroke-width="1" />
-            <text x="250" y="595" class="room-label" style="font-size:11.5px;">Escalera</text>
-            <text x="250" y="612" class="room-label" style="font-size:11.5px;">Principal</text>
-            <path d="M 250,578 L 250,565 M 246,572 L 250,565 L 254,572" stroke="#38bdf8" stroke-width="1.8" fill="none" />
+            <text x="250" y="598" class="room-label" style="font-size:12px;">Escalera</text>
+            <text x="250" y="615" class="room-label" style="font-size:12px;">principal</text>
+            <path d="M 250,578 L 250,566 M 246,572 L 250,566 L 254,572" stroke="#38bdf8" stroke-width="2" fill="none" />
+
+            <!-- Central vertical corridor line & text -->
+            <line x1="205" y1="210" x2="205" y2="580" class="blueprint-line" />
+            <line x1="250" y1="210" x2="250" y2="565" class="blueprint-dashed" />
+
+            <!-- Right wing corridor wall with Ascensores -->
+            <line x1="295" y1="320" x2="295" y2="515" class="blueprint-line" />
+            <line x1="295" y1="515" x2="330" y2="545" class="blueprint-line" />
+            <line x1="330" y1="545" x2="330" y2="640" class="blueprint-line" />
 
             <!-- Ascensores -->
-            <rect x="295" y="370" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 PB', 'Batería de ascensores accesible.')" />
-            <rect x="295" y="420" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 PB', 'Batería de ascensores accesible.')" />
-            <text x="350" y="405" class="room-label" style="font-size:11.5px;">Ascensores</text>
+            <rect x="295" y="375" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensores', 'Batería de ascensores accesible.')" />
+            <rect x="295" y="425" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensores', 'Batería de ascensores accesible.')" />
+            <text x="355" y="415" class="room-label" style="font-size:12px;">Ascensores</text>
 
-            <!-- Sala de Profesores -->
-            <path d="M 295,510 L 330,535 L 330,640 L 475,640 L 475,285 L 295,285 Z" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sala de Profesores', 'Espacio de descanso, consulta y reuniones docentes.')" />
-            <text x="385" y="580" class="room-label">Sala de</text>
-            <text x="385" y="600" class="room-label">profesores</text>
+            <!-- Right wing body (sin aulas) -->
+            <path d="M 295,320 L 475,320 L 475,545 L 330,545 L 295,515 Z" fill="#200d33" class="blueprint-room" />
+
+            <!-- Sala de profesores -->
+            <rect x="330" y="545" width="145" height="95" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sala de profesores', 'Espacio de descanso y consulta docente.')" />
+            <line x1="330" y1="545" x2="475" y2="545" class="blueprint-line" />
+            <text x="402" y="588" class="room-label">Sala de</text>
+            <text x="402" y="610" class="room-label">profesores</text>
 
             <!-- Linea Zeballos -->
-            <line x1="25" y1="640" x2="475" y2="640" class="blueprint-line" stroke-width="3" />
             <text x="250" y="675" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
           </svg>
         `
