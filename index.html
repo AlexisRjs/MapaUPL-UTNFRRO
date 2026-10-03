@@ -557,6 +557,70 @@
     </div>
   </footer>
 
+  <!-- Department & Secretaría Contact & Attention Modal -->
+  <div id="dept-info-modal"
+    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md hidden transition-all duration-200 opacity-0"
+    role="dialog" aria-modal="true" aria-labelledby="dept-modal-title">
+    <div id="dept-modal-backdrop" onclick="closeDeptModal()" class="absolute inset-0"></div>
+    <div id="dept-modal-card"
+      class="relative z-10 w-full max-w-lg bg-gradient-to-b from-[#240e3b] via-[#1a0a2c] to-[#120620] border border-purple-500/40 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] text-slate-100 transform transition-all duration-200 scale-95">
+
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b border-purple-800/40 bg-purple-950/40 flex items-start justify-between gap-3">
+        <div class="flex items-start gap-3 min-w-0">
+          <div id="dept-modal-icon-container"
+            class="w-11 h-11 rounded-xl bg-purple-900/60 border border-purple-500/50 flex items-center justify-center flex-shrink-0 text-xl text-purple-300 shadow-inner">
+            <i id="dept-modal-icon" class="fa-solid fa-building-columns"></i>
+          </div>
+          <div class="min-w-0">
+            <div class="flex flex-wrap items-center gap-1.5 mb-1">
+              <span id="dept-modal-category"
+                class="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase font-mono bg-purple-900/80 text-purple-200 border border-purple-500/40">
+                Secretaría
+              </span>
+              <span id="dept-modal-floor"
+                class="px-2 py-0.5 rounded-full text-[10px] font-bold text-amber-300 bg-amber-950/50 border border-amber-500/40 flex items-center gap-1">
+                <i class="fa-solid fa-location-dot text-[9px]"></i>
+                <span id="dept-modal-floor-text">1° Piso</span>
+              </span>
+            </div>
+            <h3 id="dept-modal-title" class="text-base sm:text-lg font-bold text-white leading-snug">
+              Nombre Departamento
+            </h3>
+            <p id="dept-modal-subtitle" class="text-xs text-purple-200/80 mt-0.5">
+              Descripción o especialidad
+            </p>
+          </div>
+        </div>
+        <button type="button" onclick="closeDeptModal()" aria-label="Cerrar ventana"
+          class="w-8 h-8 rounded-lg bg-purple-900/50 hover:bg-purple-800 text-purple-300 hover:text-white flex items-center justify-center transition border border-purple-700/50 flex-shrink-0">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div id="dept-modal-body" class="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs">
+        <!-- Content will be injected dynamically -->
+      </div>
+
+      <!-- Modal Footer -->
+      <div
+        class="p-3 sm:p-4 bg-purple-950/60 border-t border-purple-800/40 flex items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-1.5 text-[11px] text-purple-300/80">
+          <i class="fa-solid fa-shield-halved text-purple-400"></i>
+          <span>Guía Informativa UPL • UTN FRRO</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="closeDeptModal()"
+            class="px-3.5 py-1.5 rounded-lg bg-purple-800/80 hover:bg-purple-700 text-white font-semibold transition text-xs shadow">
+            Cerrar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 
 
   <script>
@@ -1118,17 +1182,18 @@
           const roomName = match[1];
           const roomDesc = match[2];
           let keywords = [];
-          if (/microsoft|software|servidor/i.test(roomName + ' ' + roomDesc)) keywords.push('computacion', 'pc', 'laboratorio', 'sistemas');
-          if (/bedel[ií]a/i.test(roomName)) keywords.push('alumnos', 'asistencia', 'profesores', 'aulas');
+          if (/microsoft|software|servidor/i.test(roomName + ' ' + roomDesc)) keywords.push('computacion', 'pc', 'laboratorio', 'sistemas', 'contacto', 'horarios', 'isi');
+          if (/bedel[ií]a/i.test(roomName)) keywords.push('alumnos', 'asistencia', 'profesores', 'aulas', 'atencion', 'contacto');
           if (/cantina|bar|kiosco|buffet/i.test(roomName)) keywords.push('comida', 'almuerzo', 'cafe', 'snack', 'merienda');
           if (/fotocopia/i.test(roomName)) keywords.push('apuntes', 'impresion', 'anillados', 'scanner');
-          if (/sau|asuntos universitarios/i.test(roomName)) keywords.push('becas', 'tutorias', 'deportes', 'gremio', 'estudiantes');
-          if (/alumnado/i.test(roomName)) keywords.push('tramites', 'inscripcion', 'certificado', 'titulo', 'examen');
+          if (/sau|asuntos universitarios/i.test(roomName)) keywords.push('becas', 'tutorias', 'deportes', 'gremio', 'estudiantes', 'atencion', 'contacto', 'horarios', 'bolsa de trabajo');
+          if (/alumnado/i.test(roomName)) keywords.push('tramites', 'inscripcion', 'certificado', 'titulo', 'examen', 'atencion', 'contacto', 'horarios', 'legajos', 'actas');
+          if (/departamento/i.test(roomName)) keywords.push('depto', 'contacto', 'horarios', 'atencion', 'carrera', 'catedras');
           if (/biblioteca|sum/i.test(roomName)) keywords.push('estudio', 'libros', 'silencio', 'mesas');
           if (/ascensor/i.test(roomName)) keywords.push('elevador', 'accesibilidad', 'movilidad');
           if (/escalera/i.test(roomName)) keywords.push('subir', 'bajar', 'acceso');
           if (/auditorio/i.test(roomName)) keywords.push('charlas', 'conferencias', 'actos', 'defensa tesis');
-          if (/pae/i.test(roomName)) keywords.push('apoyo', 'orientacion', 'tutor');
+          if (/pae/i.test(roomName)) keywords.push('apoyo', 'orientacion', 'tutor', 'atencion', 'contacto');
           if (/baño|sanitario/i.test(roomName + ' ' + roomDesc)) keywords.push('banos', 'wc', 'sanitarios', 'toilette');
 
           allCampusRooms.push({
@@ -1141,6 +1206,16 @@
           });
         }
       }
+
+      // Add SeCyT (Secretaría de Ciencia y Tecnología) from Datos.md
+      allCampusRooms.push({
+        floor: 1,
+        floorTitle: '1° PISO',
+        badge: '1°',
+        name: 'Secretaría de Ciencia y Tecnología (SeCyT)',
+        description: 'Gestión de proyectos de investigación, posgrados y convocatorias científicas.',
+        keywords: 'secyt ciencia tecnologia investigacion proyectos becas doctorados cientificas contacto email correo horarios'
+      });
     }
 
     function handleSearchFocus() {
@@ -1411,8 +1486,577 @@
       });
     }
 
+    // ==========================================
+    // DIRECTORIO DE DEPARTAMENTOS Y SECRETARÍAS (Datos.md)
+    // ==========================================
+    const departmentDirectory = [
+      {
+        id: 'alumnado',
+        aliases: ['alumnado', 'departamento alumnos', 'oficina de alumnado', 'legajos', 'actas', 'titulos'],
+        title: 'Departamento Alumnos',
+        subtitle: 'Trámites de inscripciones, certificados, legajos y títulos',
+        category: 'Gestión Estudiantil',
+        categoryColor: 'bg-blue-900/80 text-blue-200 border-blue-500/40',
+        icon: 'fa-solid fa-id-card text-blue-400',
+        floor: 0,
+        floorBadge: 'PB',
+        floorName: 'Planta Baja',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - Planta Baja',
+        sections: [
+          {
+            title: 'Departamento Alumnos (Información general / trámites)',
+            email: 'depto.alumnos@frro.utn.edu.ar',
+            schedules: [
+              { days: 'Lunes a Jueves', hours: '09:00 a 12:00 hs y 17:00 a 20:00 hs' }
+            ],
+            notes: 'Inscripciones a materias y exámenes, constancias de examen, certificados de alumno regular y trámites de legajo.'
+          },
+          {
+            title: 'Área Legajos y Actas',
+            email: 'legajosyactas@frro.utn.edu.ar',
+            schedules: [
+              { days: 'Lunes a Viernes', hours: '09:00 a 12:00 hs y 14:00 a 19:00 hs' }
+            ],
+            notes: 'Gestión de actas de exámenes finales, convalidaciones de asignaturas y actualización de legajos.'
+          },
+          {
+            title: 'Departamento Títulos y Egresados (Dirección Académica)',
+            schedules: [
+              { days: 'Jueves', hours: '16:00 a 19:30 hs (Sin turno previo)' }
+            ],
+            notes: 'Trámite de retiro y presentación de títulos y certificados analíticos legalizados.'
+          }
+        ]
+      },
+      {
+        id: 'sau',
+        aliases: ['secretaria asuntos universitarios (sau)', 'sau', 'secretaria asuntos universitarios', 'asuntos universitarios'],
+        title: 'Secretaría de Asuntos Universitarios (SAU)',
+        subtitle: 'Becas, pasantías, deportes, tutorías y atención gremial estudiantil',
+        category: 'Secretaría Central',
+        categoryColor: 'bg-purple-900/80 text-purple-200 border-purple-500/40',
+        icon: 'fa-solid fa-graduation-cap text-purple-400',
+        floor: 1,
+        floorBadge: '1° Piso',
+        floorName: '1° Piso (Ala Sur-Oeste)',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 1° Piso, Ala Sur-Oeste',
+        sections: [
+          {
+            title: 'Atención General SAU',
+            schedules: [
+              { days: 'Lunes a Viernes', hours: '09:00 a 13:00 hs y 15:00 a 20:00 hs' }
+            ],
+            notes: 'Asistencia al estudiante, actividades deportivas, bienestar universitario y atención gremial.'
+          },
+          {
+            title: 'Bolsa de Trabajo y Gestión de Becas',
+            schedules: [
+              { days: 'Lunes a Viernes', hours: '09:00 a 13:00 hs y 17:00 a 21:00 hs' }
+            ],
+            notes: 'Consultas sobre becas universitarias (Manuel Belgrano, Progresar, UTN), pasantías y búsquedas laborales.'
+          }
+        ]
+      },
+      {
+        id: 'sistemas',
+        aliases: ['departamento de sistemas', 'departamento sistemas', 'ingenieria en sistemas', 'sistemas de informacion', 'isi'],
+        title: 'Departamento de Ingeniería en Sistemas de Información',
+        subtitle: 'Dirección de carrera, cátedras y laboratorios de software (ISI Investiga)',
+        category: 'Departamento Académico',
+        categoryColor: 'bg-indigo-900/80 text-indigo-200 border-indigo-500/40',
+        icon: 'fa-solid fa-laptop-code text-indigo-400',
+        floor: 5,
+        floorBadge: '5° Piso',
+        floorName: '5° Piso',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 5° Piso',
+        sections: [
+          {
+            title: 'Área Laboratorios / ISI Investiga',
+            email: 'encargadossistemas@frro.utn.edu.ar',
+            schedules: [
+              { days: 'Lunes a Viernes', hours: '07:00 a 23:50 hs' }
+            ],
+            notes: 'Horario ininterrumpido de funcionamiento de laboratorios para cursado y prácticas. Reserva de laboratorios vía correo institucional.'
+          },
+          {
+            title: 'Dirección de Carrera y Cátedras',
+            notes: 'Coordinación académica de Ingeniería en Sistemas, correlatividades, equivalencias y consultas docentes.'
+          }
+        ]
+      },
+      {
+        id: 'civil',
+        aliases: ['departamento civil', 'departamento de civil', 'ingenieria civil', 'departamento ingenieria civil'],
+        title: 'Departamento de Ingeniería Civil',
+        subtitle: 'Dirección del Departamento de Ingeniería Civil y cátedras técnicas',
+        category: 'Departamento Académico',
+        categoryColor: 'bg-amber-900/80 text-amber-200 border-amber-500/40',
+        icon: 'fa-solid fa-trowel-bricks text-amber-400',
+        floor: 4,
+        floorBadge: '4° Piso',
+        floorName: '4° Piso (Ala Oeste)',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 4° Piso',
+        sections: [
+          {
+            title: 'Atención y Dirección de Carrera',
+            email: 'civil@frro.utn.edu.ar',
+            notes: 'Consultas sobre cursado y coordinación de la carrera de Ingeniería Civil. Las consultas específicas de cátedra se canalizan por email institucional o conmutador general.'
+          }
+        ]
+      },
+      {
+        id: 'mecanica',
+        aliases: ['departamento mecanica', 'departamento de mecanica', 'ingenieria mecanica'],
+        title: 'Departamento de Ingeniería Mecánica',
+        subtitle: 'Dirección de carrera, proyectos de diseño mecánico y consultas docentes',
+        category: 'Departamento Académico',
+        categoryColor: 'bg-orange-900/80 text-orange-200 border-orange-500/40',
+        icon: 'fa-solid fa-gears text-orange-400',
+        floor: 2,
+        floorBadge: '2° Piso',
+        floorName: '2° Piso',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 2° Piso',
+        pendingNotice: 'Horarios específicos de atención docente/alumno en proceso de actualización institucional.',
+        sections: [
+          {
+            title: 'Dirección de Carrera de Ingeniería Mecánica',
+            notes: 'Dirección de cátedras y proyectos mecánicos. Podés coordinar consultas a través del conmutador central o acercarte a la bedelía del 2° piso.'
+          }
+        ]
+      },
+      {
+        id: 'quimica',
+        aliases: ['departamento quimica', 'departamento de quimica', 'ingenieria quimica'],
+        title: 'Departamento de Ingeniería Química',
+        subtitle: 'Dirección de la carrera de Ingeniería Química y coordinación de laboratorios',
+        category: 'Departamento Académico',
+        categoryColor: 'bg-rose-900/80 text-rose-200 border-rose-500/40',
+        icon: 'fa-solid fa-flask-vial text-rose-400',
+        floor: 3,
+        floorBadge: '3° Piso',
+        floorName: '3° Piso',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 3° Piso',
+        pendingNotice: 'Horarios específicos de ventanilla en proceso de actualización institucional.',
+        sections: [
+          {
+            title: 'Dirección de Carrera y Cátedras',
+            notes: 'Cátedras de operaciones unitarias, reactores y laboratorios químicos. Consultas a través del conmutador general de la facultad.'
+          }
+        ]
+      },
+      {
+        id: 'electrica',
+        aliases: ['departamento electrica', 'departamento de electrica', 'ingenieria electrica', 'energia electrica'],
+        title: 'Departamento de Ingeniería en Energía Eléctrica',
+        subtitle: 'Oficinas docentes, dirección de cátedra, ensayos de máquinas y alta tensión',
+        category: 'Departamento Académico',
+        categoryColor: 'bg-yellow-900/80 text-yellow-200 border-yellow-500/40',
+        icon: 'fa-solid fa-bolt text-yellow-400',
+        floor: -1,
+        floorBadge: 'SS',
+        floorName: 'Subsuelo (Ala Este)',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - Subsuelo',
+        pendingNotice: 'Horarios específicos de atención presencial en proceso de actualización institucional.',
+        sections: [
+          {
+            title: 'Oficinas Docentes y Dirección de Cátedra',
+            notes: 'Coordinación de laboratorios de ensayos eléctricos y máquinas. Podés consultar a través de la bedelía del subsuelo o el conmutador central.'
+          }
+        ]
+      },
+      {
+        id: 'basicas',
+        aliases: ['ciencias basicas', 'materias basicas', 'departamento de materias basicas'],
+        title: 'Departamento de Materias Básicas',
+        subtitle: 'Cátedras de Álgebra, Análisis Matemático, Física General y Química',
+        category: 'Departamento Académico',
+        categoryColor: 'bg-teal-900/80 text-teal-200 border-teal-500/40',
+        icon: 'fa-solid fa-atom text-teal-400',
+        floor: 4,
+        floorBadge: '4° Piso',
+        floorName: '4° Piso',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 4° Piso',
+        pendingNotice: 'Horarios de consulta de cátedras en actualización institucional para el ciclo lectivo.',
+        sections: [
+          {
+            title: 'Coordinación de Ciclo Básico',
+            notes: 'Cátedras del ciclo común a todas las carreras de ingeniería. Consultas canalizadas por cada equipo docente o vía conmutador.'
+          }
+        ]
+      },
+      {
+        id: 'secyt',
+        aliases: ['secyt', 'secretaria de ciencia y tecnologia', 'secretaria ciencia y tecnologia', 'investigacion'],
+        title: 'Secretaría de Ciencia y Tecnología (SeCyT)',
+        subtitle: 'Gestión de proyectos de investigación, becas científicas y convocatorias I+D',
+        category: 'Secretaría Central',
+        categoryColor: 'bg-violet-900/80 text-violet-200 border-violet-500/40',
+        icon: 'fa-solid fa-microscope text-violet-400',
+        floor: 1,
+        floorBadge: '1° Piso',
+        floorName: '1° Piso / Edificio Central',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341',
+        sections: [
+          {
+            title: 'Gestión de Proyectos / Investigación',
+            email: 'secyt.frro@gmail.com',
+            notes: 'Recepción de proyectos de investigación homologados, asesoramiento en becas doctorales e incentivos a docentes investigadores.'
+          }
+        ]
+      },
+      {
+        id: 'pae',
+        aliases: ['programa apoyo estudiantil (pae)', 'pae', 'apoyo estudiantil'],
+        title: 'Programa de Apoyo Estudiantil (PAE)',
+        subtitle: 'Tutorías personalizadas, orientación vocacional y acompañamiento',
+        category: 'Acompañamiento Académico',
+        categoryColor: 'bg-emerald-900/80 text-emerald-200 border-emerald-500/40',
+        icon: 'fa-solid fa-hands-holding-child text-emerald-400',
+        floor: 4,
+        floorBadge: '4° Piso',
+        floorName: '4° Piso',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 4° Piso',
+        sections: [
+          {
+            title: 'Orientación y Tutorías Pedagógicas',
+            notes: 'Acompañamiento en el proceso de inserción y permanencia universitaria, tutorías académicas y contención estudiantil.'
+          }
+        ]
+      },
+      {
+        id: 'bedelia-ss',
+        aliases: ['bedelia subsuelo', 'bedelia ss'],
+        title: 'Bedelía de Subsuelo',
+        subtitle: 'Atención de cursado para Eléctrica y Electrónica',
+        category: 'Bedelía',
+        categoryColor: 'bg-sky-900/80 text-sky-200 border-sky-500/40',
+        icon: 'fa-solid fa-clipboard-user text-sky-400',
+        floor: -1,
+        floorBadge: 'SS',
+        floorName: 'Subsuelo',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - Subsuelo',
+        sections: [
+          {
+            title: 'Gestión de Cursado y Aulas',
+            notes: 'Asistencia y control de aulas, llaves de laboratorios y registro de docentes de las carreras del subsuelo.'
+          }
+        ]
+      },
+      {
+        id: 'bedelia-2p',
+        aliases: ['bedelia 2° piso', 'bedelia 2 piso', 'bedelia 2p'],
+        title: 'Bedelía de 2° Piso',
+        subtitle: 'Gestión de aulas y asistencia de docentes de Mecánica',
+        category: 'Bedelía',
+        categoryColor: 'bg-sky-900/80 text-sky-200 border-sky-500/40',
+        icon: 'fa-solid fa-clipboard-user text-sky-400',
+        floor: 2,
+        floorBadge: '2° Piso',
+        floorName: '2° Piso',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 2° Piso',
+        sections: [
+          {
+            title: 'Gestión de Aulas de Mecánica',
+            notes: 'Control y asignación de aulas, asistencia docente y equipamiento para las cátedras del 2° piso.'
+          }
+        ]
+      }
+    ];
+
+    function findDepartmentData(queryName) {
+      if (!queryName) return null;
+      const normQ = normalizeText(queryName);
+
+      // 1. Direct or alias match
+      for (const dept of departmentDirectory) {
+        if (normalizeText(dept.title) === normQ || dept.id === normQ) {
+          return dept;
+        }
+        for (const alias of dept.aliases) {
+          const normAlias = normalizeText(alias);
+          if (normQ === normAlias || normQ.includes(normAlias) || normAlias.includes(normQ)) {
+            return dept;
+          }
+        }
+      }
+      return null;
+    }
+
+    function openDeptModal(dept) {
+      if (!dept) return;
+
+      const modal = document.getElementById('dept-info-modal');
+      const card = document.getElementById('dept-modal-card');
+      const title = document.getElementById('dept-modal-title');
+      const subtitle = document.getElementById('dept-modal-subtitle');
+      const category = document.getElementById('dept-modal-category');
+      const floorBadge = document.getElementById('dept-modal-floor');
+      const floorText = document.getElementById('dept-modal-floor-text');
+      const icon = document.getElementById('dept-modal-icon');
+      const body = document.getElementById('dept-modal-body');
+
+      // Populate header info
+      title.innerText = dept.title;
+      subtitle.innerText = dept.subtitle || '';
+      category.innerText = dept.category;
+      category.className = `px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase font-mono border ${dept.categoryColor || 'bg-purple-900/80 text-purple-200 border-purple-500/40'}`;
+      floorText.innerText = dept.floorName || (dept.floorBadge + ' Piso');
+      icon.className = dept.icon || 'fa-solid fa-building-columns';
+
+      // Build body content
+      let html = '';
+
+      // Switchboard & Location quick strip
+      html += `
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2.5 rounded-xl bg-purple-950/40 border border-purple-800/30">
+          <div class="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-purple-900/30 border border-purple-800/40">
+            <div class="flex items-center gap-2 min-w-0">
+              <div class="w-7 h-7 rounded-lg bg-purple-900/60 flex items-center justify-center text-purple-300 text-xs flex-shrink-0">
+                <i class="fa-solid fa-phone"></i>
+              </div>
+              <div class="min-w-0">
+                <div class="text-[9px] text-purple-300/80 font-bold uppercase tracking-wider">Conmutador</div>
+                <div class="text-xs font-bold text-white font-mono truncate">(0341) 448-0102</div>
+              </div>
+            </div>
+            <div class="flex items-center gap-1 flex-shrink-0">
+              <button type="button" onclick="copyEmail('(0341) 448-0102', this)" title="Copiar número"
+                class="px-2 py-1 rounded bg-purple-900/80 hover:bg-purple-800 text-[10px] text-purple-200 border border-purple-500/40 flex items-center gap-1 transition shadow-sm">
+                <i class="fa-regular fa-copy"></i>
+                <span>Copiar</span>
+              </button>
+              <a href="tel:03414480102" onclick="return confirmCall(event, '(0341) 448-0102')" title="Llamar al conmutador"
+                class="px-2 py-1 rounded bg-upl-accent hover:bg-purple-600 text-[10px] text-white flex items-center gap-1 transition shadow font-semibold">
+                <i class="fa-solid fa-phone text-[9px]"></i>
+                <span>Llamar</span>
+              </a>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 p-1.5 rounded-lg bg-purple-900/30 border border-purple-800/40 min-w-0">
+            <div class="w-7 h-7 rounded-lg bg-purple-900/60 flex items-center justify-center text-purple-300 text-xs flex-shrink-0">
+              <i class="fa-solid fa-map-pin"></i>
+            </div>
+            <div class="min-w-0">
+              <div class="text-[9px] text-purple-300/80 font-bold uppercase tracking-wider">Ubicación campus</div>
+              <div class="text-xs font-bold text-white truncate">${escapeHtml(dept.floorName)}</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Pending official update notice if applicable
+      if (dept.pendingNotice) {
+        html += `
+          <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/40 flex items-start gap-2.5 text-xs text-amber-200">
+            <i class="fa-solid fa-circle-info text-amber-400 text-sm mt-0.5 flex-shrink-0"></i>
+            <div class="space-y-1">
+              <div class="font-bold text-amber-300">Horarios en actualización institucional</div>
+              <div class="text-[11px] text-amber-200/90 leading-relaxed">
+                ${escapeHtml(dept.pendingNotice)} Podés comunicarte al conmutador <a href="tel:03414480102" onclick="return confirmCall(event, '(0341) 448-0102')" class="font-mono font-bold text-white underline hover:text-amber-200">(0341) 448-0102</a> o consultar de forma presencial en bedelía.
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      // Render each specific section / area
+      if (dept.sections && dept.sections.length > 0) {
+        dept.sections.forEach(sec => {
+          html += `
+            <div class="p-3.5 rounded-xl bg-gradient-to-b from-[#240e3b] to-[#1a0a2c] border border-purple-800/40 space-y-2.5 shadow-sm">
+              <div class="flex items-center gap-2">
+                <i class="fa-solid fa-folder-open text-purple-400 text-xs"></i>
+                <h4 class="text-xs font-bold text-white tracking-wide">${escapeHtml(sec.title)}</h4>
+              </div>
+          `;
+
+          // Schedules
+          if (sec.schedules && sec.schedules.length > 0) {
+            html += `
+              <div class="space-y-1.5 pt-1">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
+                  <i class="fa-solid fa-clock text-amber-400 text-xs"></i>
+                  <span>Horarios de atención</span>
+                </div>
+                <div class="space-y-1">
+            `;
+            sec.schedules.forEach(sch => {
+              html += `
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-2 rounded-lg bg-[#19092c] border border-purple-800/30">
+                  <span class="font-semibold text-purple-200 text-xs flex items-center gap-1.5">
+                    <i class="fa-solid fa-calendar-day text-purple-400 text-[10px]"></i>
+                    ${escapeHtml(sch.days)}
+                  </span>
+                  <span class="font-mono font-bold text-amber-200 bg-amber-950/60 px-2 py-0.5 rounded text-[11px] border border-amber-600/30 self-start sm:self-auto">
+                    ${escapeHtml(sch.hours)}
+                  </span>
+                </div>
+              `;
+            });
+            html += `
+                </div>
+              </div>
+            `;
+          }
+
+          // Email direct actions
+          if (sec.email) {
+            html += `
+              <div class="p-2.5 rounded-lg bg-[#18082a] border border-purple-700/50 flex flex-wrap items-center justify-between gap-2 mt-2">
+                <div class="flex items-center gap-2 min-w-0">
+                  <i class="fa-solid fa-envelope text-purple-400 text-sm"></i>
+                  <span class="font-mono text-xs text-purple-100 font-medium truncate">${escapeHtml(sec.email)}</span>
+                </div>
+                <div class="flex items-center gap-1.5 flex-shrink-0">
+                  <button type="button" onclick="copyEmail('${escapeJs(sec.email)}', this)"
+                    class="px-2.5 py-1 rounded-md bg-purple-900/80 hover:bg-purple-800 text-[11px] font-semibold text-purple-200 border border-purple-500/40 flex items-center gap-1 transition shadow-sm">
+                    <i class="fa-regular fa-copy text-[10px]"></i>
+                    <span>Copiar</span>
+                  </button>
+                  <a href="mailto:${escapeHtml(sec.email)}"
+                    class="px-2.5 py-1 rounded-md bg-upl-accent hover:bg-purple-600 text-[11px] font-semibold text-white shadow flex items-center gap-1 transition">
+                    <i class="fa-solid fa-paper-plane text-[9px]"></i>
+                    <span>Escribir</span>
+                  </a>
+                </div>
+              </div>
+            `;
+          }
+
+          // Descriptive notes
+          if (sec.notes) {
+            html += `
+              <div class="text-[11px] text-purple-200/90 leading-relaxed bg-[#140624]/60 p-2.5 rounded-lg border border-purple-900/40 flex items-start gap-2">
+                <i class="fa-solid fa-circle-check text-purple-400 text-xs mt-0.5 flex-shrink-0"></i>
+                <span>${escapeHtml(sec.notes)}</span>
+              </div>
+            `;
+          }
+
+          html += `</div>`;
+        });
+      }
+
+      // Bottom link: Ver en el plano
+      if (dept.floor !== undefined) {
+        html += `
+          <div class="pt-1 flex items-center justify-between text-[11px] text-purple-300/80 border-t border-purple-900/40 mt-1">
+            <span>Sede Zeballos 1341, Rosario</span>
+            <button type="button" onclick="viewDeptOnFloor(${dept.floor}, '${escapeJs(dept.title)}')"
+              class="text-purple-300 hover:text-white font-semibold flex items-center gap-1.5 transition hover:underline">
+              <i class="fa-solid fa-map-location-dot text-upl-highlight"></i>
+              <span>Localizar en el plano</span>
+            </button>
+          </div>
+        `;
+      }
+
+      body.innerHTML = html;
+
+      // Show modal with animation
+      modal.classList.remove('hidden');
+      document.body.classList.add('overflow-hidden');
+      requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0');
+        card.classList.remove('scale-95');
+        card.classList.add('scale-100');
+      });
+    }
+
+    function closeDeptModal() {
+      const modal = document.getElementById('dept-info-modal');
+      const card = document.getElementById('dept-modal-card');
+      if (!modal) return;
+
+      modal.classList.add('opacity-0');
+      card.classList.remove('scale-100');
+      card.classList.add('scale-95');
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+      }, 200);
+    }
+
+    function viewDeptOnFloor(floorNum, roomName) {
+      closeDeptModal();
+      activeFloor = floorNum;
+      renderFloorMap(floorNum);
+      if (currentView !== 'floor') {
+        switchMainView('floor');
+      }
+      highlightSpecificRoomInSvg(roomName);
+
+      const viewport = document.getElementById('viewport');
+      if (viewport) {
+        viewport.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    function copyEmail(email, btnEl) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(() => {
+          showCopyFeedback(btnEl);
+        }).catch(() => fallbackCopy(email, btnEl));
+      } else {
+        fallbackCopy(email, btnEl);
+      }
+    }
+
+    function fallbackCopy(text, btnEl) {
+      try {
+        const temp = document.createElement('textarea');
+        temp.value = text;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showCopyFeedback(btnEl);
+      } catch (err) {
+        alert('Correo: ' + text);
+      }
+    }
+
+    function showCopyFeedback(btnEl) {
+      if (!btnEl) return;
+      const origHtml = btnEl.innerHTML;
+      btnEl.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-300">¡Copiado!</span>';
+      btnEl.classList.add('border-emerald-500/60', 'bg-emerald-950/60');
+      setTimeout(() => {
+        btnEl.innerHTML = origHtml;
+        btnEl.classList.remove('border-emerald-500/60', 'bg-emerald-950/60');
+      }, 2000);
+    }
+
+    function confirmCall(e, phoneStr) {
+      const ok = confirm(`¿Deseás abrir la aplicación de llamadas para comunicarte con el conmutador ${phoneStr}?`);
+      if (!ok) {
+        if (e && e.preventDefault) e.preventDefault();
+        return false;
+      }
+      return true;
+    }
+
     function selectRoom(name, description) {
       highlightSpecificRoomInSvg(name);
+
+      // Check if this room has department/secretaría contact info
+      const deptData = findDepartmentData(name);
+      if (deptData) {
+        openDeptModal(deptData);
+      }
     }
 
     function filterRoomsOnMap() {
@@ -1424,8 +2068,18 @@
     }
 
     function closeModal() {
-      // Removed per user request
+      closeDeptModal();
     }
+
+    // Keyboard navigation (Escape to close modal)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('dept-info-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          closeDeptModal();
+        }
+      }
+    });
 
     function shareCampusMap() {
       if (navigator.share) {
