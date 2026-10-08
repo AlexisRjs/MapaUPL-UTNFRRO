@@ -1,2112 +1,298 @@
 <!DOCTYPE html>
-<html lang="es" class="h-full bg-slate-950 text-slate-100">
+<html lang="es">
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>UTN FRRO - Guía de Campus Interactivo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#090a10">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <title>UTN FRRO - Guía de Campus Interactivo | UPL</title>
+  <meta name="description" content="Plano interactivo del campus de la UTN Facultad Regional Rosario. Encontrá aulas, laboratorios, departamentos académicos, horarios de atención y trámites de alumnado.">
+  <link rel="icon" type="image/png" href="assets/aguila_blanca.png">
+
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
-    rel="stylesheet">
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            upl: {
-              DEFAULT: '#321650',
-              deep: '#1c0c2e',
-              light: '#4d237b',
-              accent: '#8b44d4',
-              highlight: '#a855f7'
-            },
-            utn: {
-              blue: '#00599c',
-              sky: '#38bdf8'
-            }
-          },
-          fontFamily: {
-            sans: ['"Montserrat"', '"Plus Jakarta Sans"', 'sans-serif'],
-            mono: ['"Space Grotesk"', 'monospace']
-          },
-          animation: {
-            'pulse-subtle': 'pulseSubtle 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'float': 'floating 4s ease-in-out infinite'
-          },
-          keyframes: {
-            pulseSubtle: {
-              '0%, 100%': { opacity: 1, transform: 'scale(1)' },
-              '50%': { opacity: 0.85, transform: 'scale(1.02)' }
-            },
-            floating: {
-              '0%, 100%': { transform: 'translateY(0px)' },
-              '50%': { transform: 'translateY(-6px)' }
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    /* Custom scrollbars */
-    ::-webkit-scrollbar {
-      width: 4px;
-      height: 4px;
-    }
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 
-    ::-webkit-scrollbar-track {
-      background: rgba(15, 23, 42, 0.6);
-    }
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    ::-webkit-scrollbar-thumb {
-      background: #4d237b;
-      border-radius: 9999px;
-    }
-
-    /* 3D isometric building simulation */
-    .isometric-stage {
-      perspective: 1100px;
-      transform-style: preserve-3d;
-    }
-
-    .floor-slab {
-      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-      transform-style: preserve-3d;
-    }
-
-    .floor-slab:hover,
-    .floor-slab.active-slab {
-      transform: translateY(-8px) scale(1.02);
-      filter: drop-shadow(0 15px 25px rgba(139, 68, 212, 0.35));
-    }
-
-    /* Map Plan SVG styling */
-    .blueprint-svg {
-      background: radial-gradient(circle at center, #321650 0%, #1e0c31 100%);
-      border: 1.5px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), inset 0 0 30px rgba(0, 0, 0, 0.5);
-    }
-
-    .blueprint-room {
-      transition: all 0.25s ease;
-      cursor: pointer;
-    }
-
-    .blueprint-room:hover {
-      fill: #4d237b !important;
-      filter: brightness(1.2);
-    }
-
-    .blueprint-line {
-      stroke: #ffffff;
-      stroke-width: 2.2;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
-
-    .blueprint-dashed {
-      stroke: rgba(255, 255, 255, 0.45);
-      stroke-width: 1.2;
-      stroke-dasharray: 4, 4;
-    }
-
-    .room-label {
-      fill: #ffffff;
-      font-size: 14.5px;
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-      text-anchor: middle;
-      pointer-events: none;
-      paint-order: stroke fill;
-      stroke: #250e3d;
-      stroke-width: 3.5px;
-      stroke-linejoin: round;
-      letter-spacing: 0.02em;
-    }
-
-    .sub-label {
-      fill: #f3e8ff;
-      font-size: 12px;
-      font-weight: 600;
-      font-family: 'Montserrat', sans-serif;
-      text-anchor: middle;
-      pointer-events: none;
-      paint-order: stroke fill;
-      stroke: #250e3d;
-      stroke-width: 2.8px;
-      stroke-linejoin: round;
-    }
-
-    /* Active room pulse animation */
-    @keyframes roomPulseGlow {
-      0%, 100% {
-        stroke: #facc15 !important;
-        stroke-width: 3.5px !important;
-        filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.95)) brightness(1.3);
-      }
-      50% {
-        stroke: #ffffff !important;
-        stroke-width: 4px !important;
-        filter: drop-shadow(0 0 22px rgba(168, 85, 247, 0.95)) brightness(1.6);
-      }
-    }
-
-    .room-active-highlight {
-      animation: roomPulseGlow 1.2s ease-in-out infinite alternate !important;
-      fill: #6d28d9 !important;
-    }
-
-    .blueprint-room.room-dimmed {
-      opacity: 0.25 !important;
-      filter: grayscale(0.7) !important;
-      transition: all 0.25s ease;
-    }
-
-    .blueprint-room.room-matched {
-      stroke: #facc15 !important;
-      stroke-width: 2.5px !important;
-      filter: drop-shadow(0 0 8px rgba(250, 204, 21, 0.7)) brightness(1.3);
-      fill: #581c87 !important;
-      transition: all 0.25s ease;
-    }
-
-    /* Smooth floor transition overlay */
-    .floor-zoom-enter {
-      animation: zoomFloorIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes zoomFloorIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.92) translateY(20px);
-      }
-
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-  </style>
+  <!-- Mobile First Engineering Design System -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 
-<body class="h-full flex flex-col justify-between overflow-x-hidden font-sans select-none antialiased bg-[#0b0813]">
+<body>
 
-  <!-- Top App Bar with Branding & Navigation -->
-  <header class="sticky top-0 z-50 bg-[#160d24]/90 backdrop-blur-md border-b border-purple-900/40 px-4 py-2.5">
-    <div class="flex items-center justify-between">
-      <!-- Left: UTN Info & Title with UPL Eagle -->
-      <div class="flex items-center gap-2.5">
-        <div
-          class="w-10 h-10 rounded-xl bg-gradient-to-br from-upl-accent via-purple-900 to-[#1c0c2e] p-1.5 shadow-md flex items-center justify-center border border-purple-500/30">
-          <img src="data:image/png;base64,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" alt="UPL Águila" class="w-full h-full object-contain drop-shadow">
+  <!-- Top Sticky App Bar -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-wrapper" onclick="window.location.reload()">
+        <div class="brand-logo-frame">
+          <img src="assets/aguila_blanca.png" alt="Emblema UPL" width="40" height="40">
         </div>
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-purple-300">UTN FRRO</span>
-          <h1 class="text-sm font-bold text-white tracking-tight">
-            Universitarios por la Libertad
-          </h1>
+        <div class="brand-titles">
+          <span class="brand-subtitle">UTN FRRO · CAMPUS INTERACTIVO</span>
+          <h1 class="brand-title">UNIVERSITARIOS POR LA LIBERTAD</h1>
         </div>
       </div>
+      <div class="header-actions">
+        <a href="https://www.instagram.com/upl_utnrosario/" target="_blank" rel="noopener noreferrer" class="icon-btn" aria-label="Instagram UPL" title="Instagram UPL">
+          <i class="fa-brands fa-instagram text-base"></i>
+        </a>
+      </div>
     </div>
-    <!-- Quick Location Chips / Floor Carousel -->
-    <div class="mt-2.5 flex items-center gap-1.5 overflow-x-auto pb-1 text-xs no-scrollbar" id="floor-quicknav">
-      <button onclick="selectFloor(-1)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="-1">Subsuelo</button>
-      <button onclick="selectFloor(0)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-400 bg-upl-accent text-white shadow"
-        data-floor="0">Planta Baja</button>
-      <button onclick="selectFloor(1)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="1">1° PISO</button>
-      <button onclick="selectFloor(2)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="2">2° PISO</button>
-      <button onclick="selectFloor(3)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="3">3° PISO</button>
-      <button onclick="selectFloor(4)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="4">4° PISO</button>
-      <button onclick="selectFloor(5)"
-        class="floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl"
-        data-floor="5">5° PISO</button>
-    </div>
-  </header>
 
-    <!-- Main View Container -->
-  <main class="flex-1 relative flex flex-col p-3 overflow-y-auto" id="viewport">
-
-    <!-- Global Interactive Campus Search Bar -->
-    <div id="global-search-container" class="relative mb-3 z-40">
-      <div class="relative flex items-center">
-        <i class="fa-solid fa-magnifying-glass absolute left-3.5 text-purple-400 text-xs pointer-events-none"></i>
-        <input type="text" id="room-search-input"
-          oninput="handleSearchInput()"
-          onfocus="handleSearchFocus()"
-          onkeydown="handleSearchKeydown(event)"
-          placeholder="Buscar aula, lab, fotocopiadora, cantina, bedelía..."
-          autocomplete="off"
-          class="w-full bg-[#170a29]/95 backdrop-blur-md border border-purple-600/40 hover:border-purple-500/60 focus:border-purple-400 rounded-xl pl-9 pr-9 py-2 text-xs text-purple-100 placeholder-purple-400/60 focus:outline-none focus:ring-1 focus:ring-purple-400 shadow-md transition">
-        <button id="search-clear-btn" onclick="clearSearch()" type="button"
-          class="hidden absolute right-3 w-5 h-5 flex items-center justify-center rounded-full bg-purple-800/60 hover:bg-purple-700 text-purple-200 text-[10px] transition">
+    <!-- Smart Search Bar -->
+    <div class="search-container">
+      <div class="search-input-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="search-input" class="search-input" 
+               placeholder="Buscar aula, lab, alumnado, cantina, bedelía..." 
+               autocomplete="off" spellcheck="false" aria-label="Buscar en campus">
+        <button type="button" id="search-clear-btn" class="search-clear" style="display:none;" aria-label="Limpiar búsqueda">
           <i class="fa-solid fa-xmark"></i>
         </button>
       </div>
 
-      <!-- Dropdown Results / Suggestions Floating Menu -->
-      <div id="search-results-dropdown"
-        class="hidden absolute left-0 right-0 top-full mt-1.5 max-h-80 overflow-y-auto bg-[#180b2a]/98 backdrop-blur-xl border border-purple-500/50 rounded-xl shadow-2xl z-50 divide-y divide-purple-900/40">
-      </div>
+      <!-- Live Search Popover -->
+      <div id="search-results-popover" class="search-results-popover" role="listbox"></div>
     </div>
 
-    <!-- Mode Toggle: Building 3D View vs Overhead Blueprint View -->
-    <div class="flex items-center justify-between bg-purple-950/60 p-1.5 rounded-xl border border-purple-800/40 mb-3">
-      <div class="flex gap-1 w-full">
-        <button id="view-mode-building" onclick="switchMainView('building')"
-          class="flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition bg-upl-accent text-white shadow">
-          <i class="fa-solid fa-city text-xs"></i>
-          <span>Edificio</span>
-        </button>
-        <button id="view-mode-floor" onclick="switchMainView('floor')"
-          class="flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition text-purple-300 hover:text-white hover:bg-purple-900/40">
-          <i class="fa-solid fa-map-location-dot text-xs"></i>
-          <span>Plano de Planta</span>
-        </button>
-      </div>
+    <!-- Quick Location Chips -->
+    <div class="quick-chips-bar" aria-label="Filtros rápidos">
+      <button type="button" class="chip-btn" data-keyword="Alumnado">
+        <i class="fa-solid fa-id-card"></i>
+        <span>Alumnado</span>
+      </button>
+      <button type="button" class="chip-btn" data-keyword="SAU">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>SAU / Becas</span>
+      </button>
+      <button type="button" class="chip-btn" data-keyword="Laboratorio Sistemas">
+        <i class="fa-solid fa-laptop-code"></i>
+        <span>Labs Sistemas</span>
+      </button>
+      <button type="button" class="chip-btn" data-keyword="Cantina">
+        <i class="fa-solid fa-mug-hot"></i>
+        <span>Cantina / Bar</span>
+      </button>
+      <button type="button" class="chip-btn" data-keyword="Fotocopiadora">
+        <i class="fa-solid fa-print"></i>
+        <span>Fotocopiadora</span>
+      </button>
+      <button type="button" class="chip-btn" data-keyword="Bedelía">
+        <i class="fa-solid fa-clipboard-user"></i>
+        <span>Bedelías</span>
+      </button>
+      <button type="button" class="chip-btn" data-keyword="Biblioteca">
+        <i class="fa-solid fa-book-open"></i>
+        <span>Biblioteca / SUM</span>
+      </button>
     </div>
+  </header>
 
-    <!-- VIEW 1: 3D Facade & Interactive Stacking Building Model -->
-    <section id="building-view" class="flex-1 flex flex-col">
-      <!-- Building Info Banner -->
-      <div
-        class="bg-gradient-to-r from-purple-950/90 to-[#230f38] p-3.5 rounded-2xl border border-purple-800/40 mb-3 shadow-lg flex items-center justify-between">
-        <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-2 mb-1">
-            <span
-              class="text-[10px] uppercase font-bold text-purple-400 bg-purple-950 px-2 py-0.5 rounded border border-purple-700/50">Calle
-              E. Zeballos 1341</span>
+  <!-- Main View Area -->
+  <main class="app-content">
+
+    <!-- VIEW 1: Overhead Floor Blueprint (Default) -->
+    <section id="view-floor" class="view-container active-view" aria-label="Plano de Planta">
+      <!-- Floor Scrubber Header -->
+      <div class="floor-selector-panel">
+        <div class="floor-current-info">
+          <div id="current-floor-badge" class="floor-big-badge">PB</div>
+          <div class="floor-text-meta">
+            <h2 id="current-floor-title" class="floor-title-text">PLANTA BAJA</h2>
+            <p id="current-floor-subtitle" class="floor-subtitle-text">Biblioteca/SUM, Fotocopiadora, Alumnado, Bar</p>
           </div>
-          <h2 class="text-sm font-bold text-white truncate">Sede Central UTN FRRO</h2>
-          <p class="text-[11px] text-purple-300/80 leading-tight mt-0.5">Tocá cualquier piso del edificio para ver su plano de distribución.</p>
         </div>
-        <div
-          class="w-10 h-10 rounded-xl bg-purple-900/40 border border-purple-700/50 flex items-center justify-center flex-shrink-0 text-purple-300 ml-3">
-          <i class="fa-solid fa-building text-base"></i>
+
+        <!-- Horizontal Scrubber Track -->
+        <div id="floor-scrubber-track" class="floor-scrubber-track" role="tablist">
+          <button type="button" class="floor-scrub-pill" data-floor="-1" title="Subsuelo" role="tab">SS</button>
+          <button type="button" class="floor-scrub-pill active" data-floor="0" title="Planta Baja" role="tab">PB</button>
+          <button type="button" class="floor-scrub-pill" data-floor="1" title="1° Piso" role="tab">1°</button>
+          <button type="button" class="floor-scrub-pill" data-floor="2" title="2° Piso" role="tab">2°</button>
+          <button type="button" class="floor-scrub-pill" data-floor="3" title="3° Piso" role="tab">3°</button>
+          <button type="button" class="floor-scrub-pill" data-floor="4" title="4° Piso" role="tab">4°</button>
+          <button type="button" class="floor-scrub-pill" data-floor="5" title="5° Piso" role="tab">5°</button>
         </div>
       </div>
 
-      <!-- Realistic Interactive Building Tower -->
-      <div
-        class="flex-1 min-h-[380px] bg-gradient-to-b from-[#150a24] to-[#0b0513] rounded-2xl border border-purple-900/40 p-4 flex flex-col justify-center relative overflow-hidden shadow-2xl">
-        <!-- Background Grid Effect -->
-        <div
-          class="absolute inset-0 bg-[radial-gradient(#321650_1px,transparent_1px)] [background-size:16px_16px] opacity-35 pointer-events-none">
+      <!-- Map Canvas Card -->
+      <div class="map-canvas-card">
+        <!-- Floating Toolbar -->
+        <div class="map-card-toolbar">
+          <div class="map-street-label">
+            <i class="fa-solid fa-compass"></i>
+            <span>FRENTE: CALLE E. ZEBALLOS 1341 (SUR)</span>
+          </div>
+          <div class="map-zoom-tools">
+            <button type="button" id="btn-zoom-in" class="map-tool-btn" title="Acercar mapa" aria-label="Acercar">
+              <i class="fa-solid fa-plus"></i>
+            </button>
+            <button type="button" id="btn-zoom-out" class="map-tool-btn" title="Alejar mapa" aria-label="Alejar">
+              <i class="fa-solid fa-minus"></i>
+            </button>
+            <button type="button" id="btn-zoom-reset" class="map-tool-btn" title="Centrar mapa" aria-label="Centrar">
+              <i class="fa-solid fa-arrows-rotate"></i>
+            </button>
+          </div>
         </div>
 
-        <!-- Sky / Sunlight Accent -->
-        <div class="absolute top-0 right-1/4 w-48 h-48 bg-purple-600/10 rounded-full blur-3xl pointer-events-none">
-        </div>
-
-        <!-- Building Floors Stack -->
-        <div class="relative z-10 w-full max-w-[340px] mx-auto flex flex-col gap-2.5 py-1">
-
-          <!-- Roof / Terrace -->
-          <div
-            class="w-full h-5 bg-gradient-to-r from-purple-900/60 via-purple-700/50 to-purple-900/60 rounded-t-lg border-t border-x border-purple-500/40 flex items-center justify-between px-3 text-[9px] text-purple-300 font-mono">
-            <span class="flex items-center gap-1"><i class="fa-solid fa-satellite-dish text-[10px]"></i> Azotea
-              Técnica</span>
-            <span>UTN Rosario</span>
-          </div>
-
-          <!-- PISO 5: Depto. Sistemas -->
-          <div onclick="openFloorAndZoom(5)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#2a1344] via-[#3d1a63] to-[#250f3c] border-2 border-purple-500/40 hover:border-purple-300 rounded-xl p-3 shadow-md flex items-center justify-between transition-all">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-900/80 border border-purple-400/50 flex items-center justify-center font-mono font-black text-sm text-purple-200 group-hover:bg-purple-600 group-hover:text-white transition">5°</span>
-              <div>
-                <h4 class="text-xs font-bold text-white group-hover:text-purple-200 flex items-center gap-1.5">
-                  Depto. Sistemas de Información
-                  <span
-                    class="text-[9px] px-1.5 py-0.2 rounded bg-purple-950 text-purple-300 border border-purple-700">ISI</span>
-                </h4>
-                <p class="text-[10px] text-purple-300/80 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-laptop-code text-purple-400"></i> Lab Microsoft</span>
-                  <span>•</span>
-                  <span>Ascensores / Escaleras</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-300 group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- PISO 4: Depto. Civil & Básicas -->
-          <div onclick="openFloorAndZoom(4)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#2a1344] via-[#38165d] to-[#250f3c] border-2 border-purple-500/40 hover:border-purple-300 rounded-xl p-3 shadow-md flex items-center justify-between transition-all">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-900/80 border border-purple-400/50 flex items-center justify-center font-mono font-black text-sm text-purple-200 group-hover:bg-purple-600 group-hover:text-white transition">4°</span>
-              <div>
-                <h4 class="text-xs font-bold text-white group-hover:text-purple-200 flex items-center gap-1.5">
-                  Depto. Ingeniería Civil
-                  <span
-                    class="text-[9px] px-1.5 py-0.2 rounded bg-purple-950 text-purple-300 border border-purple-700">PAE</span>
-                </h4>
-                <p class="text-[10px] text-purple-300/80 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-atom text-purple-400"></i> Lab Física</span>
-                  <span>•</span>
-                  <span>Auditorio 4° Piso</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-300 group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- PISO 3: Depto. Química -->
-          <div onclick="openFloorAndZoom(3)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#2a1344] via-[#38165d] to-[#250f3c] border-2 border-purple-500/40 hover:border-purple-300 rounded-xl p-3 shadow-md flex items-center justify-between transition-all">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-900/80 border border-purple-400/50 flex items-center justify-center font-mono font-black text-sm text-purple-200 group-hover:bg-purple-600 group-hover:text-white transition">3°</span>
-              <div>
-                <h4 class="text-xs font-bold text-white group-hover:text-purple-200 flex items-center gap-1.5">
-                  Depto. Ingeniería Química
-                  <span
-                    class="text-[9px] px-1.5 py-0.2 rounded bg-purple-950 text-purple-300 border border-purple-700">IQ</span>
-                </h4>
-                <p class="text-[10px] text-purple-300/80 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-flask-vial text-purple-400"></i> Lab Química Gral</span>
-                  <span>•</span>
-                  <span>Sala Informática</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-300 group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- PISO 2: Depto. Mecánica & Cantina -->
-          <div onclick="openFloorAndZoom(2)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#2a1344] via-[#38165d] to-[#250f3c] border-2 border-purple-500/40 hover:border-purple-300 rounded-xl p-3 shadow-md flex items-center justify-between transition-all">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-900/80 border border-purple-400/50 flex items-center justify-center font-mono font-black text-sm text-purple-200 group-hover:bg-purple-600 group-hover:text-white transition">2°</span>
-              <div>
-                <h4 class="text-xs font-bold text-white group-hover:text-purple-200 flex items-center gap-1.5">
-                  Depto. Mecánica & Cantina
-                </h4>
-                <p class="text-[10px] text-purple-300/80 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-utensils text-purple-400"></i> Cantina Estudiantil</span>
-                  <span>•</span>
-                  <span>Bedelía 2°</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-300 group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- PISO 1: SAU & Kiosco -->
-          <div onclick="openFloorAndZoom(1)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#2a1344] via-[#38165d] to-[#250f3c] border-2 border-purple-500/40 hover:border-purple-300 rounded-xl p-3 shadow-md flex items-center justify-between transition-all">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-900/80 border border-purple-400/50 flex items-center justify-center font-mono font-black text-sm text-purple-200 group-hover:bg-purple-600 group-hover:text-white transition">1°</span>
-              <div>
-                <h4 class="text-xs font-bold text-white group-hover:text-purple-200 flex items-center gap-1.5">
-                  1° Piso - Asuntos Universitarios
-                </h4>
-                <p class="text-[10px] text-purple-300/80 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-id-card text-purple-400"></i> SAU</span>
-                  <span>•</span>
-                  <span><i class="fa-solid fa-store text-purple-400"></i> Kiosco</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-900/50 flex items-center justify-center text-purple-300 group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- PLANTA BAJA: Entrada Principal & SUM -->
-          <div onclick="openFloorAndZoom(0)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#39185a] via-[#4d227b] to-[#30124d] border-2 border-purple-400 hover:border-purple-200 rounded-xl p-3 shadow-lg flex items-center justify-between transition-all ring-1 ring-purple-400/40">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-700 border border-purple-200 flex items-center justify-center font-mono font-black text-sm text-white shadow">PB</span>
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <h4 class="text-xs font-black text-white group-hover:text-purple-200">Planta Baja (Ingreso)</h4>
-                  <span class="text-[8px] bg-emerald-500 text-white font-bold px-1.5 py-0.2 rounded-full">Acceso</span>
-                </div>
-                <p class="text-[10px] text-purple-200 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-book text-amber-300"></i> Biblioteca / SUM / Fotocopiadora / Bar</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- SUBSUELO: Depto. Eléctrica -->
-          <div onclick="openFloorAndZoom(-1)"
-            class="floor-slab group relative cursor-pointer bg-gradient-to-r from-[#1c0c2e] via-[#281142] to-[#170a26] border-2 border-purple-700/60 hover:border-purple-400 rounded-xl p-3 shadow-md flex items-center justify-between transition-all">
-            <div class="flex items-center gap-3">
-              <span
-                class="w-8 h-8 rounded-lg bg-purple-950 border border-purple-700 flex items-center justify-center font-mono font-black text-sm text-purple-300 group-hover:bg-purple-800 group-hover:text-white transition">SS</span>
-              <div>
-                <h4 class="text-xs font-bold text-white group-hover:text-purple-200 flex items-center gap-1.5">
-                  Subsuelo - Depto. Eléctrica
-                </h4>
-                <p class="text-[10px] text-purple-300/80 flex items-center gap-2 mt-0.5">
-                  <span><i class="fa-solid fa-bolt text-yellow-400"></i> Electrónica & Salón Actos</span>
-                </p>
-              </div>
-            </div>
-            <div
-              class="w-6 h-6 rounded-full bg-purple-950 flex items-center justify-center text-purple-300 group-hover:translate-x-0.5 transition">
-              <i class="fa-solid fa-chevron-right text-xs"></i>
-            </div>
-          </div>
-
-          <!-- Street Level Label -->
-          <div
-            class="mt-1 flex items-center justify-center gap-2 text-purple-300 text-[10px] font-mono border-t border-purple-900/60 pt-2">
-            <i class="fa-solid fa-arrow-up text-purple-400 animate-bounce"></i>
-            <span>NIVEL CALLE ZEBALLOS</span>
-          </div>
-
+        <!-- SVG Map Viewport -->
+        <div id="svg-map-wrapper" class="svg-viewport-wrapper">
+          <!-- Dynamically populated blueprint -->
         </div>
       </div>
     </section>
 
-    <!-- VIEW 2: Top-down Overhead Floor Blueprint (Croquis Realista con fondo #321650 y líneas blancas) -->
-    <section id="floor-blueprint-view" class="hidden flex-1 flex flex-col floor-zoom-enter">
-      <!-- Floor Header Card -->
-      <div
-        class="bg-[#1f0e34] border border-purple-700/50 rounded-xl p-3 mb-2 flex items-center justify-between shadow-md">
-        <div>
-          <div class="flex items-center gap-2">
-            <span id="current-floor-badge"
-              class="px-2 py-0.5 rounded font-mono text-xs font-black bg-purple-600 text-white">PB</span>
-            <h3 id="current-floor-title" class="text-sm font-bold text-white">PLANTA BAJA</h3>
+    <!-- VIEW 2: 3D Facade & Floor Stacking Tower -->
+    <section id="view-building" class="view-container" aria-label="Edificio 3D">
+      <div class="building-stage">
+        <!-- Info Banner -->
+        <div class="building-hero-card">
+          <div class="building-hero-text">
+            <span class="building-hero-badge">
+              <i class="fa-solid fa-location-dot"></i> E. Zeballos 1341 · Rosario
+            </span>
+            <h2>Sede Central UTN FRRO</h2>
+            <p>Elegí cualquier piso de la torre para abrir su croquis interactivo.</p>
           </div>
-          <p id="current-floor-subtitle" class="text-[11px] text-purple-200 mt-0.5">Biblioteca/SUM, Fotocopiadora,
-            Alumnado, Bar</p>
+          <div style="width:50px; height:50px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+            <i class="fa-solid fa-building-columns" style="font-size:22px; color:#38bdf8;"></i>
+          </div>
         </div>
-        <button onclick="switchMainView('building')"
-          class="px-2.5 py-1.5 rounded-lg bg-purple-900/60 hover:bg-purple-800 text-xs font-semibold text-purple-200 border border-purple-500/40 flex items-center gap-1.5 transition">
-          <i class="fa-solid fa-arrow-left text-[10px]"></i>
-          <span>Volver</span>
-        </button>
+
+        <!-- Stacking Slabs Tower -->
+        <div id="building-stack" class="building-stack">
+          <!-- Populated dynamically via JS -->
+        </div>
       </div>
+    </section>
 
-      
-
-      <!-- Interactive Blueprint Canvas Container -->
-      <div
-        class="flex-1 min-h-[460px] sm:min-h-[540px] relative rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between items-center p-2 bg-[#120720] border border-purple-800/60">
-
-        <!-- Orientation Compass & Street Orientation -->
-        <div class="w-full flex items-center justify-between px-2 text-[10px] text-purple-300/80 font-mono mb-1 z-20">
-          <span class="flex items-center gap-1"><i class="fa-solid fa-compass text-purple-400"></i> FRENTE / CALLE ZEBALLOS (SUR)</span>
-          <span class="flex items-center gap-1"><i class="fa-solid fa-person-walking text-emerald-400"></i> Vista Superior Croquis</span>
+    <!-- VIEW 3: Directory & Administrative Procedures -->
+    <section id="view-directory" class="view-container" aria-label="Directorio y Trámites">
+      <div class="directory-container">
+        <!-- Filter Tabs -->
+        <div class="directory-categories">
+          <button type="button" class="category-tab active" data-category="todos">Todos</button>
+          <button type="button" class="category-tab" data-category="estudiantil">Alumnado y Trámites</button>
+          <button type="button" class="category-tab" data-category="academicos">Departamentos</button>
+          <button type="button" class="category-tab" data-category="secretarias">Secretarías</button>
+          <button type="button" class="category-tab" data-category="servicios">Servicios y Bedelías</button>
         </div>
 
-        <!-- SVG Map Container dynamically populated -->
-        <div id="svg-map-wrapper" class="w-full flex-1 flex items-center justify-center p-1">
-          <!-- Dynamically loaded Blueprint SVG will appear here -->
+        <!-- Department Cards List -->
+        <div id="directory-list" class="directory-list">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: Campus & UPL Info -->
+    <section id="view-info" class="view-container" aria-label="Información General">
+      <div class="info-card">
+        <div class="info-hero">
+          <img src="assets/LOGO UPL.png" alt="UPL Logo" class="info-logo-img">
+          <div>
+            <h2 style="font-size:16px; font-weight:800; color:#fff;">Universitarios por la Libertad</h2>
+            <p style="font-size:12px; color:#cbd5e1; margin-top:2px;">
+              Agrupación estudiantil de la UTN Facultad Regional Rosario.
+            </p>
+          </div>
         </div>
 
+        <p style="font-size:12.5px; color:#94a3b8; line-height:1.5;">
+          Esta guía interactiva fue desarrollada para facilitar la navegación y orientación de estudiantes, ingresantes y docentes dentro de la facultad.
+        </p>
+
+        <div class="info-links-list">
+          <a href="https://www.instagram.com/upl_utnrosario/" target="_blank" rel="noopener noreferrer" class="info-link-item">
+            <span style="display:flex; align-items:center; gap:10px;">
+              <i class="fa-brands fa-instagram" style="font-size:16px; color:#e1306c;"></i>
+              <span>Instagram: @upl_utnrosario</span>
+            </span>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; color:#64748b;"></i>
+          </a>
+
+          <a href="https://www.frro.utn.edu.ar" target="_blank" rel="noopener noreferrer" class="info-link-item">
+            <span style="display:flex; align-items:center; gap:10px;">
+              <i class="fa-solid fa-globe" style="font-size:14px; color:#a855f7;"></i>
+              <span>Sitio Oficial UTN FRRO</span>
+            </span>
+            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px; color:#64748b;"></i>
+          </a>
+        </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Bottom Interactive Utility Bar -->
-  <footer class="bg-[#120822] border-t border-purple-900/50 px-4 py-2.5">
-    <div class="flex items-center justify-between text-xs">
-      <div class="flex items-center gap-2">
-        <a href="https://www.instagram.com/upl_utnrosario/" target="_blank" rel="noopener noreferrer"
-          class="text-xs text-purple-200/90 hover:text-pink-400 flex items-center gap-1.5 transition font-medium">
-          <i class="fa-brands fa-instagram text-base text-purple-400 hover:text-pink-400 transition"></i>
-          <span>@upl_utnrosario</span>
-        </a>
-      </div>
-      <div class="flex items-center gap-2">
-        <span class="text-xs text-purple-300 font-bold tracking-wide">UPL - UTN</span>
-      </div>
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="bottom-nav" aria-label="Navegación principal">
+    <button type="button" class="nav-item active" data-view="floor">
+      <i class="fa-solid fa-map-location-dot"></i>
+      <span>Plano</span>
+    </button>
+    <button type="button" class="nav-item" data-view="building">
+      <i class="fa-solid fa-city"></i>
+      <span>Edificio</span>
+    </button>
+    <button type="button" class="nav-item" data-view="directory">
+      <i class="fa-solid fa-folder-open"></i>
+      <span>Directorio</span>
+    </button>
+    <button type="button" class="nav-item" data-view="info">
+      <i class="fa-solid fa-circle-info"></i>
+      <span>Info</span>
+    </button>
+  </nav>
+
+  <!-- Native Mobile Bottom Sheet / Drawer Backdrop -->
+  <div id="drawer-backdrop" class="drawer-backdrop" role="presentation"></div>
+
+  <!-- Native Mobile Bottom Sheet / Detail Drawer -->
+  <aside id="detail-drawer" class="detail-drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title">
+    <div class="drawer-drag-zone">
+      <div class="drawer-drag-pill"></div>
     </div>
-  </footer>
-
-  <!-- Department & Secretaría Contact & Attention Modal -->
-  <div id="dept-info-modal"
-    class="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-slate-950/80 backdrop-blur-md hidden transition-all duration-200 opacity-0"
-    role="dialog" aria-modal="true" aria-labelledby="dept-modal-title">
-    <div id="dept-modal-backdrop" onclick="closeDeptModal()" class="absolute inset-0"></div>
-    <div id="dept-modal-card"
-      class="relative z-10 w-full max-w-lg bg-gradient-to-b from-[#240e3b] via-[#1a0a2c] to-[#120620] border border-purple-500/40 rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] text-slate-100 transform transition-all duration-200 scale-95">
-
-      <!-- Modal Header -->
-      <div class="p-4 sm:p-5 border-b border-purple-800/40 bg-purple-950/40 flex items-start justify-between gap-3">
-        <div class="flex items-start gap-3 min-w-0">
-          <div id="dept-modal-icon-container"
-            class="w-11 h-11 rounded-xl bg-purple-900/60 border border-purple-500/50 flex items-center justify-center flex-shrink-0 text-xl text-purple-300 shadow-inner">
-            <i id="dept-modal-icon" class="fa-solid fa-building-columns"></i>
+    
+    <div class="drawer-header">
+      <div class="drawer-header-left">
+        <div class="drawer-icon-box">
+          <i id="drawer-icon" class="fa-solid fa-location-dot"></i>
+        </div>
+        <div class="drawer-title-group">
+          <div class="drawer-badges-row">
+            <span id="drawer-category" class="drawer-category-badge">Espacio</span>
+            <span id="drawer-floor-badge" class="drawer-floor-badge">PB</span>
           </div>
-          <div class="min-w-0">
-            <div class="flex flex-wrap items-center gap-1.5 mb-1">
-              <span id="dept-modal-category"
-                class="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase font-mono bg-purple-900/80 text-purple-200 border border-purple-500/40">
-                Secretaría
-              </span>
-              <span id="dept-modal-floor"
-                class="px-2 py-0.5 rounded-full text-[10px] font-bold text-amber-300 bg-amber-950/50 border border-amber-500/40 flex items-center gap-1">
-                <i class="fa-solid fa-location-dot text-[9px]"></i>
-                <span id="dept-modal-floor-text">1° Piso</span>
-              </span>
-            </div>
-            <h3 id="dept-modal-title" class="text-base sm:text-lg font-bold text-white leading-snug">
-              Nombre Departamento
-            </h3>
-            <p id="dept-modal-subtitle" class="text-xs text-purple-200/80 mt-0.5">
-              Descripción o especialidad
-            </p>
-          </div>
-        </div>
-        <button type="button" onclick="closeDeptModal()" aria-label="Cerrar ventana"
-          class="w-8 h-8 rounded-lg bg-purple-900/50 hover:bg-purple-800 text-purple-300 hover:text-white flex items-center justify-center transition border border-purple-700/50 flex-shrink-0">
-          <i class="fa-solid fa-xmark text-sm"></i>
-        </button>
-      </div>
-
-      <!-- Modal Body (Scrollable) -->
-      <div id="dept-modal-body" class="p-4 sm:p-5 overflow-y-auto space-y-4 text-xs">
-        <!-- Content will be injected dynamically -->
-      </div>
-
-      <!-- Modal Footer -->
-      <div
-        class="p-3 sm:p-4 bg-purple-950/60 border-t border-purple-800/40 flex items-center justify-between gap-2 text-xs">
-        <div class="flex items-center gap-1.5 text-[11px] text-purple-300/80">
-          <i class="fa-solid fa-shield-halved text-purple-400"></i>
-          <span>Guía Informativa UPL • UTN FRRO</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <button type="button" onclick="closeDeptModal()"
-            class="px-3.5 py-1.5 rounded-lg bg-purple-800/80 hover:bg-purple-700 text-white font-semibold transition text-xs shadow">
-            Cerrar
-          </button>
+          <h2 id="drawer-title" class="drawer-title">Nombre del Espacio</h2>
+          <p id="drawer-subtitle" class="drawer-subtitle">Subtítulo del espacio</p>
         </div>
       </div>
-
+      <button type="button" id="drawer-close-btn" class="drawer-close-btn" aria-label="Cerrar detalles">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
     </div>
+
+    <div id="drawer-body" class="drawer-body">
+      <!-- Populated dynamically -->
+    </div>
+  </aside>
+
+  <!-- Floating Toast Notice -->
+  <div id="toast-notice" class="toast-notice" role="status" aria-live="polite">
+    <i class="fa-solid fa-check" style="color:#34d399;"></i>
+    <span id="toast-text">Copiado al portapapeles</span>
   </div>
 
+  <!-- Application Logic -->
+  <script type="module" src="js/app.js"></script>
 
-
-  <script>
-    // State management
-    let activeFloor = 0; // 0 = PB, -1 = SS, 1 = 1P, 2 = 2P, 3 = 3P, 4 = 4P, 5 = 5P
-    let currentView = 'building'; // 'building' or 'floor'
-
-    const floorData = {
-      '-1': {
-        title: 'SUBSUELO',
-        subtitle: 'Depto. Eléctrica, Laboratorios y Salón de Actos',
-        badge: 'SS',
-        svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <!-- Background base -->
-            <rect width="500" height="680" fill="#321650" />
-            
-            <!-- External Walls (White boundary lines) -->
-            <rect x="20" y="30" width="460" height="600" fill="none" class="blueprint-line" stroke-width="3" />
-            <line x1="20" y1="120" x2="480" y2="120" class="blueprint-line" />
-            
-            <!-- Top Section: Laboratorios & Bedelia -->
-            <rect x="20" y="30" width="230" height="90" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Laboratorios de Eléctrica', 'Ensayos de máquinas, mediciones y alta tensión.')" />
-            <text x="135" y="80" class="room-label">Laboratorios</text>
-
-            <rect x="250" y="30" width="230" height="90" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Bedelía Subsuelo', 'Atención para cursado de Eléctrica y Electrónica.')" />
-            <text x="365" y="80" class="room-label">Bedelía</text>
-            <line x1="250" y1="30" x2="250" y2="120" class="blueprint-line" />
-
-            <!-- Left Wing: Lab Electronica -->
-            <rect x="20" y="120" width="180" height="420" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Laboratorio Electrónica', 'Instrumental osciloscopios, plaquetas y bancos de trabajo.')" />
-            <line x1="200" y1="120" x2="200" y2="540" class="blueprint-line" />
-            <text x="110" y="380" class="room-label">Laboratorio</text>
-            <text x="110" y="400" class="room-label">Electrónica</text>
-
-            <!-- Escaleras Centrales (Grid) -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras Centrales', 'Conexión vertical entre Subsuelo y pisos superiores.')">
-              <rect x="145" y="240" width="55" height="120" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="270" x2="200" y2="270" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="300" x2="200" y2="300" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="330" x2="200" y2="330" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="240" x2="172" y2="360" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="305" class="room-label" style="font-size:11.5px;">Escaleras</text>
-            </g>
-
-            <!-- Hallway (Pasillo central) -->
-            <path d="M 200,120 L 290,120 L 290,260 L 315,260 L 315,360 L 290,360 L 290,540 L 380,540 L 380,580 L 200,580 Z" fill="#321650" class="blueprint-dashed" />
-            
-            <!-- Right Wing: Depto Electrica, Ascensores, Lab Usos Multiples -->
-            <rect x="290" y="120" width="190" height="130" fill="#291243" class="blueprint-room" onclick="selectRoom('Departamento Eléctrica', 'Oficinas docentes y dirección de cátedra.')" />
-            <text x="385" y="170" class="room-label">Departamento</text>
-            <text x="385" y="190" class="room-label">Eléctrica</text>
-
-            <!-- Ascensores -->
-            <rect x="290" y="260" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1', 'Acceso directo a plantas altas')" />
-            <rect x="290" y="310" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2', 'Acceso directo a plantas altas')" />
-            <text x="345" y="295" class="room-label" style="font-size:11.5px;">Ascensores</text>
-
-            <!-- Lab Usos Multiples -->
-            <rect x="290" y="360" width="190" height="80" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Laboratorio Usos Múltiples', 'Espacio para talleres y proyectos de ingeniería.')" />
-            <text x="385" y="395" class="room-label">Laboratorio</text>
-            <text x="385" y="415" class="room-label">usos múltiples</text>
-            <line x1="290" y1="440" x2="380" y2="440" class="blueprint-line" />
-
-            <!-- Salón de Actos (Corner) -->
-            <rect x="380" y="440" width="100" height="190" fill="#3b1761" class="blueprint-room" onclick="selectRoom('Salón de Actos', 'Actos académicos, conferencias magistrales y colaciones.')" />
-            <text x="430" y="525" class="room-label">Salón de</text>
-            <text x="430" y="545" class="room-label">Actos</text>
-
-            <!-- Bottom: Lab Informatica & Sala Fotocopiado -->
-            <rect x="200" y="540" width="90" height="90" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Laboratorio Informática', 'Computadoras para diseño y simulación.')" />
-            <text x="245" y="575" class="room-label" style="font-size:12.5px;">Lab.</text>
-            <text x="245" y="595" class="room-label" style="font-size:12.5px;">Informática</text>
-            <line x1="290" y1="540" x2="290" y2="630" class="blueprint-line" />
-
-            <rect x="290" y="540" width="90" height="90" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Sala de Fotocopiado Subsuelo', 'Servicio de fotocopias e impresiones técnicas.')" />
-            <text x="335" y="575" class="room-label" style="font-size:12.5px;">Sala de</text>
-            <text x="335" y="595" class="room-label" style="font-size:12.5px;">Fotocopiado</text>
-            <line x1="20" y1="540" x2="200" y2="540" class="blueprint-line" />
-            <line x1="20" y1="630" x2="480" y2="630" class="blueprint-line" stroke-width="2.5" />
-
-            <!-- Street banner -->
-            <text x="250" y="660" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      },
-      '0': {
-        title: 'PLANTA BAJA',
-        subtitle: 'Ingreso Zeballos, Biblioteca/SUM, Patio, Fotocopiadora, Bar',
-        badge: 'PB',
-        svg: `
-          <svg viewBox="0 0 500 700" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <!-- Background base -->
-            <rect width="500" height="700" fill="#321650" />
-            
-            <!-- Round Biblioteca / SUM in Patio -->
-            <circle cx="250" cy="100" r="65" fill="#3e1766" stroke="#ffffff" stroke-width="2.5" class="blueprint-room" onclick="selectRoom('Biblioteca/SUM', 'Espacio de estudio silencioso y préstamos bibliográficos.')" />
-            <text x="250" y="105" class="room-label" style="font-size:14.5px;">Biblioteca/SUM</text>
-            <text x="250" y="185" class="room-label" style="fill:#a855f7; font-weight:700; font-size:13.5px;">Patio</text>
-
-            <!-- Outer Building Walls -->
-            <line x1="25" y1="210" x2="205" y2="210" class="blueprint-line" stroke-width="3" />
-            <line x1="295" y1="210" x2="475" y2="210" class="blueprint-line" stroke-width="3" />
-            <line x1="25" y1="210" x2="25" y2="640" class="blueprint-line" stroke-width="3" />
-            <line x1="475" y1="210" x2="475" y2="640" class="blueprint-line" stroke-width="3" />
-            <line x1="25" y1="640" x2="475" y2="640" class="blueprint-line" stroke-width="3" />
-
-            <!-- Top PB Left: Alumnado -->
-            <rect x="25" y="210" width="180" height="65" fill="#291143" class="blueprint-room" onclick="selectRoom('Alumnado', 'Trámites de inscripciones, certificados y legajos.')" />
-            <text x="115" y="248" class="room-label">Alumnado</text>
-            <line x1="25" y1="275" x2="205" y2="275" class="blueprint-line" />
-
-            <!-- Top PB Right: Sector Norte (sin texto de aulas, fiel al plano) -->
-            <rect x="295" y="210" width="180" height="65" fill="#230e38" class="blueprint-room" />
-            <line x1="295" y1="275" x2="475" y2="275" class="blueprint-line" />
-
-            <!-- Pasillo Horizontal Transversal -->
-            <rect x="25" y="275" width="450" height="45" fill="#1b0a2c" />
-            <line x1="25" y1="297" x2="475" y2="297" class="blueprint-dashed" />
-            <text x="115" y="302" class="sub-label" style="fill:#d8b4fe; font-size:12px; font-weight:700;">Pasillo</text>
-            <text x="385" y="302" class="sub-label" style="fill:#d8b4fe; font-size:12px; font-weight:700;">Pasillo</text>
-
-            <!-- Line under horizontal pasillo -->
-            <line x1="25" y1="320" x2="205" y2="320" class="blueprint-line" />
-            <line x1="295" y1="320" x2="475" y2="320" class="blueprint-line" />
-
-            <!-- Fotocopiadora (debajo del pasillo horizontal) -->
-            <rect x="25" y="320" width="180" height="65" fill="#38155d" class="blueprint-room" onclick="selectRoom('fotocopiadora', 'Servicio de fotocopias, apuntes y anillados.')" />
-            <text x="115" y="358" class="room-label">fotocopiadora</text>
-            <line x1="25" y1="385" x2="205" y2="385" class="blueprint-line" />
-
-            <!-- Vertical dividing line between Bicicletero and Núcleo de Servicios -->
-            <line x1="145" y1="385" x2="145" y2="640" class="blueprint-line" />
-
-            <!-- Bicicletero & Ingreso Lateral -->
-            <rect x="25" y="385" width="120" height="255" fill="#210c33" class="blueprint-room" onclick="selectRoom('Bicicletero', 'Estacionamiento de bicicletas para estudiantes.')" />
-            <text x="85" y="495" class="room-label">Bicicletero</text>
-            <text x="85" y="612" class="sub-label" style="font-size:12px; font-weight:600;">Ingreso lateral</text>
-            <path d="M 85,630 L 85,618 M 81,624 L 85,618 L 89,624" stroke="#a855f7" stroke-width="2" fill="none" />
-
-            <!-- Escaleras de subsuelo y 1er piso -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras', 'Conexión vertical con subsuelo y primer piso.')">
-              <rect x="145" y="385" width="60" height="90" fill="#1c0b2d" stroke="#ffffff" stroke-width="1.5" />
-              <line x1="145" y1="407" x2="205" y2="407" stroke="#fff" stroke-width="1" />
-              <line x1="145" y1="430" x2="205" y2="430" stroke="#fff" stroke-width="1" />
-              <line x1="145" y1="453" x2="205" y2="453" stroke="#fff" stroke-width="1" />
-              <line x1="175" y1="385" x2="175" y2="475" stroke="#fff" stroke-width="1" />
-              <text x="175" y="420" class="room-label" style="font-size:11.5px;">← 1°</text>
-              <text x="175" y="462" class="room-label" style="font-size:11.5px;">← subsuelo</text>
-            </g>
-            <line x1="145" y1="475" x2="205" y2="475" class="blueprint-line" />
-
-            <!-- Portería -->
-            <rect x="145" y="475" width="60" height="85" fill="#2a1144" class="blueprint-room" onclick="selectRoom('Portería', 'Informes generales y control de acceso.')" />
-            <text x="175" y="523" class="room-label" style="font-size:12.5px;">Portería</text>
-            <line x1="145" y1="560" x2="205" y2="560" class="blueprint-line" />
-
-            <!-- Bar -->
-            <rect x="145" y="560" width="60" height="80" fill="#3c1662" class="blueprint-room" onclick="selectRoom('Bar', 'Cafetería y espacio de encuentro.')" />
-            <text x="175" y="605" class="room-label" style="font-size:12.5px;">Bar</text>
-
-            <!-- Escalera Principal Ingreso -->
-            <rect x="205" y="580" width="90" height="60" fill="#190a2a" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Escalera principal', 'Ingreso central desde Zeballos.')" />
-            <line x1="205" y1="600" x2="295" y2="600" stroke="#fff" stroke-width="1" />
-            <line x1="205" y1="620" x2="295" y2="620" stroke="#fff" stroke-width="1" />
-            <text x="250" y="598" class="room-label" style="font-size:12px;">Escalera</text>
-            <text x="250" y="615" class="room-label" style="font-size:12px;">principal</text>
-            <path d="M 250,578 L 250,566 M 246,572 L 250,566 L 254,572" stroke="#38bdf8" stroke-width="2" fill="none" />
-
-            <!-- Central vertical corridor line & text -->
-            <line x1="205" y1="210" x2="205" y2="580" class="blueprint-line" />
-            <line x1="250" y1="210" x2="250" y2="565" class="blueprint-dashed" />
-
-            <!-- Right wing corridor wall with Ascensores -->
-            <line x1="295" y1="320" x2="295" y2="515" class="blueprint-line" />
-            <line x1="295" y1="515" x2="330" y2="545" class="blueprint-line" />
-            <line x1="330" y1="545" x2="330" y2="640" class="blueprint-line" />
-
-            <!-- Ascensores -->
-            <rect x="295" y="375" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensores', 'Batería de ascensores accesible.')" />
-            <rect x="295" y="425" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensores', 'Batería de ascensores accesible.')" />
-            <text x="355" y="415" class="room-label" style="font-size:12px;">Ascensores</text>
-
-            <!-- Right wing body (sin aulas) -->
-            <path d="M 295,320 L 475,320 L 475,545 L 330,545 L 295,515 Z" fill="#200d33" class="blueprint-room" />
-
-            <!-- Sala de profesores -->
-            <rect x="330" y="545" width="145" height="95" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sala de profesores', 'Espacio de descanso y consulta docente.')" />
-            <line x1="330" y1="545" x2="475" y2="545" class="blueprint-line" />
-            <text x="402" y="588" class="room-label">Sala de</text>
-            <text x="402" y="610" class="room-label">profesores</text>
-
-            <!-- Linea Zeballos -->
-            <text x="250" y="675" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      },
-      '1': {
-        title: '1° PISO',
-        subtitle: 'Secretaría Asuntos Universitarios (SAU) y Kiosco',
-        badge: '1°',
-        svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <rect width="500" height="680" fill="#321650" />
-            <rect x="20" y="30" width="460" height="600" fill="none" class="blueprint-line" stroke-width="3" />
-            
-            <!-- SAU (Secretaría Asuntos Universitarios) -->
-            <rect x="20" y="30" width="460" height="100" fill="#2c1247" class="blueprint-room" onclick="selectRoom('Secretaría Asuntos Universitarios (SAU)', 'Becas, deportes, tutorías, pasantías y atención gremial.')" />
-            <text x="360" y="65" class="room-label">Secretaría</text>
-            <text x="360" y="85" class="room-label">Asuntos</text>
-            <text x="360" y="105" class="room-label">Universitarios (SAU)</text>
-            <line x1="20" y1="130" x2="480" y2="130" class="blueprint-line" />
-
-            <!-- Left Wing: Aulas 1er piso -->
-            <rect x="20" y="170" width="180" height="320" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Aulas Ala Oeste 1° Piso', 'Aulas teóricas de 1° a 5° año.')" />
-            <line x1="20" y1="170" x2="200" y2="170" class="blueprint-line" />
-            <line x1="200" y1="170" x2="200" y2="490" class="blueprint-line" />
-            <text x="110" y="340" class="room-label">Aulas 1° Piso</text>
-
-            <!-- Escaleras Centrales -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras 1° Piso', 'Conexión a PB y pisos superiores.')">
-              <rect x="145" y="270" width="55" height="130" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="300" x2="200" y2="300" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="335" x2="200" y2="335" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="370" x2="200" y2="370" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="270" x2="172" y2="400" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="340" class="room-label" style="font-size:11.5px;">Escaleras</text>
-            </g>
-
-            <!-- Right Wing: Ascensores & Kiosco -->
-            <rect x="290" y="170" width="190" height="320" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sector Central 1° Piso', 'Pasillos de circulación y aulas.')" />
-            <line x1="290" y1="170" x2="480" y2="170" class="blueprint-line" />
-            <line x1="290" y1="170" x2="290" y2="490" class="blueprint-line" />
-
-            <!-- Ascensores -->
-            <rect x="290" y="280" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 - 1° Piso', 'Parada ascensor.')" />
-            <rect x="290" y="330" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 - 1° Piso', 'Parada ascensor.')" />
-            <text x="345" y="315" class="room-label" style="font-size:11.5px;">Ascensores</text>
-
-            <!-- Kiosco 1er piso -->
-            <rect x="310" y="430" width="110" height="50" fill="#45186f" class="blueprint-room rounded" onclick="selectRoom('Kiosco 1° Piso', 'Snacks, golosinas, bebidas y café.')" />
-            <text x="365" y="460" class="room-label">Kiosco</text>
-
-            <!-- Bottom Boundary & Street -->
-            <line x1="20" y1="490" x2="480" y2="490" class="blueprint-line" />
-            <line x1="20" y1="540" x2="480" y2="540" class="blueprint-line" />
-            <text x="250" y="660" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      },
-      '2': {
-        title: '2° PISO',
-        subtitle: 'Departamento Mecánica, Bedelía y Cantina',
-        badge: '2°',
-        svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <rect width="500" height="680" fill="#321650" />
-            <rect x="20" y="30" width="460" height="600" fill="none" class="blueprint-line" stroke-width="3" />
-
-            <!-- Top: Depto Mecanica -->
-            <rect x="20" y="30" width="460" height="90" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Departamento Mecánica', 'Dirección de carrera Ingeniería Mecánica y consultas docentes.')" />
-            <text x="360" y="65" class="room-label">Departamento</text>
-            <text x="360" y="85" class="room-label">Mecánica</text>
-            <line x1="20" y1="120" x2="480" y2="120" class="blueprint-line" />
-
-            <!-- Left Wing -->
-            <rect x="20" y="160" width="180" height="340" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Aulas Mecánica', 'Aulas técnicas de diseño mecánico y cálculo.')" />
-            <line x1="20" y1="160" x2="200" y2="160" class="blueprint-line" />
-            <line x1="200" y1="160" x2="200" y2="500" class="blueprint-line" />
-            <text x="110" y="330" class="room-label">Aulas 2° Piso</text>
-
-            <!-- Escaleras Centrales -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras 2° Piso', 'Acceso vertical')">
-              <rect x="145" y="250" width="55" height="130" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="285" x2="200" y2="285" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="315" x2="200" y2="315" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="345" x2="200" y2="345" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="250" x2="172" y2="380" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="320" class="room-label" style="font-size:11.5px;">Escaleras</text>
-            </g>
-
-            <!-- Right Wing: Bedelía & Ascensores -->
-            <rect x="290" y="160" width="190" height="340" fill="#260f3d" class="blueprint-room" onclick="selectRoom('Bedelía 2° Piso', 'Gestión de aulas y asistencia de docentes de Mecánica.')" />
-            <line x1="290" y1="160" x2="480" y2="160" class="blueprint-line" />
-            <line x1="290" y1="160" x2="290" y2="500" class="blueprint-line" />
-            <text x="350" y="200" class="room-label">Bedelía</text>
-
-            <!-- Ascensores -->
-            <rect x="290" y="265" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 - 2° Piso', 'Acceso ascensor')" />
-            <rect x="290" y="315" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 - 2° Piso', 'Acceso ascensor')" />
-            <text x="345" y="300" class="room-label" style="font-size:11.5px;">Ascensores</text>
-
-            <!-- Cantina (Frente calle Zeballos) -->
-            <rect x="20" y="550" width="460" height="80" fill="#3c1563" class="blueprint-room" onclick="selectRoom('Cantina 2° Piso', 'Comedor universitario, menú del día y mesas de estudio.')" />
-            <line x1="20" y1="550" x2="480" y2="550" class="blueprint-line" stroke-width="2.5" />
-            <text x="140" y="595" class="room-label" style="font-size:15px;">Cantina</text>
-            <text x="250" y="660" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      },
-      '3': {
-        title: '3° PISO',
-        subtitle: 'Depto. Química, Lab Química General, Sala Informática',
-        badge: '3°',
-        svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <rect width="500" height="680" fill="#321650" />
-            <rect x="20" y="30" width="460" height="600" fill="none" class="blueprint-line" stroke-width="3" />
-
-            <!-- Top: Laboratorios & Lab Quimica General -->
-            <rect x="20" y="30" width="250" height="100" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Laboratorios de Química', 'Mesadas con campanas de extracción y reactivos.')" />
-            <text x="110" y="85" class="room-label">Laboratorios</text>
-
-            <rect x="270" y="30" width="210" height="100" fill="#2b1145" class="blueprint-room" onclick="selectRoom('Laboratorio Química General', 'Prácticas para alumnos de ciclo básico.')" />
-            <text x="375" y="70" class="room-label">Laboratorio</text>
-            <text x="375" y="90" class="room-label">Química</text>
-            <text x="375" y="110" class="room-label">General</text>
-            <line x1="20" y1="130" x2="480" y2="130" class="blueprint-line" />
-
-            <!-- Left Wing: Sala de Profesores Quimica -->
-            <rect x="20" y="170" width="180" height="340" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sala Profesores (Química)', 'Reuniones de cátedra de Química Orgánica e Inorgánica.')" />
-            <line x1="20" y1="170" x2="200" y2="170" class="blueprint-line" />
-            <line x1="200" y1="170" x2="200" y2="510" class="blueprint-line" />
-            <text x="110" y="470" class="room-label">Sala profesores</text>
-            <text x="110" y="490" class="room-label">(Química)</text>
-
-            <!-- Escaleras Centrales -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras 3° Piso', 'Acceso vertical')">
-              <rect x="145" y="270" width="55" height="130" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="305" x2="200" y2="305" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="335" x2="200" y2="335" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="365" x2="200" y2="365" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="270" x2="172" y2="400" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="340" class="room-label" style="font-size:11.5px;">Escaleras</text>
-            </g>
-
-            <!-- Right Wing: Ascensores & Sala Informatica -->
-            <rect x="290" y="170" width="190" height="340" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sala Informática (Química)', 'Simulación de reactores y procesos fisicoquímicos.')" />
-            <line x1="290" y1="170" x2="480" y2="170" class="blueprint-line" />
-            <line x1="290" y1="170" x2="290" y2="510" class="blueprint-line" />
-
-            <!-- Ascensores -->
-            <rect x="290" y="280" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 - 3° Piso', 'Parada ascensor')" />
-            <rect x="290" y="330" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 - 3° Piso', 'Parada ascensor')" />
-            <text x="345" y="315" class="room-label" style="font-size:11.5px;">Ascensores</text>
-
-            <text x="385" y="465" class="room-label">Sala</text>
-            <text x="385" y="485" class="room-label">informática</text>
-            <text x="385" y="505" class="room-label">(Química)</text>
-
-            <!-- Bottom: Depto Quimica -->
-            <rect x="20" y="540" width="460" height="90" fill="#351457" class="blueprint-room" onclick="selectRoom('Departamento Química', 'Dirección de la carrera de Ingeniería Química.')" />
-            <line x1="20" y1="540" x2="480" y2="540" class="blueprint-line" stroke-width="2.5" />
-            <text x="250" y="580" class="room-label">Departamento</text>
-            <text x="250" y="600" class="room-label">Química</text>
-            <text x="250" y="660" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      },
-      '4': {
-        title: '4° PISO',
-        subtitle: 'Depto. Civil, Ciencias Básicas, Lab Física, PAE',
-        badge: '4°',
-        svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <rect width="500" height="680" fill="#321650" />
-            <rect x="20" y="30" width="460" height="600" fill="none" class="blueprint-line" stroke-width="3" />
-
-            <!-- Top: Ciencias Basicas & Lab Fisica -->
-            <rect x="20" y="30" width="200" height="90" fill="#2d1348" class="blueprint-room" onclick="selectRoom('Ciencias Básicas', 'Álgebra, Análisis Matemático y Física General.')" />
-            <text x="110" y="80" class="room-label">Ciencias Básicas</text>
-
-            <rect x="220" y="30" width="260" height="90" fill="#2c1247" class="blueprint-room" onclick="selectRoom('Laboratorio de Física', 'Experimentos de óptica, mecánica y electromagnetismo.')" />
-            <text x="350" y="80" class="room-label">Laboratorio Física</text>
-            <line x1="20" y1="120" x2="480" y2="120" class="blueprint-line" />
-
-            <!-- Left Wing: Depto Civil -->
-            <rect x="20" y="160" width="180" height="340" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Departamento Civil', 'Dirección del Departamento de Ingeniería Civil.')" />
-            <line x1="20" y1="160" x2="200" y2="160" class="blueprint-line" />
-            <line x1="200" y1="160" x2="200" y2="500" class="blueprint-line" />
-            <text x="110" y="470" class="room-label">Departamento</text>
-            <text x="110" y="490" class="room-label">Civil</text>
-
-            <!-- Escaleras Centrales -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras 4° Piso', 'Acceso vertical')">
-              <rect x="145" y="260" width="55" height="130" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="290" x2="200" y2="290" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="325" x2="200" y2="325" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="355" x2="200" y2="355" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="260" x2="172" y2="390" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="330" class="room-label" style="font-size:11.5px;">Escaleras</text>
-            </g>
-
-            <!-- Right Wing: Auditorio 4° Piso -->
-            <rect x="290" y="160" width="190" height="340" fill="#3b1660" class="blueprint-room" onclick="selectRoom('Auditorio 4° Piso', 'Charlas técnicas, disertaciones y defensas de tesis.')" />
-            <line x1="290" y1="160" x2="480" y2="160" class="blueprint-line" />
-            <line x1="290" y1="160" x2="290" y2="500" class="blueprint-line" />
-            <text x="375" y="210" class="room-label">Auditorio</text>
-            <text x="375" y="230" class="room-label">(4° piso)</text>
-
-            <!-- Ascensores -->
-            <rect x="290" y="275" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 - 4° Piso', 'Parada ascensor')" />
-            <rect x="290" y="325" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 - 4° Piso', 'Parada ascensor')" />
-            <text x="345" y="310" class="room-label" style="font-size:11.5px;">Ascensores</text>
-
-            <!-- Bottom: PAE -->
-            <rect x="20" y="530" width="460" height="100" fill="#2d114a" class="blueprint-room" onclick="selectRoom('Programa Apoyo Estudiantil (PAE)', 'Tutorías personalizadas, orientación vocacional y acompañamiento.')" />
-            <line x1="20" y1="530" x2="480" y2="530" class="blueprint-line" stroke-width="2.5" />
-            <text x="120" y="565" class="room-label">Programa</text>
-            <text x="120" y="585" class="room-label">Apoyo</text>
-            <text x="120" y="605" class="room-label">Estudiantil (PAE)</text>
-            <text x="250" y="660" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      },
-      '5': {
-        title: '5° PISO',
-        subtitle: 'Depto. Sistemas de Información & Laboratorio Microsoft',
-        badge: '5°',
-        svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <rect width="500" height="680" fill="#321650" />
-            <rect x="20" y="50" width="460" height="570" fill="none" class="blueprint-line" stroke-width="3" />
-
-            <!-- Top Corridor -->
-            <line x1="20" y1="180" x2="480" y2="180" class="blueprint-line" />
-
-            <!-- Left: Depto Sistemas -->
-            <rect x="20" y="180" width="180" height="440" fill="#27103e" class="blueprint-room" onclick="selectRoom('Departamento de Sistemas', 'Cátedras de Ingeniería en Sistemas, laboratorios de desarrollo y dirección.')" />
-            <line x1="200" y1="240" x2="200" y2="620" class="blueprint-line" />
-            <text x="90" y="210" class="room-label">Departamento</text>
-            <text x="90" y="230" class="room-label">Sistemas</text>
-
-            <!-- Escaleras Centrales -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras 5° Piso', 'Acceso vertical último piso')">
-              <rect x="145" y="370" width="55" height="150" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="405" x2="200" y2="405" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="440" x2="200" y2="440" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="475" x2="200" y2="475" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="370" x2="172" y2="520" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="445" class="room-label" style="font-size:11.5px;">Escaleras</text>
-            </g>
-
-            <!-- Right: Laboratorio Microsoft -->
-            <rect x="290" y="240" width="190" height="380" fill="#3a165f" class="blueprint-room" onclick="selectRoom('Laboratorio Microsoft', 'Desarrollo de software, servidores de prueba y certicaciones técnicas.')" />
-            <line x1="290" y1="240" x2="480" y2="240" class="blueprint-line" />
-            <line x1="290" y1="240" x2="290" y2="620" class="blueprint-line" />
-            <text x="380" y="290" class="room-label">Laboratorio</text>
-            <text x="380" y="315" class="room-label">Microsoft</text>
-
-            <!-- Ascensores -->
-            <rect x="290" y="390" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 - 5° Piso', 'Parada terminal ascensor')" />
-            <rect x="290" y="450" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 - 5° Piso', 'Parada terminal ascensor')" />
-            <text x="345" y="435" class="room-label" style="font-size:11.5px;">Ascensores</text>
-
-            <text x="250" y="650" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
-          </svg>
-        `
-      }
-    };
-
-    function renderFloorMap(floorKey) {
-      const data = floorData[floorKey];
-      if (!data) return;
-
-      document.getElementById('current-floor-badge').innerText = data.badge;
-      document.getElementById('current-floor-title').innerText = data.title;
-      document.getElementById('current-floor-subtitle').innerText = data.subtitle;
-
-      const wrapper = document.getElementById('svg-map-wrapper');
-      wrapper.innerHTML = data.svg;
-
-      // Update quicknav pills
-      document.querySelectorAll('#floor-quicknav .floor-btn').forEach(btn => {
-        const f = btn.getAttribute('data-floor');
-        if (f == floorKey) {
-          btn.className = 'floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-300 bg-upl-accent text-white shadow';
-        } else {
-          btn.className = 'floor-btn flex-shrink-0 px-2.5 py-1 rounded-full text-[11px] font-semibold transition border border-purple-800/40 text-purple-300 bg-purple-950/40 hover:bg-upl';
-        }
-      });
-    }
-
-    function selectFloor(floorNum) {
-      activeFloor = floorNum;
-      renderFloorMap(floorNum);
-      if (currentView === 'building') {
-        switchMainView('floor');
-      }
-    }
-
-    function openFloorAndZoom(floorNum) {
-      activeFloor = floorNum;
-      renderFloorMap(floorNum);
-      switchMainView('floor');
-    }
-
-    function switchMainView(mode) {
-      currentView = mode;
-      const buildingView = document.getElementById('building-view');
-      const floorView = document.getElementById('floor-blueprint-view');
-      const btnBuilding = document.getElementById('view-mode-building');
-      const btnFloor = document.getElementById('view-mode-floor');
-
-      if (mode === 'building') {
-        buildingView.classList.remove('hidden');
-        floorView.classList.add('hidden');
-        btnBuilding.className = 'flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition bg-upl-accent text-white shadow';
-        btnFloor.className = 'flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition text-purple-300 hover:text-white hover:bg-purple-900/40';
-      } else {
-        renderFloorMap(activeFloor);
-        buildingView.classList.add('hidden');
-        floorView.classList.remove('hidden');
-        btnFloor.className = 'flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition bg-upl-accent text-white shadow';
-        btnBuilding.className = 'flex-1 py-1.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-1.5 transition text-purple-300 hover:text-white hover:bg-purple-900/40';
-      }
-    }
-
-    let allCampusRooms = [];
-    let activeResultIndex = -1;
-
-    function normalizeText(str) {
-      return (str || '').normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
-    }
-
-    function escapeHtml(str) {
-      return (str || '').replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-    }
-
-    function escapeJs(str) {
-      return (str || '').replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-    }
-
-    function getRoomIcon(name, desc) {
-      const text = (name + ' ' + desc).toLowerCase();
-      if (text.includes('ascensor')) return 'fa-solid fa-elevator text-cyan-400';
-      if (text.includes('escalera')) return 'fa-solid fa-stairs text-slate-400';
-      if (text.includes('kiosco') || text.includes('cantina') || text.includes('bar')) return 'fa-solid fa-utensils text-amber-400';
-      if (text.includes('fotocopia')) return 'fa-solid fa-print text-emerald-400';
-      if (text.includes('biblioteca') || text.includes('sum')) return 'fa-solid fa-book-open-reader text-blue-400';
-      if (text.includes('microsoft') || text.includes('informática') || text.includes('sistemas')) return 'fa-solid fa-laptop-code text-indigo-400';
-      if (text.includes('química')) return 'fa-solid fa-flask-vial text-rose-400';
-      if (text.includes('física') || text.includes('básicas')) return 'fa-solid fa-atom text-teal-400';
-      if (text.includes('eléctrica') || text.includes('electrónica')) return 'fa-solid fa-bolt text-yellow-400';
-      if (text.includes('mecánica') || text.includes('civil')) return 'fa-solid fa-gears text-orange-400';
-      if (text.includes('sau') || text.includes('alumnado') || text.includes('pae')) return 'fa-solid fa-id-card text-purple-400';
-      if (text.includes('auditorio') || text.includes('actos')) return 'fa-solid fa-masks-theater text-pink-400';
-      if (text.includes('profesor') || text.includes('bedelía') || text.includes('dirección') || text.includes('oficina')) return 'fa-solid fa-briefcase text-sky-400';
-      return 'fa-solid fa-location-dot text-upl-highlight';
-    }
-
-    function buildCampusRoomsIndex() {
-      allCampusRooms = [];
-      for (const [floorKey, data] of Object.entries(floorData)) {
-        const fNum = parseInt(floorKey);
-        const regex = /selectRoom\('([^']+)',\s*'([^']+)'\)/g;
-        let match;
-        while ((match = regex.exec(data.svg)) !== null) {
-          const roomName = match[1];
-          const roomDesc = match[2];
-          let keywords = [];
-          if (/microsoft|software|servidor/i.test(roomName + ' ' + roomDesc)) keywords.push('computacion', 'pc', 'laboratorio', 'sistemas', 'contacto', 'horarios', 'isi');
-          if (/bedel[ií]a/i.test(roomName)) keywords.push('alumnos', 'asistencia', 'profesores', 'aulas', 'atencion', 'contacto');
-          if (/cantina|bar|kiosco|buffet/i.test(roomName)) keywords.push('comida', 'almuerzo', 'cafe', 'snack', 'merienda');
-          if (/fotocopia/i.test(roomName)) keywords.push('apuntes', 'impresion', 'anillados', 'scanner');
-          if (/sau|asuntos universitarios/i.test(roomName)) keywords.push('becas', 'tutorias', 'deportes', 'gremio', 'estudiantes', 'atencion', 'contacto', 'horarios', 'bolsa de trabajo');
-          if (/alumnado/i.test(roomName)) keywords.push('tramites', 'inscripcion', 'certificado', 'titulo', 'examen', 'atencion', 'contacto', 'horarios', 'legajos', 'actas');
-          if (/departamento/i.test(roomName)) keywords.push('depto', 'contacto', 'horarios', 'atencion', 'carrera', 'catedras');
-          if (/biblioteca|sum/i.test(roomName)) keywords.push('estudio', 'libros', 'silencio', 'mesas');
-          if (/ascensor/i.test(roomName)) keywords.push('elevador', 'accesibilidad', 'movilidad');
-          if (/escalera/i.test(roomName)) keywords.push('subir', 'bajar', 'acceso');
-          if (/auditorio/i.test(roomName)) keywords.push('charlas', 'conferencias', 'actos', 'defensa tesis');
-          if (/pae/i.test(roomName)) keywords.push('apoyo', 'orientacion', 'tutor', 'atencion', 'contacto');
-          if (/baño|sanitario/i.test(roomName + ' ' + roomDesc)) keywords.push('banos', 'wc', 'sanitarios', 'toilette');
-
-          allCampusRooms.push({
-            floor: fNum,
-            floorTitle: data.title,
-            badge: data.badge,
-            name: roomName,
-            description: roomDesc,
-            keywords: keywords.join(' ')
-          });
-        }
-      }
-
-      // Add SeCyT (Secretaría de Ciencia y Tecnología) from Datos.md
-      allCampusRooms.push({
-        floor: 1,
-        floorTitle: '1° PISO',
-        badge: '1°',
-        name: 'Secretaría de Ciencia y Tecnología (SeCyT)',
-        description: 'Gestión de proyectos de investigación, posgrados y convocatorias científicas.',
-        keywords: 'secyt ciencia tecnologia investigacion proyectos becas doctorados cientificas contacto email correo horarios'
-      });
-    }
-
-    function handleSearchFocus() {
-      const input = document.getElementById('room-search-input');
-      const dropdown = document.getElementById('search-results-dropdown');
-      const q = input.value.trim();
-
-      if (!q) {
-        // Show quick frequent searches
-        const frequent = [
-          { name: 'Bedelía Subsuelo', floor: -1, floorTitle: 'SUBSUELO', desc: 'Atención para cursado de Eléctrica y Electrónica' },
-          { name: 'Fotocopiadora Planta Baja', floor: 0, floorTitle: 'PLANTA BAJA', desc: 'Apuntes, material de cátedra y anillados UPL' },
-          { name: 'Cantina 2° Piso', floor: 2, floorTitle: '2° PISO', desc: 'Comedor universitario, menú del día y mesas de estudio' },
-          { name: 'Secretaría Asuntos Universitarios (SAU)', floor: 1, floorTitle: '1° PISO', desc: 'Becas, deportes, tutorías, pasantías y atención gremial' },
-          { name: 'Laboratorio Microsoft', floor: 5, floorTitle: '5° PISO', desc: 'Desarrollo de software, servidores de prueba y certificaciones' },
-          { name: 'Auditorio 4° Piso', floor: 4, floorTitle: '4° PISO', desc: 'Charlas técnicas, disertaciones y defensas de tesis' },
-          { name: 'Biblioteca Central & SUM', floor: 0, floorTitle: 'PLANTA BAJA', desc: 'Espacio de estudio silencioso y préstamos bibliográficos' },
-          { name: 'Oficina de Alumnado', floor: 0, floorTitle: 'PLANTA BAJA', desc: 'Trámites de inscripciones, certificados y legajos' }
-        ];
-
-        let html = '<div class="p-2 text-[10px] uppercase font-bold tracking-wider text-purple-400 bg-purple-950/60 px-3 flex items-center gap-1.5"><i class="fa-solid fa-fire text-amber-400"></i> Sectores frecuentes</div>';
-        frequent.forEach((item, idx) => {
-          const icon = getRoomIcon(item.name, item.desc);
-          html += `
-            <div onclick="selectRoomFromSearch('${escapeJs(item.name)}', '${escapeJs(item.desc)}', ${item.floor})"
-              class="search-item px-3 py-2 flex items-center justify-between cursor-pointer hover:bg-purple-900/40 transition gap-2"
-              data-idx="${idx}">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-7 h-7 rounded-lg bg-purple-900/60 border border-purple-700/50 flex items-center justify-center flex-shrink-0 text-xs">
-                  <i class="${icon}"></i>
-                </div>
-                <div class="min-w-0">
-                  <div class="text-xs font-bold text-white truncate">${escapeHtml(item.name)}</div>
-                  <div class="text-[10px] text-purple-300/80 truncate">${escapeHtml(item.desc)}</div>
-                </div>
-              </div>
-              <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-900/80 text-purple-200 border border-purple-500/30 font-mono">${item.floorTitle}</span>
-            </div>
-          `;
-        });
-        dropdown.innerHTML = html;
-        dropdown.classList.remove('hidden');
-        activeResultIndex = -1;
-      } else {
-        handleSearchInput();
-      }
-    }
-
-    function handleSearchInput() {
-      const input = document.getElementById('room-search-input');
-      const clearBtn = document.getElementById('search-clear-btn');
-      const dropdown = document.getElementById('search-results-dropdown');
-      const q = input.value.trim();
-
-      if (!q) {
-        clearBtn.classList.add('hidden');
-        resetMapHighlights();
-        handleSearchFocus();
-        return;
-      }
-
-      clearBtn.classList.remove('hidden');
-      const normQ = normalizeText(q);
-
-      // Score and rank matches
-      const matches = [];
-      allCampusRooms.forEach(room => {
-        const normName = normalizeText(room.name);
-        const normDesc = normalizeText(room.description);
-        const normKw = normalizeText(room.keywords);
-        const normFloor = normalizeText(room.floorTitle);
-
-        let score = 0;
-        if (normName === normQ) score += 120;
-        else if (normName.startsWith(normQ)) score += 90;
-        else if (normName.includes(normQ)) score += 70;
-
-        if (normKw.includes(normQ)) score += 45;
-        if (normDesc.includes(normQ)) score += 30;
-        if (normFloor.includes(normQ)) score += 15;
-
-        if (score > 0) {
-          matches.push({ ...room, score });
-        }
-      });
-
-      matches.sort((a, b) => b.score - a.score);
-
-      // Render Dropdown
-      if (matches.length === 0) {
-        dropdown.innerHTML = `
-          <div class="p-4 text-center text-xs text-purple-300">
-            <i class="fa-solid fa-circle-question text-purple-400 text-lg mb-1.5 block"></i>
-            No se encontraron aulas o sectores para "<span class="text-white font-semibold">${escapeHtml(q)}</span>"
-          </div>
-        `;
-      } else {
-        let html = `<div class="p-2 text-[10px] uppercase font-bold tracking-wider text-purple-400 bg-purple-950/60 px-3 flex items-center justify-between">
-          <span>Resultados (${matches.length})</span>
-          <span class="text-[9px] text-purple-300 font-normal">Tocá para ir directamente</span>
-        </div>`;
-        matches.slice(0, 10).forEach((item, idx) => {
-          const icon = getRoomIcon(item.name, item.description);
-          html += `
-            <div onclick="selectRoomFromSearch('${escapeJs(item.name)}', '${escapeJs(item.description)}', ${item.floor})"
-              class="search-item px-3 py-2 flex items-center justify-between cursor-pointer hover:bg-purple-900/40 transition gap-2"
-              data-idx="${idx}">
-              <div class="flex items-center gap-2.5 min-w-0">
-                <div class="w-7 h-7 rounded-lg bg-purple-900/60 border border-purple-700/50 flex items-center justify-center flex-shrink-0 text-xs">
-                  <i class="${icon}"></i>
-                </div>
-                <div class="min-w-0">
-                  <div class="text-xs font-bold text-white truncate">${escapeHtml(item.name)}</div>
-                  <div class="text-[10px] text-purple-300/80 truncate">${escapeHtml(item.description)}</div>
-                </div>
-              </div>
-              <span class="flex-shrink-0 px-2 py-0.5 rounded-full text-[9px] font-bold bg-purple-900/80 text-purple-200 border border-purple-500/30 font-mono">${item.floorTitle}</span>
-            </div>
-          `;
-        });
-        dropdown.innerHTML = html;
-      }
-      dropdown.classList.remove('hidden');
-      activeResultIndex = -1;
-
-      // Also filter on current floor blueprint if active
-      if (currentView === 'floor') {
-        filterCurrentFloorSvg(normQ);
-      }
-    }
-
-    function handleSearchKeydown(e) {
-      const dropdown = document.getElementById('search-results-dropdown');
-      if (dropdown.classList.contains('hidden')) return;
-
-      const items = dropdown.querySelectorAll('.search-item');
-      if (items.length === 0) return;
-
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        activeResultIndex = (activeResultIndex + 1) % items.length;
-        updateActiveDropdownItem(items);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        activeResultIndex = (activeResultIndex - 1 + items.length) % items.length;
-        updateActiveDropdownItem(items);
-      } else if (e.key === 'Enter') {
-        e.preventDefault();
-        if (activeResultIndex >= 0 && items[activeResultIndex]) {
-          items[activeResultIndex].click();
-        } else if (items[0]) {
-          items[0].click();
-        }
-      } else if (e.key === 'Escape') {
-        dropdown.classList.add('hidden');
-      }
-    }
-
-    function updateActiveDropdownItem(items) {
-      items.forEach((it, i) => {
-        if (i === activeResultIndex) {
-          it.classList.add('bg-purple-800/80');
-          it.scrollIntoView({ block: 'nearest' });
-        } else {
-          it.classList.remove('bg-purple-800/80');
-        }
-      });
-    }
-
-    function clearSearch() {
-      const input = document.getElementById('room-search-input');
-      input.value = '';
-      document.getElementById('search-clear-btn').classList.add('hidden');
-      document.getElementById('search-results-dropdown').classList.add('hidden');
-      resetMapHighlights();
-      input.focus();
-    }
-
-    function selectRoomFromSearch(roomName, roomDesc, floorNum) {
-      const input = document.getElementById('room-search-input');
-      input.value = roomName;
-      document.getElementById('search-clear-btn').classList.remove('hidden');
-      document.getElementById('search-results-dropdown').classList.add('hidden');
-
-      // Navigate to floor
-      activeFloor = floorNum;
-      renderFloorMap(floorNum);
-
-      if (currentView !== 'floor') {
-        switchMainView('floor');
-      }
-
-      selectRoom(roomName, roomDesc);
-      highlightSpecificRoomInSvg(roomName);
-
-      // Smooth scroll to blueprint
-      const viewport = document.getElementById('viewport');
-      if (viewport) {
-        viewport.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-    function filterCurrentFloorSvg(normQ) {
-      const rooms = document.querySelectorAll('#svg-map-wrapper .blueprint-room');
-      const labels = document.querySelectorAll('#svg-map-wrapper text');
-
-      let anyMatch = false;
-
-      rooms.forEach(el => {
-        const oc = el.getAttribute('onclick') || '';
-        const normOc = normalizeText(oc);
-        if (normOc.includes(normQ)) {
-          el.classList.add('room-matched');
-          el.classList.remove('room-dimmed');
-          anyMatch = true;
-        } else {
-          el.classList.remove('room-matched');
-          el.classList.add('room-dimmed');
-        }
-      });
-
-      labels.forEach(lbl => {
-        const text = lbl.textContent.trim();
-        if (!text) return;
-        const normText = normalizeText(text);
-        if (normText.includes(normQ)) {
-          lbl.style.fill = '#facc15';
-          lbl.style.fontWeight = 'bold';
-        } else {
-          lbl.style.fill = 'rgba(255,255,255,0.2)';
-        }
-      });
-    }
-
-    function resetMapHighlights() {
-      const rooms = document.querySelectorAll('#svg-map-wrapper .blueprint-room');
-      rooms.forEach(el => {
-        el.classList.remove('room-matched', 'room-dimmed', 'room-active-highlight');
-      });
-
-      const labels = document.querySelectorAll('#svg-map-wrapper text');
-      labels.forEach(lbl => {
-        lbl.style.fill = '#ffffff';
-        lbl.style.fontWeight = '600';
-      });
-    }
-
-    function highlightSpecificRoomInSvg(roomName) {
-      resetMapHighlights();
-
-      const normTarget = normalizeText(roomName);
-      const rooms = document.querySelectorAll('#svg-map-wrapper .blueprint-room');
-      rooms.forEach(el => {
-        const oc = el.getAttribute('onclick') || '';
-        const normOc = normalizeText(oc);
-        if (normOc.includes(normTarget)) {
-          el.classList.add('room-active-highlight');
-        }
-      });
-
-      const labels = document.querySelectorAll('#svg-map-wrapper text');
-      labels.forEach(lbl => {
-        const text = lbl.textContent.trim();
-        if (text && normTarget.includes(normalizeText(text))) {
-          lbl.style.fill = '#facc15';
-          lbl.style.fontWeight = 'bold';
-        }
-      });
-    }
-
-    // ==========================================
-    // DIRECTORIO DE DEPARTAMENTOS Y SECRETARÍAS (Datos.md)
-    // ==========================================
-    const departmentDirectory = [
-      {
-        id: 'alumnado',
-        aliases: ['alumnado', 'departamento alumnos', 'oficina de alumnado', 'legajos', 'actas', 'titulos'],
-        title: 'Departamento Alumnos',
-        subtitle: 'Trámites de inscripciones, certificados, legajos y títulos',
-        category: 'Gestión Estudiantil',
-        categoryColor: 'bg-blue-900/80 text-blue-200 border-blue-500/40',
-        icon: 'fa-solid fa-id-card text-blue-400',
-        floor: 0,
-        floorBadge: 'PB',
-        floorName: 'Planta Baja',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - Planta Baja',
-        sections: [
-          {
-            title: 'Departamento Alumnos (Información general / trámites)',
-            email: 'depto.alumnos@frro.utn.edu.ar',
-            schedules: [
-              { days: 'Lunes a Jueves', hours: '09:00 a 12:00 hs y 17:00 a 20:00 hs' }
-            ],
-            notes: 'Inscripciones a materias y exámenes, constancias de examen, certificados de alumno regular y trámites de legajo.'
-          },
-          {
-            title: 'Área Legajos y Actas',
-            email: 'legajosyactas@frro.utn.edu.ar',
-            schedules: [
-              { days: 'Lunes a Viernes', hours: '09:00 a 12:00 hs y 14:00 a 19:00 hs' }
-            ],
-            notes: 'Gestión de actas de exámenes finales, convalidaciones de asignaturas y actualización de legajos.'
-          },
-          {
-            title: 'Departamento Títulos y Egresados (Dirección Académica)',
-            schedules: [
-              { days: 'Jueves', hours: '16:00 a 19:30 hs (Sin turno previo)' }
-            ],
-            notes: 'Trámite de retiro y presentación de títulos y certificados analíticos legalizados.'
-          }
-        ]
-      },
-      {
-        id: 'sau',
-        aliases: ['secretaria asuntos universitarios (sau)', 'sau', 'secretaria asuntos universitarios', 'asuntos universitarios'],
-        title: 'Secretaría de Asuntos Universitarios (SAU)',
-        subtitle: 'Becas, pasantías, deportes, tutorías y atención gremial estudiantil',
-        category: 'Secretaría Central',
-        categoryColor: 'bg-purple-900/80 text-purple-200 border-purple-500/40',
-        icon: 'fa-solid fa-graduation-cap text-purple-400',
-        floor: 1,
-        floorBadge: '1° Piso',
-        floorName: '1° Piso (Ala Sur-Oeste)',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 1° Piso, Ala Sur-Oeste',
-        sections: [
-          {
-            title: 'Atención General SAU',
-            schedules: [
-              { days: 'Lunes a Viernes', hours: '09:00 a 13:00 hs y 15:00 a 20:00 hs' }
-            ],
-            notes: 'Asistencia al estudiante, actividades deportivas, bienestar universitario y atención gremial.'
-          },
-          {
-            title: 'Bolsa de Trabajo y Gestión de Becas',
-            schedules: [
-              { days: 'Lunes a Viernes', hours: '09:00 a 13:00 hs y 17:00 a 21:00 hs' }
-            ],
-            notes: 'Consultas sobre becas universitarias (Manuel Belgrano, Progresar, UTN), pasantías y búsquedas laborales.'
-          }
-        ]
-      },
-      {
-        id: 'sistemas',
-        aliases: ['departamento de sistemas', 'departamento sistemas', 'ingenieria en sistemas', 'sistemas de informacion', 'isi'],
-        title: 'Departamento de Ingeniería en Sistemas de Información',
-        subtitle: 'Dirección de carrera, cátedras y laboratorios de software (ISI Investiga)',
-        category: 'Departamento Académico',
-        categoryColor: 'bg-indigo-900/80 text-indigo-200 border-indigo-500/40',
-        icon: 'fa-solid fa-laptop-code text-indigo-400',
-        floor: 5,
-        floorBadge: '5° Piso',
-        floorName: '5° Piso',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 5° Piso',
-        sections: [
-          {
-            title: 'Área Laboratorios / ISI Investiga',
-            email: 'encargadossistemas@frro.utn.edu.ar',
-            schedules: [
-              { days: 'Lunes a Viernes', hours: '07:00 a 23:50 hs' }
-            ],
-            notes: 'Horario ininterrumpido de funcionamiento de laboratorios para cursado y prácticas. Reserva de laboratorios vía correo institucional.'
-          },
-          {
-            title: 'Dirección de Carrera y Cátedras',
-            notes: 'Coordinación académica de Ingeniería en Sistemas, correlatividades, equivalencias y consultas docentes.'
-          }
-        ]
-      },
-      {
-        id: 'civil',
-        aliases: ['departamento civil', 'departamento de civil', 'ingenieria civil', 'departamento ingenieria civil'],
-        title: 'Departamento de Ingeniería Civil',
-        subtitle: 'Dirección del Departamento de Ingeniería Civil y cátedras técnicas',
-        category: 'Departamento Académico',
-        categoryColor: 'bg-amber-900/80 text-amber-200 border-amber-500/40',
-        icon: 'fa-solid fa-trowel-bricks text-amber-400',
-        floor: 4,
-        floorBadge: '4° Piso',
-        floorName: '4° Piso (Ala Oeste)',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 4° Piso',
-        sections: [
-          {
-            title: 'Atención y Dirección de Carrera',
-            email: 'civil@frro.utn.edu.ar',
-            notes: 'Consultas sobre cursado y coordinación de la carrera de Ingeniería Civil. Las consultas específicas de cátedra se canalizan por email institucional o conmutador general.'
-          }
-        ]
-      },
-      {
-        id: 'mecanica',
-        aliases: ['departamento mecanica', 'departamento de mecanica', 'ingenieria mecanica'],
-        title: 'Departamento de Ingeniería Mecánica',
-        subtitle: 'Dirección de carrera, proyectos de diseño mecánico y consultas docentes',
-        category: 'Departamento Académico',
-        categoryColor: 'bg-orange-900/80 text-orange-200 border-orange-500/40',
-        icon: 'fa-solid fa-gears text-orange-400',
-        floor: 2,
-        floorBadge: '2° Piso',
-        floorName: '2° Piso',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 2° Piso',
-        pendingNotice: 'Horarios específicos de atención docente/alumno en proceso de actualización institucional.',
-        sections: [
-          {
-            title: 'Dirección de Carrera de Ingeniería Mecánica',
-            notes: 'Dirección de cátedras y proyectos mecánicos. Podés coordinar consultas a través del conmutador central o acercarte a la bedelía del 2° piso.'
-          }
-        ]
-      },
-      {
-        id: 'quimica',
-        aliases: ['departamento quimica', 'departamento de quimica', 'ingenieria quimica'],
-        title: 'Departamento de Ingeniería Química',
-        subtitle: 'Dirección de la carrera de Ingeniería Química y coordinación de laboratorios',
-        category: 'Departamento Académico',
-        categoryColor: 'bg-rose-900/80 text-rose-200 border-rose-500/40',
-        icon: 'fa-solid fa-flask-vial text-rose-400',
-        floor: 3,
-        floorBadge: '3° Piso',
-        floorName: '3° Piso',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 3° Piso',
-        pendingNotice: 'Horarios específicos de ventanilla en proceso de actualización institucional.',
-        sections: [
-          {
-            title: 'Dirección de Carrera y Cátedras',
-            notes: 'Cátedras de operaciones unitarias, reactores y laboratorios químicos. Consultas a través del conmutador general de la facultad.'
-          }
-        ]
-      },
-      {
-        id: 'electrica',
-        aliases: ['departamento electrica', 'departamento de electrica', 'ingenieria electrica', 'energia electrica'],
-        title: 'Departamento de Ingeniería en Energía Eléctrica',
-        subtitle: 'Oficinas docentes, dirección de cátedra, ensayos de máquinas y alta tensión',
-        category: 'Departamento Académico',
-        categoryColor: 'bg-yellow-900/80 text-yellow-200 border-yellow-500/40',
-        icon: 'fa-solid fa-bolt text-yellow-400',
-        floor: -1,
-        floorBadge: 'SS',
-        floorName: 'Subsuelo (Ala Este)',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - Subsuelo',
-        pendingNotice: 'Horarios específicos de atención presencial en proceso de actualización institucional.',
-        sections: [
-          {
-            title: 'Oficinas Docentes y Dirección de Cátedra',
-            notes: 'Coordinación de laboratorios de ensayos eléctricos y máquinas. Podés consultar a través de la bedelía del subsuelo o el conmutador central.'
-          }
-        ]
-      },
-      {
-        id: 'basicas',
-        aliases: ['ciencias basicas', 'materias basicas', 'departamento de materias basicas'],
-        title: 'Departamento de Materias Básicas',
-        subtitle: 'Cátedras de Álgebra, Análisis Matemático, Física General y Química',
-        category: 'Departamento Académico',
-        categoryColor: 'bg-teal-900/80 text-teal-200 border-teal-500/40',
-        icon: 'fa-solid fa-atom text-teal-400',
-        floor: 4,
-        floorBadge: '4° Piso',
-        floorName: '4° Piso',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 4° Piso',
-        pendingNotice: 'Horarios de consulta de cátedras en actualización institucional para el ciclo lectivo.',
-        sections: [
-          {
-            title: 'Coordinación de Ciclo Básico',
-            notes: 'Cátedras del ciclo común a todas las carreras de ingeniería. Consultas canalizadas por cada equipo docente o vía conmutador.'
-          }
-        ]
-      },
-      {
-        id: 'secyt',
-        aliases: ['secyt', 'secretaria de ciencia y tecnologia', 'secretaria ciencia y tecnologia', 'investigacion'],
-        title: 'Secretaría de Ciencia y Tecnología (SeCyT)',
-        subtitle: 'Gestión de proyectos de investigación, becas científicas y convocatorias I+D',
-        category: 'Secretaría Central',
-        categoryColor: 'bg-violet-900/80 text-violet-200 border-violet-500/40',
-        icon: 'fa-solid fa-microscope text-violet-400',
-        floor: 1,
-        floorBadge: '1° Piso',
-        floorName: '1° Piso / Edificio Central',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341',
-        sections: [
-          {
-            title: 'Gestión de Proyectos / Investigación',
-            email: 'secyt.frro@gmail.com',
-            notes: 'Recepción de proyectos de investigación homologados, asesoramiento en becas doctorales e incentivos a docentes investigadores.'
-          }
-        ]
-      },
-      {
-        id: 'pae',
-        aliases: ['programa apoyo estudiantil (pae)', 'pae', 'apoyo estudiantil'],
-        title: 'Programa de Apoyo Estudiantil (PAE)',
-        subtitle: 'Tutorías personalizadas, orientación vocacional y acompañamiento',
-        category: 'Acompañamiento Académico',
-        categoryColor: 'bg-emerald-900/80 text-emerald-200 border-emerald-500/40',
-        icon: 'fa-solid fa-hands-holding-child text-emerald-400',
-        floor: 4,
-        floorBadge: '4° Piso',
-        floorName: '4° Piso',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 4° Piso',
-        sections: [
-          {
-            title: 'Orientación y Tutorías Pedagógicas',
-            notes: 'Acompañamiento en el proceso de inserción y permanencia universitaria, tutorías académicas y contención estudiantil.'
-          }
-        ]
-      },
-      {
-        id: 'bedelia-ss',
-        aliases: ['bedelia subsuelo', 'bedelia ss'],
-        title: 'Bedelía de Subsuelo',
-        subtitle: 'Atención de cursado para Eléctrica y Electrónica',
-        category: 'Bedelía',
-        categoryColor: 'bg-sky-900/80 text-sky-200 border-sky-500/40',
-        icon: 'fa-solid fa-clipboard-user text-sky-400',
-        floor: -1,
-        floorBadge: 'SS',
-        floorName: 'Subsuelo',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - Subsuelo',
-        sections: [
-          {
-            title: 'Gestión de Cursado y Aulas',
-            notes: 'Asistencia y control de aulas, llaves de laboratorios y registro de docentes de las carreras del subsuelo.'
-          }
-        ]
-      },
-      {
-        id: 'bedelia-2p',
-        aliases: ['bedelia 2° piso', 'bedelia 2 piso', 'bedelia 2p'],
-        title: 'Bedelía de 2° Piso',
-        subtitle: 'Gestión de aulas y asistencia de docentes de Mecánica',
-        category: 'Bedelía',
-        categoryColor: 'bg-sky-900/80 text-sky-200 border-sky-500/40',
-        icon: 'fa-solid fa-clipboard-user text-sky-400',
-        floor: 2,
-        floorBadge: '2° Piso',
-        floorName: '2° Piso',
-        phone: '(0341) 448-0102',
-        address: 'Zeballos 1341 - 2° Piso',
-        sections: [
-          {
-            title: 'Gestión de Aulas de Mecánica',
-            notes: 'Control y asignación de aulas, asistencia docente y equipamiento para las cátedras del 2° piso.'
-          }
-        ]
-      }
-    ];
-
-    function findDepartmentData(queryName) {
-      if (!queryName) return null;
-      const normQ = normalizeText(queryName);
-
-      // 1. Direct or alias match
-      for (const dept of departmentDirectory) {
-        if (normalizeText(dept.title) === normQ || dept.id === normQ) {
-          return dept;
-        }
-        for (const alias of dept.aliases) {
-          const normAlias = normalizeText(alias);
-          if (normQ === normAlias || normQ.includes(normAlias) || normAlias.includes(normQ)) {
-            return dept;
-          }
-        }
-      }
-      return null;
-    }
-
-    function openDeptModal(dept) {
-      if (!dept) return;
-
-      const modal = document.getElementById('dept-info-modal');
-      const card = document.getElementById('dept-modal-card');
-      const title = document.getElementById('dept-modal-title');
-      const subtitle = document.getElementById('dept-modal-subtitle');
-      const category = document.getElementById('dept-modal-category');
-      const floorBadge = document.getElementById('dept-modal-floor');
-      const floorText = document.getElementById('dept-modal-floor-text');
-      const icon = document.getElementById('dept-modal-icon');
-      const body = document.getElementById('dept-modal-body');
-
-      // Populate header info
-      title.innerText = dept.title;
-      subtitle.innerText = dept.subtitle || '';
-      category.innerText = dept.category;
-      category.className = `px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase font-mono border ${dept.categoryColor || 'bg-purple-900/80 text-purple-200 border-purple-500/40'}`;
-      floorText.innerText = dept.floorName || (dept.floorBadge + ' Piso');
-      icon.className = dept.icon || 'fa-solid fa-building-columns';
-
-      // Build body content
-      let html = '';
-
-      // Switchboard & Location quick strip
-      html += `
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 p-2.5 rounded-xl bg-purple-950/40 border border-purple-800/30">
-          <div class="flex items-center justify-between gap-2 p-1.5 rounded-lg bg-purple-900/30 border border-purple-800/40">
-            <div class="flex items-center gap-2 min-w-0">
-              <div class="w-7 h-7 rounded-lg bg-purple-900/60 flex items-center justify-center text-purple-300 text-xs flex-shrink-0">
-                <i class="fa-solid fa-phone"></i>
-              </div>
-              <div class="min-w-0">
-                <div class="text-[9px] text-purple-300/80 font-bold uppercase tracking-wider">Conmutador</div>
-                <div class="text-xs font-bold text-white font-mono truncate">(0341) 448-0102</div>
-              </div>
-            </div>
-            <div class="flex items-center gap-1 flex-shrink-0">
-              <button type="button" onclick="copyEmail('(0341) 448-0102', this)" title="Copiar número"
-                class="px-2 py-1 rounded bg-purple-900/80 hover:bg-purple-800 text-[10px] text-purple-200 border border-purple-500/40 flex items-center gap-1 transition shadow-sm">
-                <i class="fa-regular fa-copy"></i>
-                <span>Copiar</span>
-              </button>
-              <a href="tel:03414480102" onclick="return confirmCall(event, '(0341) 448-0102')" title="Llamar al conmutador"
-                class="px-2 py-1 rounded bg-upl-accent hover:bg-purple-600 text-[10px] text-white flex items-center gap-1 transition shadow font-semibold">
-                <i class="fa-solid fa-phone text-[9px]"></i>
-                <span>Llamar</span>
-              </a>
-            </div>
-          </div>
-          <div class="flex items-center gap-2.5 p-1.5 rounded-lg bg-purple-900/30 border border-purple-800/40 min-w-0">
-            <div class="w-7 h-7 rounded-lg bg-purple-900/60 flex items-center justify-center text-purple-300 text-xs flex-shrink-0">
-              <i class="fa-solid fa-map-pin"></i>
-            </div>
-            <div class="min-w-0">
-              <div class="text-[9px] text-purple-300/80 font-bold uppercase tracking-wider">Ubicación campus</div>
-              <div class="text-xs font-bold text-white truncate">${escapeHtml(dept.floorName)}</div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      // Pending official update notice if applicable
-      if (dept.pendingNotice) {
-        html += `
-          <div class="p-3 rounded-xl bg-amber-950/30 border border-amber-500/40 flex items-start gap-2.5 text-xs text-amber-200">
-            <i class="fa-solid fa-circle-info text-amber-400 text-sm mt-0.5 flex-shrink-0"></i>
-            <div class="space-y-1">
-              <div class="font-bold text-amber-300">Horarios en actualización institucional</div>
-              <div class="text-[11px] text-amber-200/90 leading-relaxed">
-                ${escapeHtml(dept.pendingNotice)} Podés comunicarte al conmutador <a href="tel:03414480102" onclick="return confirmCall(event, '(0341) 448-0102')" class="font-mono font-bold text-white underline hover:text-amber-200">(0341) 448-0102</a> o consultar de forma presencial en bedelía.
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      // Render each specific section / area
-      if (dept.sections && dept.sections.length > 0) {
-        dept.sections.forEach(sec => {
-          html += `
-            <div class="p-3.5 rounded-xl bg-gradient-to-b from-[#240e3b] to-[#1a0a2c] border border-purple-800/40 space-y-2.5 shadow-sm">
-              <div class="flex items-center gap-2">
-                <i class="fa-solid fa-folder-open text-purple-400 text-xs"></i>
-                <h4 class="text-xs font-bold text-white tracking-wide">${escapeHtml(sec.title)}</h4>
-              </div>
-          `;
-
-          // Schedules
-          if (sec.schedules && sec.schedules.length > 0) {
-            html += `
-              <div class="space-y-1.5 pt-1">
-                <div class="text-[10px] font-bold uppercase tracking-wider text-amber-300 flex items-center gap-1.5">
-                  <i class="fa-solid fa-clock text-amber-400 text-xs"></i>
-                  <span>Horarios de atención</span>
-                </div>
-                <div class="space-y-1">
-            `;
-            sec.schedules.forEach(sch => {
-              html += `
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 p-2 rounded-lg bg-[#19092c] border border-purple-800/30">
-                  <span class="font-semibold text-purple-200 text-xs flex items-center gap-1.5">
-                    <i class="fa-solid fa-calendar-day text-purple-400 text-[10px]"></i>
-                    ${escapeHtml(sch.days)}
-                  </span>
-                  <span class="font-mono font-bold text-amber-200 bg-amber-950/60 px-2 py-0.5 rounded text-[11px] border border-amber-600/30 self-start sm:self-auto">
-                    ${escapeHtml(sch.hours)}
-                  </span>
-                </div>
-              `;
-            });
-            html += `
-                </div>
-              </div>
-            `;
-          }
-
-          // Email direct actions
-          if (sec.email) {
-            html += `
-              <div class="p-2.5 rounded-lg bg-[#18082a] border border-purple-700/50 flex flex-wrap items-center justify-between gap-2 mt-2">
-                <div class="flex items-center gap-2 min-w-0">
-                  <i class="fa-solid fa-envelope text-purple-400 text-sm"></i>
-                  <span class="font-mono text-xs text-purple-100 font-medium truncate">${escapeHtml(sec.email)}</span>
-                </div>
-                <div class="flex items-center gap-1.5 flex-shrink-0">
-                  <button type="button" onclick="copyEmail('${escapeJs(sec.email)}', this)"
-                    class="px-2.5 py-1 rounded-md bg-purple-900/80 hover:bg-purple-800 text-[11px] font-semibold text-purple-200 border border-purple-500/40 flex items-center gap-1 transition shadow-sm">
-                    <i class="fa-regular fa-copy text-[10px]"></i>
-                    <span>Copiar</span>
-                  </button>
-                  <a href="mailto:${escapeHtml(sec.email)}"
-                    class="px-2.5 py-1 rounded-md bg-upl-accent hover:bg-purple-600 text-[11px] font-semibold text-white shadow flex items-center gap-1 transition">
-                    <i class="fa-solid fa-paper-plane text-[9px]"></i>
-                    <span>Escribir</span>
-                  </a>
-                </div>
-              </div>
-            `;
-          }
-
-          // Descriptive notes
-          if (sec.notes) {
-            html += `
-              <div class="text-[11px] text-purple-200/90 leading-relaxed bg-[#140624]/60 p-2.5 rounded-lg border border-purple-900/40 flex items-start gap-2">
-                <i class="fa-solid fa-circle-check text-purple-400 text-xs mt-0.5 flex-shrink-0"></i>
-                <span>${escapeHtml(sec.notes)}</span>
-              </div>
-            `;
-          }
-
-          html += `</div>`;
-        });
-      }
-
-      // Bottom link: Ver en el plano
-      if (dept.floor !== undefined) {
-        html += `
-          <div class="pt-1 flex items-center justify-between text-[11px] text-purple-300/80 border-t border-purple-900/40 mt-1">
-            <span>Sede Zeballos 1341, Rosario</span>
-            <button type="button" onclick="viewDeptOnFloor(${dept.floor}, '${escapeJs(dept.title)}')"
-              class="text-purple-300 hover:text-white font-semibold flex items-center gap-1.5 transition hover:underline">
-              <i class="fa-solid fa-map-location-dot text-upl-highlight"></i>
-              <span>Localizar en el plano</span>
-            </button>
-          </div>
-        `;
-      }
-
-      body.innerHTML = html;
-
-      // Show modal with animation
-      modal.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
-      requestAnimationFrame(() => {
-        modal.classList.remove('opacity-0');
-        card.classList.remove('scale-95');
-        card.classList.add('scale-100');
-      });
-    }
-
-    function closeDeptModal() {
-      const modal = document.getElementById('dept-info-modal');
-      const card = document.getElementById('dept-modal-card');
-      if (!modal) return;
-
-      modal.classList.add('opacity-0');
-      card.classList.remove('scale-100');
-      card.classList.add('scale-95');
-
-      setTimeout(() => {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-      }, 200);
-    }
-
-    function viewDeptOnFloor(floorNum, roomName) {
-      closeDeptModal();
-      activeFloor = floorNum;
-      renderFloorMap(floorNum);
-      if (currentView !== 'floor') {
-        switchMainView('floor');
-      }
-      highlightSpecificRoomInSvg(roomName);
-
-      const viewport = document.getElementById('viewport');
-      if (viewport) {
-        viewport.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-
-    function copyEmail(email, btnEl) {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(email).then(() => {
-          showCopyFeedback(btnEl);
-        }).catch(() => fallbackCopy(email, btnEl));
-      } else {
-        fallbackCopy(email, btnEl);
-      }
-    }
-
-    function fallbackCopy(text, btnEl) {
-      try {
-        const temp = document.createElement('textarea');
-        temp.value = text;
-        document.body.appendChild(temp);
-        temp.select();
-        document.execCommand('copy');
-        document.body.removeChild(temp);
-        showCopyFeedback(btnEl);
-      } catch (err) {
-        alert('Correo: ' + text);
-      }
-    }
-
-    function showCopyFeedback(btnEl) {
-      if (!btnEl) return;
-      const origHtml = btnEl.innerHTML;
-      btnEl.innerHTML = '<i class="fa-solid fa-check text-emerald-400"></i> <span class="text-emerald-300">¡Copiado!</span>';
-      btnEl.classList.add('border-emerald-500/60', 'bg-emerald-950/60');
-      setTimeout(() => {
-        btnEl.innerHTML = origHtml;
-        btnEl.classList.remove('border-emerald-500/60', 'bg-emerald-950/60');
-      }, 2000);
-    }
-
-    function confirmCall(e, phoneStr) {
-      const ok = confirm(`¿Deseás abrir la aplicación de llamadas para comunicarte con el conmutador ${phoneStr}?`);
-      if (!ok) {
-        if (e && e.preventDefault) e.preventDefault();
-        return false;
-      }
-      return true;
-    }
-
-    function selectRoom(name, description) {
-      highlightSpecificRoomInSvg(name);
-
-      // Check if this room has department/secretaría contact info
-      const deptData = findDepartmentData(name);
-      if (deptData) {
-        openDeptModal(deptData);
-      }
-    }
-
-    function filterRoomsOnMap() {
-      handleSearchInput();
-    }
-
-    function highlightElevatorPath() {
-      // Removed per user request
-    }
-
-    function closeModal() {
-      closeDeptModal();
-    }
-
-    // Keyboard navigation (Escape to close modal)
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        const modal = document.getElementById('dept-info-modal');
-        if (modal && !modal.classList.contains('hidden')) {
-          closeDeptModal();
-        }
-      }
-    });
-
-    function shareCampusMap() {
-      if (navigator.share) {
-        navigator.share({
-          title: 'UTN FRRO Rosario - Mapa Interactivo UPL',
-          text: 'Plano interactivo del campus de la UTN Facultad Regional Rosario por piso.',
-          url: window.location.href
-        }).catch(() => { });
-      } else {
-        alert('Enlace del mapa copiado al portapapeles.');
-      }
-    }
-
-    // Close search dropdown on click outside
-    document.addEventListener('click', (e) => {
-      const container = document.getElementById('global-search-container');
-      if (container && !container.contains(e.target)) {
-        document.getElementById('search-results-dropdown')?.classList.add('hidden');
-      }
-    });
-
-    // Initialize Default View and build search index
-    window.addEventListener('DOMContentLoaded', () => {
-      buildCampusRoomsIndex();
-      renderFloorMap(0);
-    });
-  </script>
 </body>
 
 </html>
