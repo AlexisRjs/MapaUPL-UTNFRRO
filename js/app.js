@@ -10,7 +10,7 @@ import { floorData, departmentDirectory } from './data.js';
 // Application State
 const state = {
   activeFloor: 0, // 0 = PB, -1 = SS, 1..5
-  currentView: 'floor', // 'floor', 'building', 'directory', 'info'
+  currentView: 'floor', // 'floor', 'building', 'directory', 'info', 'aulas'
   zoomScale: 1.0,
   activeRoomName: null,
   activeCategoryFilter: 'todos',
@@ -26,7 +26,8 @@ const dom = {
     floor: document.getElementById('view-floor'),
     building: document.getElementById('view-building'),
     directory: document.getElementById('view-directory'),
-    info: document.getElementById('view-info')
+    info: document.getElementById('view-info'),
+    aulas: document.getElementById('view-aulas')
   },
   // Navigation
   navButtons: document.querySelectorAll('.nav-item'),
@@ -716,6 +717,199 @@ function renderDirectoryView(categoryFilter = 'todos') {
   });
 }
 
+// --- Distribución de Aulas View ---
+const aulasDistData = {
+  manana: [
+    {
+      carrera: 'ISI',
+      rows: [
+        { comision: '1°01', aula: '303' },
+        { comision: '1°02', aula: 'SUM' },
+        { comision: '1°03', aula: '211' },
+        { comision: '1°04', aula: '210' },
+        { comision: '1°05', aula: '217' },
+        { comision: '1°06', aula: '405' },
+        { comision: '1°07', aula: '308' },
+        { comision: '1°08', aula: '309' },
+        { comision: '1°09', aula: '410' },
+        { comision: '2°01', aula: '219' },
+        { comision: '2°02', aula: '202' },
+        { comision: '2°03', aula: '109' },
+        { comision: '2°04', aula: '204' },
+        { comision: '2°05', aula: '201' },
+        { comision: '3°01', aula: '212' },
+        { comision: '3°02', aula: '111' },
+        { comision: '3°03', aula: '401' },
+        { comision: '4°01', aula: '213' },
+        { comision: '4°02', aula: '501' },
+        { comision: '5°01', aula: '402' },
+      ]
+    },
+    {
+      carrera: 'IQ',
+      rows: [
+        { comision: '1°01', aula: 'ANFI' },
+        { comision: '2°01', aula: '301' },
+      ]
+    }
+  ],
+  tarde: [
+    {
+      carrera: 'ISI',
+      rows: [
+        { comision: '1°10', aula: '308' },
+        { comision: '1°11', aula: '211' },
+        { comision: '1°12', aula: '309' },
+        { comision: '2°06', aula: '210' },
+        { comision: '2°07', aula: '410' },
+        { comision: '3°04', aula: '202' },
+        { comision: '4°03', aula: '501' },
+        { comision: '5°02', aula: '213' },
+      ]
+    },
+    {
+      carrera: 'IQ',
+      rows: [
+        { comision: '1°02', aula: '302' },
+        { comision: '1°03', aula: '301' },
+        { comision: '2°02', aula: '110' },
+        { comision: '3°01', aula: '204' },
+        { comision: '4°01', aula: '105' },
+      ]
+    },
+    {
+      carrera: 'IM',
+      rows: [
+        { comision: '1°01', aula: '201' },
+        { comision: '1°02', aula: 'SUM' },
+        { comision: '2°02', aula: '219' },
+      ]
+    },
+    {
+      carrera: 'IEE',
+      rows: [
+        { comision: '1°02', aula: '17' },
+        { comision: '2°02', aula: '16' },
+      ]
+    },
+    {
+      carrera: 'IC',
+      rows: [
+        { comision: '1°02', aula: '405' },
+        { comision: '1°03', aula: '109' },
+        { comision: '2°02', aula: '401' },
+        { comision: '3°02', aula: '403' },
+      ]
+    }
+  ],
+  noche: [
+    {
+      carrera: 'ISI',
+      rows: [
+        { comision: '1°13', aula: 'SUM' },
+        { comision: '2°08', aula: '211' },
+        { comision: '3°05', aula: '110' },
+        { comision: '4°04', aula: '501' },
+        { comision: '5°03', aula: '202' },
+      ]
+    },
+    {
+      carrera: 'IQ',
+      rows: [
+        { comision: '1°04', aula: '301' },
+        { comision: '2°03', aula: '302' },
+        { comision: '3°02', aula: '204' },
+        { comision: '4°02', aula: '111' },
+        { comision: '5°01', aula: '105' },
+      ]
+    },
+    {
+      carrera: 'IM',
+      rows: [
+        { comision: '1°03', aula: '308' },
+        { comision: '2°01', aula: '216' },
+        { comision: '3°01', aula: '212' },
+        { comision: '4°01', aula: '213' },
+        { comision: '5°01', aula: '215' },
+        { comision: '5°01T', aula: '215' },
+      ]
+    },
+    {
+      carrera: 'IEE',
+      rows: [
+        { comision: '1°01', aula: '17' },
+        { comision: '2°01', aula: '14' },
+        { comision: '3°01', aula: '13' },
+        { comision: '4°01', aula: '16' },
+        { comision: '5°01', aula: '12' },
+        { comision: '5°02', aula: '15' },
+      ]
+    },
+    {
+      carrera: 'IC',
+      rows: [
+        { comision: '1°01', aula: '405' },
+        { comision: '2°01', aula: '402' },
+        { comision: '3°01', aula: '403' },
+        { comision: '4°01', aula: '401' },
+        { comision: '5°01', aula: '410' },
+        { comision: '6°01', aula: 'LAB' },
+      ]
+    }
+  ]
+};
+
+const aulasCarreraColors = {
+  ISI: { bg: 'rgba(139,68,212,0.18)', border: 'rgba(168,85,247,0.45)', text: '#c084fc' },
+  IQ:  { bg: 'rgba(56,189,248,0.12)', border: 'rgba(56,189,248,0.4)', text: '#38bdf8' },
+  IM:  { bg: 'rgba(52,211,153,0.12)', border: 'rgba(52,211,153,0.4)', text: '#34d399' },
+  IEE: { bg: 'rgba(251,191,36,0.12)', border: 'rgba(251,191,36,0.4)', text: '#fbbf24' },
+  IC:  { bg: 'rgba(248,113,113,0.12)', border: 'rgba(248,113,113,0.4)', text: '#f87171' },
+};
+
+function renderAulasView() {
+  const turnos = ['manana', 'tarde', 'noche'];
+  turnos.forEach(turno => {
+    const panel = document.getElementById(`aulas-panel-${turno}`);
+    if (!panel) return;
+    const grupos = aulasDistData[turno];
+    let html = '';
+    grupos.forEach(grupo => {
+      const color = aulasCarreraColors[grupo.carrera] || { bg: 'rgba(255,255,255,0.06)', border: 'rgba(255,255,255,0.2)', text: '#fff' };
+      html += `
+        <div class="aulas-carrera-block" style="--aulas-bg:${color.bg}; --aulas-border:${color.border}; --aulas-text:${color.text};">
+          <div class="aulas-carrera-header">
+            <span class="aulas-carrera-badge" style="color:${color.text}; border-color:${color.border};">${escapeHtml(grupo.carrera)}</span>
+          </div>
+          <div class="aulas-rows-grid">
+            ${grupo.rows.map(r => `
+              <div class="aulas-row">
+                <span class="aulas-comision">${escapeHtml(r.comision)}</span>
+                <span class="aulas-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+                <span class="aulas-aula">${escapeHtml(r.aula)}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    });
+    panel.innerHTML = html;
+  });
+
+  // Tab switching inside the view
+  const tabs = document.querySelectorAll('.aulas-turno-tab');
+  tabs.forEach(tab => {
+    // Remove old listener by replacing node clone trick or use flag
+    tab.onclick = () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      const turno = tab.getAttribute('data-turno');
+      document.querySelectorAll('.aulas-turno-panel').forEach(p => p.classList.remove('active-panel'));
+      document.getElementById(`aulas-panel-${turno}`).classList.add('active-panel');
+    };
+  });
+}
+
 // --- Navigation / View Switching ---
 function switchView(viewName) {
   state.currentView = viewName;
@@ -748,6 +942,8 @@ function switchView(viewName) {
     renderBuildingView();
   } else if (viewName === 'directory') {
     renderDirectoryView(state.activeCategoryFilter);
+  } else if (viewName === 'aulas') {
+    renderAulasView();
   }
 }
 

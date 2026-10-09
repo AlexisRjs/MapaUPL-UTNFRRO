@@ -239,6 +239,39 @@
       </div>
     </section>
 
+    <!-- VIEW 5: Distribución de Aulas -->
+    <section id="view-aulas" class="view-container" aria-label="Distribución de Aulas">
+      <div class="aulas-dist-container">
+        <div class="aulas-dist-header">
+          <div class="aulas-dist-icon-wrap">
+            <i class="fa-solid fa-door-open"></i>
+          </div>
+          <div>
+            <h2 class="aulas-dist-title">Distribución de Aulas</h2>
+            <p class="aulas-dist-subtitle">Comisión → Aula asignada por turno</p>
+          </div>
+        </div>
+
+        <!-- Turno Tabs -->
+        <div class="aulas-turno-tabs" role="tablist">
+          <button type="button" class="aulas-turno-tab active" data-turno="manana" role="tab">🌅 Mañana</button>
+          <button type="button" class="aulas-turno-tab" data-turno="tarde" role="tab">☀️ Tarde</button>
+          <button type="button" class="aulas-turno-tab" data-turno="noche" role="tab">🌙 Noche</button>
+        </div>
+
+        <!-- Turno Panels -->
+        <div id="aulas-panel-manana" class="aulas-turno-panel active-panel">
+          <!-- populated by JS -->
+        </div>
+        <div id="aulas-panel-tarde" class="aulas-turno-panel">
+          <!-- populated by JS -->
+        </div>
+        <div id="aulas-panel-noche" class="aulas-turno-panel">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Mobile Bottom Navigation Bar -->
@@ -258,6 +291,10 @@
     <button type="button" class="nav-item" data-view="info">
       <i class="fa-solid fa-circle-info"></i>
       <span>Info</span>
+    </button>
+    <button type="button" class="nav-item" data-view="aulas">
+      <i class="fa-solid fa-door-open"></i>
+      <span>Aulas</span>
     </button>
   </nav>
 
