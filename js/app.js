@@ -608,7 +608,7 @@ function renderBuildingView() {
     { floor: 4, badge: '4°', title: 'Depto. Ingeniería Civil & Básicas', tag: 'PAE', landmarks: 'Auditorio 4° Piso · Lab Física · Tutorías PAE', icon: 'fa-solid fa-compass-drafting' },
     { floor: 3, badge: '3°', title: 'Depto. Ingeniería Química', tag: 'IQ', landmarks: 'Lab Química General · Sala Informática 3P', icon: 'fa-solid fa-flask-vial' },
     { floor: 2, badge: '2°', title: 'Depto. Ingeniería Mecánica & Cantina', tag: 'MEC', landmarks: 'Cantina 2° Piso · Bedelía Mecánica · Aulas 2P', icon: 'fa-solid fa-gears' },
-    { floor: 1, badge: '1°', title: 'Secretaría Asuntos Universitarios (SAU)', tag: 'SAU', landmarks: 'Becas · Pasantías · Kiosco 1P · Aulas 1P', icon: 'fa-solid fa-graduation-cap' },
+    { floor: 1, badge: '1°', title: '1° Piso · SAU, SeCyT & Aulas 101-111', tag: 'SAU', landmarks: 'Aulas 101-111 · SAU / Becas · SeCyT · Lab. Informática · CEDI', icon: 'fa-solid fa-graduation-cap' },
     { floor: 0, badge: 'PB', title: 'Planta Baja / Hall Central', tag: 'CENTRAL', landmarks: 'Alumnado · Fotocopiadora · Biblioteca/SUM · Bar', icon: 'fa-solid fa-landmark' },
     { floor: -1, badge: 'SS', title: 'Depto. Ing. en Energía Eléctrica', tag: 'EE', landmarks: 'Salón de Actos · Lab Eléctrica & Electrónica · Bedelía', icon: 'fa-solid fa-bolt' }
   ];

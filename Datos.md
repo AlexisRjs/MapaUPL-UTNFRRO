@@ -76,3 +76,64 @@ Horario de funcionamiento de Laboratorios: Lunes a viernes de 07:00 a 23:50 hs.
 Ubicación: 5.º Piso.
 
 Reserva de laboratorios (contacto): encargadossistemas@frro.utn.edu.ar.
+
+---
+
+4. Estructura Arquitectónica Canónica del Edificio (Referencia: Plano Oficial 1° Piso)
+
+Orientación:
+- Frente (Sur): Calle E. Zeballos 1341 (L.M. - Línea Municipal).
+- Contrafrente (Norte): Hacia el interior de manzana.
+- Lateral Oeste (Izquierda): Patio abierto / Terraza con anfiteatro semicircular y árboles.
+- Lateral Este (Derecha): Medianera este (Aulas 101, 103, 105, 109, 111).
+
+Crujías Estructurales (de Oeste a Este):
+1. Crujía 1 (Ala Oeste):
+   - Despachos y Oficinas (Norte).
+   - Secretaría de Ciencia y Tecnología (SeCyT).
+   - Secretaría de Asuntos Universitarios / Estudiantiles (SAU).
+   - Área de Tutoría.
+   - Salida y Escalera de Emergencia hacia la terraza exterior.
+   - Sala de Usos Múltiples.
+   - Dpto. de Concurso y Secretaría Académica (Frente Zeballos).
+   - Batería de Sanitarios Oeste.
+
+2. Pasillo Longitudinal Oeste (Circulación Peatonal):
+   - Conecta de Norte a Sur, articula con la salida a escalera de emergencia y conecta con el pasillo transversal central.
+
+3. Crujía 2 (Centro-Oeste):
+   - Laboratorio de Informática (Norte).
+   - Secundario de Adultos.
+   - Acreditaciones (CONEAU).
+   - Audiovisual.
+   - CEDI (Centro de Diseño e Innovación).
+   - Dpto. Consejo Académico (Sur).
+
+4. Crujía Central (Patios de Luz y Núcleo Vertical):
+   - Patio de Luz Norte (vacío estructural tragaluz con cruces 'X').
+   - Batería de Ascensores (2 cabinas con acceso al pasillo transversal).
+   - Pasillo Central Transversal (conecta de este a oeste ambos pasillos longitudinales).
+   - Escalera Central Principal (doble tramo de subida/bajada).
+   - Patio de Luz Sur (vacío estructural tragaluz con cruces 'X').
+
+5. Crujía 3 (Centro-Este):
+   - Aula 102 (Norte).
+   - Aula 104.
+   - Fotocopiadora (Nudo central).
+   - Área de Ingreso / Hall.
+   - Archivo de Documentación UTN-FRRo.
+   - Aula 110 (Frente Zeballos).
+
+6. Pasillo Longitudinal Este y Sanitarios:
+   - Sanitarios Norte (frente a Aula 101/102).
+   - Pasillo de distribución este.
+   - Sanitarios Sur (frente a Aula 110/111).
+
+7. Crujía 4 (Ala Este / Medianera Este):
+   - Aula 101 (Noreste).
+   - Aula 103.
+   - Aula 105 (Central).
+   - Aula 109.
+   - Aula 111 (Sureste / Frente Zeballos).
+
+Esta cuadrícula estructural modular constituye la referencia base idéntica para modelar Planta Baja, Subsuelo y los pisos 2°, 3°, 4° y 5°.

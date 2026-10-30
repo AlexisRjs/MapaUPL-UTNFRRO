@@ -189,61 +189,305 @@ export const floorData = {
             <text x="402" y="588" class="room-label">Sala de</text>
             <text x="402" y="610" class="room-label">profesores</text>
 
-            <!-- Linea Zeballos -->
             <text x="250" y="675" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
           </svg>
         `
       },
       '1': {
         title: '1° PISO',
-        subtitle: 'Secretaría Asuntos Universitarios (SAU) y Kiosco',
+        subtitle: 'Aulas 101-111, SAU / Becas, SeCyT, Sec. Académica, Lab. Informática y CEDI',
         badge: '1°',
         svg: `
-          <svg viewBox="0 0 500 680" class="blueprint-svg w-full h-auto max-h-[70vh] rounded-xl shadow-2xl">
-            <rect width="500" height="680" fill="#321650" />
-            <rect x="20" y="30" width="460" height="600" fill="none" class="blueprint-line" stroke-width="3" />
-            
-            <!-- SAU (Secretaría Asuntos Universitarios) -->
-            <rect x="20" y="30" width="460" height="100" fill="#2c1247" class="blueprint-room" onclick="selectRoom('Secretaría Asuntos Universitarios (SAU)', 'Becas, deportes, tutorías, pasantías y atención gremial.')" />
-            <text x="360" y="65" class="room-label">Secretaría</text>
-            <text x="360" y="85" class="room-label">Asuntos</text>
-            <text x="360" y="105" class="room-label">Universitarios (SAU)</text>
-            <line x1="20" y1="130" x2="480" y2="130" class="blueprint-line" />
+          <svg viewBox="0 0 540 760" class="blueprint-svg w-full h-auto max-h-[78vh] rounded-xl shadow-2xl">
+            <!-- Fondo Base Arquitectónico -->
+            <rect width="540" height="760" fill="#140924" />
 
-            <!-- Left Wing: Aulas 1er piso -->
-            <rect x="20" y="170" width="180" height="320" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Aulas Ala Oeste 1° Piso', 'Aulas teóricas de 1° a 5° año.')" />
-            <line x1="20" y1="170" x2="200" y2="170" class="blueprint-line" />
-            <line x1="200" y1="170" x2="200" y2="490" class="blueprint-line" />
-            <text x="110" y="340" class="room-label">Aulas 1° Piso</text>
+            <!-- ========================================== -->
+            <!-- 1. RED DE PASILLOS DE CIRCULACIÓN (BASE)   -->
+            <!-- ========================================== -->
+            <!-- Pasillo Longitudinal Oeste -->
+            <rect x="98" y="16" width="40" height="708" fill="#1b0c30" />
+            <!-- Pasillo Longitudinal Este -->
+            <rect x="412" y="105" width="40" height="505" fill="#1b0c30" />
+            <!-- Pasillo Central Transversal -->
+            <rect x="98" y="355" width="354" height="75" fill="#1b0c30" />
 
-            <!-- Escaleras Centrales -->
-            <g class="blueprint-room" onclick="selectRoom('Escaleras 1° Piso', 'Conexión a PB y pisos superiores.')">
-              <rect x="145" y="270" width="55" height="130" fill="#1e0c31" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="145" y1="300" x2="200" y2="300" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="335" x2="200" y2="335" stroke="#fff" stroke-width="1.2" />
-              <line x1="145" y1="370" x2="200" y2="370" stroke="#fff" stroke-width="1.2" />
-              <line x1="172" y1="270" x2="172" y2="400" stroke="#fff" stroke-width="1.2" />
-              <text x="172" y="340" class="room-label" style="font-size:11.5px;">Escaleras</text>
+            <!-- Guías de circulación peatonal (sendero de pasillos) -->
+            <g opacity="0.6">
+              <!-- Pasillo Oeste -->
+              <line x1="118" y1="100" x2="118" y2="600" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
+              <!-- Pasillo Este -->
+              <line x1="432" y1="110" x2="432" y2="605" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
+              <!-- Conexión Transversal Central -->
+              <line x1="118" y1="392" x2="432" y2="392" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
+              <!-- Acceso a Escalera de Emergencia -->
+              <line x1="118" y1="392" x2="45" y2="392" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
+              <!-- Acceso a Escalera Central -->
+              <line x1="275" y1="392" x2="275" y2="435" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
             </g>
 
-            <!-- Right Wing: Ascensores & Kiosco -->
-            <rect x="290" y="170" width="190" height="320" fill="#240f3b" class="blueprint-room" onclick="selectRoom('Sector Central 1° Piso', 'Pasillos de circulación y aulas.')" />
-            <line x1="290" y1="170" x2="480" y2="170" class="blueprint-line" />
-            <line x1="290" y1="170" x2="290" y2="490" class="blueprint-line" />
+            <!-- ========================================== -->
+            <!-- 2. CRUJÍA 1: ALA OESTE                    -->
+            <!-- ========================================== -->
+            <!-- Oficinas Norte (Contrafrente) -->
+            <rect x="12" y="16" width="42" height="46" fill="#281142" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Oficina 1 (Norte)', 'Despacho administrativo en el contrafrente del 1° Piso.')" />
+            <text x="33" y="43" class="room-label" style="font-size:10px;">Oficina</text>
 
-            <!-- Ascensores -->
-            <rect x="290" y="280" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 1 - 1° Piso', 'Parada ascensor.')" />
-            <rect x="290" y="330" width="24" height="26" fill="#4d237b" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Ascensor 2 - 1° Piso', 'Parada ascensor.')" />
-            <text x="345" y="315" class="room-label" style="font-size:11.5px;">Ascensores</text>
+            <rect x="54" y="16" width="44" height="46" fill="#281142" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Oficina 2 (Norte)', 'Despacho de gestión institucional.')" />
+            <text x="76" y="43" class="room-label" style="font-size:10px;">Oficina</text>
 
-            <!-- Kiosco 1er piso -->
-            <rect x="310" y="430" width="110" height="50" fill="#45186f" class="blueprint-room rounded" onclick="selectRoom('Kiosco 1° Piso', 'Snacks, golosinas, bebidas y café.')" />
-            <text x="365" y="460" class="room-label">Kiosco</text>
+            <!-- Secretaría de Ciencia y Tecnología (SeCyT) -->
+            <rect x="12" y="62" width="86" height="78" fill="#2c1248" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Secretaría de Ciencia y Tecnología (SeCyT)', 'Gestión de proyectos de investigación homologados, becas científicas y convocatorias I+D. Email: secyt.frro@gmail.com.')" />
+            <text x="55" y="96" class="room-label" style="font-size:11.5px;">
+              <tspan x="55" dy="0">Sec. Ciencia</tspan>
+              <tspan x="55" dy="15">y Tecnología</tspan>
+            </text>
+            <text x="55" y="128" class="sub-label" style="fill:#c084fc; font-size:10px;">(SeCyT)</text>
 
-            <!-- Bottom Boundary & Street -->
-            <line x1="20" y1="490" x2="480" y2="490" class="blueprint-line" />
-            <line x1="20" y1="540" x2="480" y2="540" class="blueprint-line" />
-            <text x="250" y="660" class="room-label" style="fill:#d8b4fe; font-size:13.5px; font-weight:700;">CALLE ZEBALLOS</text>
+            <!-- Secretaría de Asuntos Estudiantiles (SAU) -->
+            <rect x="12" y="140" width="86" height="145" fill="#321454" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Secretaría de Asuntos Universitarios (SAU)', 'Atención estudiantil, becas Progresar/Manuel Belgrano/UTN, deportes, pasantías laborales y tutorías. Horario: Lunes a viernes 09:00 a 13:00 y 15:00 a 20:00 hs.')" />
+            <text x="55" y="195" class="room-label" style="font-size:12px;">
+              <tspan x="55" dy="0">Secretaría de</tspan>
+              <tspan x="55" dy="16">Asuntos</tspan>
+              <tspan x="55" dy="16">Estudiantiles</tspan>
+            </text>
+            <text x="55" y="250" class="sub-label" style="fill:#d8b4fe; font-weight:800; font-size:11px;">(SAU / Becas)</text>
+
+            <!-- Área de Tutoría -->
+            <rect x="12" y="285" width="86" height="80" fill="#291144" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Área de Tutoría', 'Orientación y acompañamiento pedagógico para estudiantes de carreras de ingeniería.')" />
+            <text x="55" y="322" class="room-label" style="font-size:12px;">
+              <tspan x="55" dy="0">Área de</tspan>
+              <tspan x="55" dy="15">Tutoría</tspan>
+            </text>
+
+            <!-- Escalera de Evacuación / Salida hacia Patio (Verde) -->
+            <g class="blueprint-room" onclick="selectRoom('Escalera de Emergencia', 'Salida de emergencia reglamentaria hacia el patio exterior.')">
+              <rect x="12" y="365" width="86" height="55" fill="#14532d" stroke="#22c55e" stroke-width="2" />
+              <!-- Grilla de escalones -->
+              <line x1="42" y1="365" x2="42" y2="420" stroke="#86efac" stroke-width="1.2" />
+              <line x1="58" y1="365" x2="58" y2="420" stroke="#86efac" stroke-width="1.2" />
+              <line x1="74" y1="365" x2="74" y2="420" stroke="#86efac" stroke-width="1.2" />
+              <text x="55" y="396" class="sub-label" style="fill:#ffffff; font-size:10.5px; font-weight:800;">ESCALERA</text>
+              <text x="25" y="397" font-size="12" fill="#ffffff">🚪</text>
+            </g>
+
+            <!-- Sala de Usos Múltiples -->
+            <rect x="12" y="420" width="86" height="135" fill="#250f3d" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Sala de Usos Múltiples 1° Piso', 'Espacio para conferencias, talleres y reuniones institucionales.')" />
+            <text x="55" y="492" class="room-label" style="font-size:14px;">Sala</text>
+
+            <!-- Dpto. de Concurso -->
+            <rect x="12" y="555" width="64" height="57" fill="#271140" stroke="#ffffff" stroke-width="1.5" class="blueprint-room" onclick="selectRoom('Dpto. de Concurso', 'Gestión administrativa de llamados a concurso y designación docente.')" />
+            <text x="44" y="582" class="room-label" style="font-size:10.5px;">
+              <tspan x="44" dy="0">Dpto. de</tspan>
+              <tspan x="44" dy="13">Concurso</tspan>
+            </text>
+
+            <!-- Secretaría Académica (Norte) -->
+            <rect x="12" y="612" width="64" height="56" fill="#2d1348" stroke="#ffffff" stroke-width="1.4" class="blueprint-room" onclick="selectRoom('Secretaría Académica (Despacho 1)', 'Gestión curricular y articulación de planes de estudio.')" />
+            <text x="44" y="638" class="sub-label" style="fill:#ffffff; font-size:10px; font-weight:700;">
+              <tspan x="44" dy="0">Secretaría</tspan>
+              <tspan x="44" dy="12">Académica</tspan>
+            </text>
+
+            <!-- Secretaría Académica (Sur - Frente Zeballos) -->
+            <rect x="12" y="668" width="64" height="56" fill="#2d1348" stroke="#ffffff" stroke-width="1.4" class="blueprint-room" onclick="selectRoom('Secretaría Académica (Despacho 2)', 'Atención directiva y resoluciones académicas oficiales.')" />
+            <text x="44" y="694" class="sub-label" style="fill:#ffffff; font-size:10px; font-weight:700;">
+              <tspan x="44" dy="0">Secretaría</tspan>
+              <tspan x="44" dy="12">Académica</tspan>
+            </text>
+
+            <!-- Sanitarios Oeste (Cubículos) -->
+            <g class="blueprint-room" onclick="selectRoom('Sanitarios Ala Oeste', 'Batería de baños y servicios higiénicos del sector administrativo.')">
+              <rect x="76" y="595" width="22" height="129" fill="#180a24" stroke="#ffffff" stroke-width="1.4" />
+              <line x1="76" y1="638" x2="98" y2="638" stroke="#ffffff" stroke-width="1" />
+              <line x1="76" y1="681" x2="98" y2="681" stroke="#ffffff" stroke-width="1" />
+              <text x="87" y="663" class="sub-label" style="fill:#cbd5e1; font-size:8.5px; font-weight:700;">Baños</text>
+            </g>
+
+            <!-- Sanitarios Norte (Pasillo Oeste) -->
+            <g class="blueprint-room" onclick="selectRoom('Sanitarios Norte Pasillo Oeste', 'Servicios higiénicos en el sector norte del pasillo oeste.')">
+              <rect x="98" y="16" width="40" height="79" fill="#180a24" stroke="#ffffff" stroke-width="1.4" />
+              <line x1="98" y1="42" x2="138" y2="42" stroke="#fff" stroke-width="1" />
+              <line x1="98" y1="68" x2="138" y2="68" stroke="#fff" stroke-width="1" />
+              <text x="118" y="58" class="sub-label" style="fill:#cbd5e1; font-size:10px; font-weight:700;">Baños</text>
+            </g>
+
+            <!-- ========================================== -->
+            <!-- 3. CRUJÍA 2: CENTRO-OESTE                 -->
+            <!-- ========================================== -->
+            <!-- Laboratorio de Informática -->
+            <rect x="138" y="16" width="92" height="134" fill="#201138" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio de Informática 1° Piso', 'Computadoras para cursado de programación, diseño asistido y prácticas de software.')" />
+            <text x="184" y="85" class="room-label" style="font-size:13px;">
+              <tspan x="184" dy="0">Laboratorio de</tspan>
+              <tspan x="184" dy="18">Informática</tspan>
+            </text>
+
+            <!-- Secundario de Adultos -->
+            <rect x="138" y="150" width="92" height="75" fill="#291244" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Secundario de Adultos', 'Aulas y coordinación del programa de educación secundaria para adultos de UTN.')" />
+            <text x="184" y="185" class="room-label" style="font-size:12px;">
+              <tspan x="184" dy="0">Secundario de</tspan>
+              <tspan x="184" dy="16">Adultos</tspan>
+            </text>
+
+            <!-- Acreditaciones -->
+            <rect x="138" y="225" width="92" height="80" fill="#26103e" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Acreditaciones', 'Oficina de acreditaciones de carreras de ingeniería de grado y posgrado ante CONEAU.')" />
+            <text x="184" y="270" class="room-label" style="font-size:12px;">Acreditaciones</text>
+
+            <!-- Audiovisual -->
+            <rect x="138" y="305" width="92" height="50" fill="#2d1348" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Audiovisual', 'Sala y depósito de equipamiento multimedia, proyectores y micrófonos para clases magistrales.')" />
+            <text x="184" y="335" class="room-label" style="font-size:12px;">Audiovisual</text>
+
+            <!-- CEDI -->
+            <rect x="138" y="430" width="92" height="155" fill="#230f3b" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('CEDI (Centro de Diseño e Innovación)', 'Espacio de desarrollo tecnológico, proyectos de vinculación y maquetado de ingeniería.')" />
+            <text x="184" y="512" class="room-label" style="font-size:16px; letter-spacing:1px;">Cedi</text>
+
+            <!-- Dpto. Consejo Académico (Sur - Zeballos) -->
+            <rect x="138" y="585" width="92" height="139" fill="#291143" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Dpto. Consejo Académico', 'Sala de sesiones del Consejo Directivo de la UTN FRRO y oficinas de gestión de actas.')" />
+            <text x="184" y="650" class="room-label" style="font-size:12px;">
+              <tspan x="184" dy="0">Dpto. Consejo</tspan>
+              <tspan x="184" dy="16">Académico</tspan>
+            </text>
+
+            <!-- ========================================== -->
+            <!-- 4. CRUJÍA CENTRAL: TRAGALUCES Y CIRCULACIÓN -->
+            <!-- ========================================== -->
+            <!-- Patio de Luz Norte (Vacío estructural con 'X') -->
+            <g>
+              <rect x="230" y="16" width="90" height="289" fill="#10061c" stroke="#4a1c72" stroke-width="1.5" />
+              <line x1="230" y1="16" x2="320" y2="305" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
+              <line x1="320" y1="16" x2="230" y2="305" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
+              <text x="275" y="165" class="sub-label" style="fill:#7e22ce; font-size:10px; letter-spacing:1px;">PATIO DE LUZ</text>
+            </g>
+
+            <!-- Batería de Ascensores (2 cabinas frente a pasillo central) -->
+            <g class="blueprint-room" onclick="selectRoom('Ascensores Centrales 1° Piso', 'Batería de dos ascensores accesibles con parada en 1° Piso.')">
+              <rect x="245" y="310" width="60" height="45" fill="#3b1763" stroke="#ffffff" stroke-width="1.8" />
+              <line x1="275" y1="310" x2="275" y2="355" stroke="#ffffff" stroke-width="1.5" />
+              <!-- Puertas ascensor 1 -->
+              <rect x="250" y="348" width="20" height="6" fill="#facc15" />
+              <!-- Puertas ascensor 2 -->
+              <rect x="280" y="348" width="20" height="6" fill="#facc15" />
+              <text x="275" y="332" class="sub-label" style="fill:#fef08a; font-weight:800; font-size:9.5px;">ASCENSORES</text>
+            </g>
+
+            <!-- Pasillo Central Transversal -->
+            <g>
+              <text x="275" y="397" class="sub-label" style="fill:#e9d5ff; font-size:11px; font-weight:700; letter-spacing:1px;">PASILLO CENTRAL</text>
+            </g>
+
+            <!-- Escalera Central Principal (Subida / Bajada) - Verde -->
+            <g class="blueprint-room" onclick="selectRoom('Escalera Principal Central', 'Escalera central de gran capacidad que conecta Planta Baja, 1° Piso y pisos superiores.')">
+              <rect x="235" y="430" width="80" height="105" fill="#14532d" stroke="#22c55e" stroke-width="2" />
+              <line x1="275" y1="430" x2="275" y2="535" stroke="#22c55e" stroke-width="1.6" />
+              <!-- Peldaños tramo izquierdo -->
+              <line x1="235" y1="450" x2="275" y2="450" stroke="#86efac" stroke-width="1" />
+              <line x1="235" y1="470" x2="275" y2="470" stroke="#86efac" stroke-width="1" />
+              <line x1="235" y1="490" x2="275" y2="490" stroke="#86efac" stroke-width="1" />
+              <line x1="235" y1="510" x2="275" y2="510" stroke="#86efac" stroke-width="1" />
+              <!-- Peldaños tramo derecho -->
+              <line x1="275" y1="450" x2="315" y2="450" stroke="#86efac" stroke-width="1" />
+              <line x1="275" y1="470" x2="315" y2="470" stroke="#86efac" stroke-width="1" />
+              <line x1="275" y1="490" x2="315" y2="490" stroke="#86efac" stroke-width="1" />
+              <line x1="275" y1="510" x2="315" y2="510" stroke="#86efac" stroke-width="1" />
+              <text x="275" y="528" class="sub-label" style="fill:#ffffff; font-size:10.5px; font-weight:800;">ESCALERA</text>
+            </g>
+
+            <!-- Patio de Luz Sur (Vacío estructural con 'X' hacia Zeballos) -->
+            <g>
+              <rect x="230" y="535" width="90" height="189" fill="#10061c" stroke="#4a1c72" stroke-width="1.5" />
+              <line x1="230" y1="535" x2="320" y2="724" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
+              <line x1="320" y1="535" x2="230" y2="724" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
+              <text x="275" y="635" class="sub-label" style="fill:#7e22ce; font-size:10px; letter-spacing:1px;">PATIO DE LUZ</text>
+            </g>
+
+            <!-- ========================================== -->
+            <!-- 5. CRUJÍA 3: CENTRO-ESTE                 -->
+            <!-- ========================================== -->
+            <!-- Aula 102 -->
+            <rect x="320" y="16" width="92" height="134" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 102', 'Aula en 1° Piso (Sector Central Norte). Capacidad aproximada 60 alumnos.')" />
+            <text x="366" y="88" class="room-label" style="font-size:15px;">Aula 102</text>
+
+            <!-- Aula 104 -->
+            <rect x="320" y="150" width="92" height="155" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 104', 'Aula en 1° Piso (Sector Central). Pizarrón y bancos universitarios.')" />
+            <text x="366" y="232" class="room-label" style="font-size:15px;">Aula 104</text>
+
+            <!-- Fotocopiadora -->
+            <rect x="320" y="305" width="92" height="50" fill="#3a155e" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Fotocopiadora 1° Piso', 'Servicio de fotocopiado, impresión de apuntes de cátedra, guías y anillados.')" />
+            <text x="366" y="336" class="room-label" style="font-size:11.5px;">Fotocopiadora</text>
+
+            <!-- Área de Ingreso / Hall Central -->
+            <rect x="320" y="355" width="92" height="75" fill="#240f3b" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Área de Ingreso 1° Piso', 'Hall de distribución central que conecta escaleras principales, ascensores y pasillos.')" />
+            <text x="366" y="392" class="room-label" style="font-size:12px;">
+              <tspan x="366" dy="0">Área de</tspan>
+              <tspan x="366" dy="15">Ingreso</tspan>
+            </text>
+
+            <!-- Archivo Documentación -->
+            <rect x="320" y="430" width="92" height="155" fill="#271141" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Archivo Documentación UTN-FRRo', 'Depósito y resguardo oficial de legajos, actas de examen y documentación histórica institucional.')" />
+            <text x="366" y="504" class="room-label" style="font-size:12.5px;">
+              <tspan x="366" dy="0">Archivo</tspan>
+              <tspan x="366" dy="16">Documentación</tspan>
+            </text>
+
+            <!-- Aula 110 (Frente Zeballos) -->
+            <rect x="320" y="585" width="92" height="139" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 110', 'Aula de gran capacidad en 1° Piso (Frente Calle Zeballos). Utilizada para cursado de materias de 1° a 5° año.')" />
+            <text x="366" y="658" class="room-label" style="font-size:15px;">Aula 110</text>
+
+            <!-- ========================================== -->
+            <!-- 6. SANITARIOS EN PASILLO ESTE              -->
+            <!-- ========================================== -->
+            <!-- Sanitarios Norte -->
+            <g class="blueprint-room" onclick="selectRoom('Sanitarios Norte 1° Piso', 'Batería de baños completos para alumnos y docentes (Sector Aulas 101/102).')">
+              <rect x="412" y="16" width="40" height="89" fill="#180a24" stroke="#ffffff" stroke-width="1.6" />
+              <line x1="412" y1="45" x2="452" y2="45" stroke="#fff" stroke-width="1" />
+              <line x1="412" y1="74" x2="452" y2="74" stroke="#fff" stroke-width="1" />
+              <text x="432" y="62" class="sub-label" style="fill:#cbd5e1; font-size:10px; font-weight:700;">Baños</text>
+            </g>
+
+            <!-- Sanitarios Sur -->
+            <g class="blueprint-room" onclick="selectRoom('Sanitarios Sur 1° Piso', 'Batería de baños completos para alumnos y docentes (Sector Aulas 110/111).')">
+              <rect x="412" y="610" width="40" height="114" fill="#180a24" stroke="#ffffff" stroke-width="1.6" />
+              <line x1="412" y1="648" x2="452" y2="648" stroke="#fff" stroke-width="1" />
+              <line x1="412" y1="686" x2="452" y2="686" stroke="#fff" stroke-width="1" />
+              <text x="432" y="670" class="sub-label" style="fill:#cbd5e1; font-size:10px; font-weight:700;">Baños</text>
+            </g>
+
+            <!-- ========================================== -->
+            <!-- 7. CRUJÍA 4: ALA ESTE (AULAS 101 A 111)   -->
+            <!-- ========================================== -->
+            <!-- Aula 101 -->
+            <rect x="452" y="16" width="76" height="124" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 101', 'Aula en 1° Piso (Esquina Noreste). Luminosa y equipada con pupitres.')" />
+            <text x="490" y="82" class="room-label" style="font-size:14.5px;">Aula 101</text>
+
+            <!-- Aula 103 -->
+            <rect x="452" y="140" width="76" height="130" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 103', 'Aula en 1° Piso (Ala Este). Cursado regular de asignaturas básicas y técnicas.')" />
+            <text x="490" y="208" class="room-label" style="font-size:14.5px;">Aula 103</text>
+
+            <!-- Aula 105 -->
+            <rect x="452" y="270" width="76" height="140" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 105', 'Aula en 1° Piso (Ala Este Central). Cursado de Ingeniería y comisiones.')" />
+            <text x="490" y="345" class="room-label" style="font-size:14.5px;">Aula 105</text>
+
+            <!-- Aula 109 -->
+            <rect x="452" y="410" width="76" height="155" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 109', 'Aula en 1° Piso (Ala Este). Cursado asignado para Ingeniería Civil y Sistemas.')" />
+            <text x="490" y="492" class="room-label" style="font-size:14.5px;">Aula 109</text>
+
+            <!-- Aula 111 (Esquina Zeballos / Este) -->
+            <rect x="452" y="565" width="76" height="159" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 111', 'Aula en 1° Piso (Frente Calle Zeballos / Esquina Este). Gran capacidad.')" />
+            <text x="490" y="648" class="room-label" style="font-size:14.5px;">Aula 111</text>
+
+            <!-- ========================================== -->
+            <!-- 8. FACHADA ZEBALLOS Y CONTORNO EXTERIOR    -->
+            <!-- ========================================== -->
+            <!-- Muro perimetral exterior completo -->
+            <rect x="12" y="16" width="516" height="708" fill="none" stroke="#ffffff" stroke-width="2.5" />
+
+            <!-- Línea Municipal (L.M.) y Muro Zeballos -->
+            <text x="24" y="720" class="sub-label" style="fill:#cbd5e1; font-size:9.5px; font-weight:800;">L.M.</text>
+
+            <!-- Título Calle Zeballos -->
+            <text x="270" y="746" class="room-label" style="fill:#d8b4fe; font-size:12.5px; font-weight:800; letter-spacing:1px;">
+              FRENTE: CALLE E. ZEBALLOS 1341 (SUR)
+            </text>
           </svg>
         `
       },
@@ -739,6 +983,88 @@ export const departmentDirectory = [
           {
             title: 'Gestión de Aulas de Mecánica',
             notes: 'Control y asignación de aulas, asistencia docente y equipamiento para las cátedras del 2° piso.'
+          }
+        ]
+      },
+      {
+        id: 'sec-academica',
+        aliases: ['secretaria academica', 'academica', 'secretaria academica (despacho 1)', 'secretaria academica (despacho 2)', 'concursos', 'dpto de concurso'],
+        title: 'Secretaría Académica',
+        subtitle: 'Gestión curricular, planes de estudio, resoluciones y concursos docentes',
+        category: 'Secretaría Central',
+        categoryColor: 'bg-indigo-900/80 text-indigo-200 border-indigo-500/40',
+        icon: 'fa-solid fa-book-bookmark text-indigo-400',
+        floor: 1,
+        floorBadge: '1° Piso',
+        floorName: '1° Piso (Frente Calle Zeballos)',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 1° Piso',
+        sections: [
+          {
+            title: 'Despacho y Coordinación Curricular',
+            notes: 'Elaboración de planes de estudio, convalidaciones, equivalencias y seguimiento pedagógico de las carreras de ingeniería.'
+          },
+          {
+            title: 'Departamento de Concurso',
+            notes: 'Tramitación y gestión administrativa de concursos docentes y designaciones de cátedras.'
+          }
+        ]
+      },
+      {
+        id: 'cedi',
+        aliases: ['cedi', 'centro de diseno e innovacion', 'centro de diseno', 'cedi (centro de diseno e innovacion)'],
+        title: 'CEDI (Centro de Diseño e Innovación)',
+        subtitle: 'Espacio de desarrollo tecnológico, proyectos de vinculación y maquetado de ingeniería',
+        category: 'Laboratorio',
+        categoryColor: 'bg-violet-900/80 text-violet-200 border-violet-500/40',
+        icon: 'fa-solid fa-cube text-violet-400',
+        floor: 1,
+        floorBadge: '1° Piso',
+        floorName: '1° Piso (Sector Central)',
+        address: 'Zeballos 1341 - 1° Piso',
+        sections: [
+          {
+            title: 'Desarrollo e Innovación Tecnológica',
+            notes: 'Área dedicada al trabajo interdisciplinario de proyectos de ingeniería, diseño asistido, modelado 3D y prototipado rápido.'
+          }
+        ]
+      },
+      {
+        id: 'consejo-academico',
+        aliases: ['consejo academico', 'dpto consejo academico', 'consejo directivo'],
+        title: 'Dpto. Consejo Académico',
+        subtitle: 'Sala de sesiones y secretaría del Consejo Directivo de la UTN FRRO',
+        category: 'Secretaría Central',
+        categoryColor: 'bg-purple-900/80 text-purple-200 border-purple-500/40',
+        icon: 'fa-solid fa-scale-balanced text-purple-400',
+        floor: 1,
+        floorBadge: '1° Piso',
+        floorName: '1° Piso (Frente Calle Zeballos)',
+        phone: '(0341) 448-0102',
+        address: 'Zeballos 1341 - 1° Piso',
+        sections: [
+          {
+            title: 'Órgano de Gobierno de la Facultad',
+            notes: 'Espacio donde sesiona el Consejo Directivo, integrado por representantes de docentes, graduados, estudiantes y no docentes.'
+          }
+        ]
+      },
+      {
+        id: 'fotocopiadora-1p',
+        aliases: ['fotocopiadora 1° piso', 'fotocopiadora 1 piso', 'fotocopiadora primer piso'],
+        title: 'Fotocopiadora 1° Piso',
+        subtitle: 'Servicio de fotocopiado, guías de cátedra, apuntes de cursado y anillados',
+        category: 'Servicio',
+        categoryColor: 'bg-fuchsia-900/80 text-fuchsia-200 border-fuchsia-500/40',
+        icon: 'fa-solid fa-print text-fuchsia-400',
+        floor: 1,
+        floorBadge: '1° Piso',
+        floorName: '1° Piso (Pasillo Central)',
+        address: 'Zeballos 1341 - 1° Piso',
+        sections: [
+          {
+            title: 'Punto de Impresión y Material de Estudio',
+            notes: 'Punto de atención para retiro rápido de material de estudio, parciales resueltos y copias técnicas en el 1° piso.'
           }
         ]
       }
