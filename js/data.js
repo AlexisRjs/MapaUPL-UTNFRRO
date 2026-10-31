@@ -1333,205 +1333,226 @@ export const floorData = {
             <rect width="540" height="760" fill="#140924" />
 
             <!-- ========================================== -->
-            <!-- 1. RED DE PASILLOS DE CIRCULACIÓN EN 'H'   -->
+            <!-- 1. PATIOS DE AIRE - LUZ (SECTOR ESTE / TERRAZA) -->
             <!-- ========================================== -->
-            <rect x="98" y="16" width="40" height="708" fill="#1b0c30" />
-            <rect x="412" y="105" width="40" height="505" fill="#1b0c30" />
-            <rect x="98" y="355" width="354" height="75" fill="#1b0c30" />
+            <!-- Terraza / Vacío Estructural Norte (Aire - Luz) -->
+            <g>
+              <rect x="270" y="16" width="258" height="294" fill="#0d0519" stroke="#4a1c72" stroke-width="1.8" />
+              <line x1="270" y1="16" x2="528" y2="310" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" />
+              <line x1="528" y1="16" x2="270" y2="310" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" />
+              <rect x="345" y="145" width="110" height="26" fill="#1b0c30" stroke="#a855f7" stroke-width="1" rx="4" />
+              <text x="400" y="162" class="sub-label" style="fill:#d8b4fe; font-size:10.5px; font-weight:800; letter-spacing:1px;">AIRE - LUZ NORTE</text>
+            </g>
 
-            <g opacity="0.6">
-              <line x1="118" y1="100" x2="118" y2="600" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
-              <line x1="432" y1="110" x2="432" y2="605" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
-              <line x1="118" y1="392" x2="432" y2="392" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
-              <line x1="118" y1="392" x2="45" y2="392" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
-              <line x1="275" y1="392" x2="275" y2="435" stroke="#22c55e" stroke-width="2.5" stroke-dasharray="6,4" />
+            <!-- Terraza / Vacío Estructural Sur (Aire - Luz) -->
+            <g>
+              <rect x="270" y="540" width="258" height="184" fill="#0d0519" stroke="#4a1c72" stroke-width="1.8" />
+              <line x1="270" y1="540" x2="528" y2="724" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" />
+              <line x1="528" y1="540" x2="270" y2="724" stroke="rgba(255,255,255,0.18)" stroke-width="1.4" />
+              <rect x="345" y="620" width="110" height="26" fill="#1b0c30" stroke="#a855f7" stroke-width="1" rx="4" />
+              <text x="400" y="637" class="sub-label" style="fill:#d8b4fe; font-size:10.5px; font-weight:800; letter-spacing:1px;">AIRE - LUZ SUR</text>
             </g>
 
             <!-- ========================================== -->
-            <!-- 2. CRUJÍA 1: ALA OESTE                    -->
+            <!-- 2. CIRCULACIÓN PEATONAL (PASILLO EN 'T')   -->
             <!-- ========================================== -->
-            <rect x="12" y="16" width="86" height="124" fill="#2d1348" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 1 ISI', 'Computadoras para desarrollo web, programación y bases de datos.')" />
-            <text x="55" y="70" class="room-label" style="font-size:12px;">
-              <tspan x="55" dy="0">Laboratorio 1</tspan>
-              <tspan x="55" dy="16">(Software)</tspan>
+            <!-- Pasillo Longitudinal Único (Oeste) -->
+            <rect x="98" y="55" width="40" height="640" fill="#1b0c30" />
+            <!-- Pasillo Transversal hacia Núcleo Central -->
+            <rect x="138" y="375" width="287" height="60" fill="#1b0c30" />
+
+            <!-- Guías Verdes de Evacuación (Fieles al plano original) -->
+            <g opacity="0.85">
+              <!-- Flecha troncal norte-sur -->
+              <line x1="118" y1="80" x2="118" y2="670" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,4" />
+              <polygon points="118,675 112,660 124,660" fill="#22c55e" />
+              <polygon points="118,80 112,95 124,95" fill="#22c55e" />
+
+              <!-- Flecha transversal hacia la escalera de emergencia oeste -->
+              <line x1="118" y1="405" x2="48" y2="405" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,4" />
+              <polygon points="45,405 58,399 58,411" fill="#22c55e" />
+
+              <!-- Flecha transversal desde pasillo oeste hacia hall y escaleras -->
+              <line x1="118" y1="405" x2="350" y2="405" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,4" />
+              <!-- Bajada a escalera central -->
+              <line x1="350" y1="405" x2="350" y2="445" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,4" />
+              <polygon points="350,448 344,435 356,435" fill="#22c55e" />
+
+              <!-- Salida este exterior -->
+              <line x1="350" y1="405" x2="465" y2="405" stroke="#22c55e" stroke-width="3" stroke-dasharray="6,4" />
+              <polygon points="472,405 458,399 458,411" fill="#22c55e" />
+            </g>
+
+            <!-- ========================================== -->
+            <!-- 3. CRUJÍA 1: ALA OESTE (IZQUIERDA)        -->
+            <!-- ========================================== -->
+            <!-- Laboratorio 5 IBM (Norte) -->
+            <rect x="12" y="16" width="86" height="119" fill="#2d1348" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 5 IBM', 'Bancos de trabajo, mainframes y arquitectura de servidores IBM.')" />
+            <text x="55" y="72" class="room-label" style="font-size:12px; font-weight:700;">
+              <tspan x="55" dy="0">Laboratorio 5</tspan>
+              <tspan x="55" dy="16">IBM</tspan>
             </text>
 
-            <rect x="12" y="140" width="86" height="145" fill="#291244" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 2 ISI (Redes)', 'Routers Cisco, switches, racks de parcheo y simulación de redes.')" />
-            <text x="55" y="205" class="room-label" style="font-size:12px;">
-              <tspan x="55" dy="0">Laboratorio 2</tspan>
-              <tspan x="55" dy="16">(Redes)</tspan>
+            <!-- Laboratorio 8 Investigación -->
+            <rect x="12" y="135" width="86" height="100" fill="#271141" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 8 Investigación', 'Investigación aplicada, proyectos de desarrollo y tesis de posgrado.')" />
+            <text x="55" y="180" class="room-label" style="font-size:11.5px;">
+              <tspan x="55" dy="0">Laboratorio 8</tspan>
+              <tspan x="55" dy="16">Investigación</tspan>
             </text>
 
-            <rect x="12" y="285" width="86" height="80" fill="#26103e" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 3 ISI (IA)', 'Servidores GPU para aprendizaje profundo y ciencia de datos.')" />
-            <text x="55" y="322" class="room-label" style="font-size:11.5px;">
+            <!-- Laboratorio 3 Interconectividad -->
+            <rect x="12" y="235" width="86" height="95" fill="#291244" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 3 Interconectividad', 'Prácticas de routing, switching y topologías de red complejas.')" />
+            <text x="55" y="278" class="room-label" style="font-size:11px;">
               <tspan x="55" dy="0">Laboratorio 3</tspan>
-              <tspan x="55" dy="15">(Data & IA)</tspan>
+              <tspan x="55" dy="15">Interconectividad</tspan>
             </text>
 
-            <g class="blueprint-room" onclick="selectRoom('Escalera Emergencia 5° Piso', 'Salida reglamentaria de escape.')">
-              <rect x="12" y="365" width="86" height="55" fill="#14532d" stroke="#22c55e" stroke-width="2" />
-              <line x1="42" y1="365" x2="42" y2="420" stroke="#86efac" stroke-width="1.2" />
-              <line x1="58" y1="365" x2="58" y2="420" stroke="#86efac" stroke-width="1.2" />
-              <line x1="74" y1="365" x2="74" y2="420" stroke="#86efac" stroke-width="1.2" />
-              <text x="55" y="396" class="sub-label" style="fill:#ffffff; font-size:10.5px; font-weight:800;">ESCALERA</text>
-              <text x="25" y="397" font-size="12" fill="#ffffff">🚪</text>
+            <!-- Sala Personal de Laboratorio -->
+            <rect x="12" y="330" width="86" height="65" fill="#240f3b" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Sala Personal de Laboratorio', 'Despacho de soporte técnico, encargados y guardia de sistemas.')" />
+            <text x="55" y="358" class="room-label" style="font-size:10.5px;">
+              <tspan x="55" dy="0">Sala Personal</tspan>
+              <tspan x="55" dy="14">de Laboratorio</tspan>
+            </text>
+
+            <!-- Escalera de Emergencia Oeste (Verde) -->
+            <g class="blueprint-room" onclick="selectRoom('Escalera Emergencia 5° Piso', 'Salida de emergencia y evacuación reglamentaria.')">
+              <rect x="12" y="395" width="86" height="60" fill="#14532d" stroke="#22c55e" stroke-width="2" />
+              <line x1="42" y1="395" x2="42" y2="455" stroke="#86efac" stroke-width="1.2" />
+              <line x1="58" y1="395" x2="58" y2="455" stroke="#86efac" stroke-width="1.2" />
+              <line x1="74" y1="395" x2="74" y2="455" stroke="#86efac" stroke-width="1.2" />
+              <text x="55" y="428" class="sub-label" style="fill:#ffffff; font-size:10px; font-weight:800;">ESCALERA</text>
+              <text x="25" y="429" font-size="12" fill="#ffffff">🚪</text>
             </g>
 
-            <rect x="12" y="420" width="86" height="135" fill="#321454" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Departamento de Sistemas', 'Dirección de carrera, cátedras técnicas y gestión de laboratorios ISI.')" />
-            <text x="55" y="475" class="room-label" style="font-size:12.5px; font-weight:800;">
-              <tspan x="55" dy="0">Dpto. Ing.</tspan>
-              <tspan x="55" dy="16">Sistemas (ISI)</tspan>
+            <!-- Aula 502 -->
+            <rect x="12" y="455" width="86" height="125" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 502', 'Aula de teoría y cursado presencial de Ingeniería en Sistemas.')" />
+            <text x="55" y="522" class="room-label" style="font-size:14px; font-weight:700;">Aula 502</text>
+
+            <!-- Laboratorio 2 Lenguajes -->
+            <rect x="12" y="580" width="86" height="70" fill="#250f3d" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 2 Lenguajes', 'Programación estructurada, orientada a objetos y algoritmos.')" />
+            <text x="55" y="612" class="room-label" style="font-size:11.5px;">
+              <tspan x="55" dy="0">Laboratorio 2</tspan>
+              <tspan x="55" dy="15">Lenguajes</tspan>
             </text>
 
-            <rect x="12" y="555" width="64" height="169" fill="#2d1348" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Bedelía Sistemas', 'Atención para cursado y comisiones de Sistemas.')" />
-            <text x="44" y="635" class="room-label" style="font-size:11px; font-weight:700;">
-              <tspan x="44" dy="0">Bedelía</tspan>
-              <tspan x="44" dy="15">Sistemas</tspan>
+            <!-- Laboratorio 1 Lenguajes (Sur - Frente Zeballos) -->
+            <rect x="12" y="650" width="86" height="74" fill="#250f3d" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Laboratorio 1 Lenguajes', 'Programación web, bases de datos y talleres de código.')" />
+            <text x="55" y="683" class="room-label" style="font-size:11.5px;">
+              <tspan x="55" dy="0">Laboratorio 1</tspan>
+              <tspan x="55" dy="15">lenguajes</tspan>
             </text>
 
-            <g class="blueprint-room" onclick="selectRoom('Sanitarios 5° Piso Oeste', 'Servicios higiénicos del 5° piso.')">
-              <rect x="76" y="555" width="22" height="169" fill="#180a24" stroke="#ffffff" stroke-width="1.4" />
-              <line x1="76" y1="610" x2="98" y2="610" stroke="#ffffff" stroke-width="1" />
-              <line x1="76" y1="665" x2="98" y2="665" stroke="#ffffff" stroke-width="1" />
-              <text x="87" y="640" class="sub-label" style="fill:#cbd5e1; font-size:8.5px; font-weight:700;">Baños</text>
+            <!-- Sanitarios Norte (Cabecera Pasillo Oeste) -->
+            <g class="blueprint-room" onclick="selectRoom('Sanitarios Norte 5° Piso', 'Servicios higiénicos en el extremo norte del pasillo.')">
+              <rect x="98" y="16" width="40" height="39" fill="#180a24" stroke="#ffffff" stroke-width="1.4" />
+              <line x1="118" y1="16" x2="118" y2="55" stroke="#fff" stroke-width="1" />
+              <text x="118" y="38" class="sub-label" style="fill:#cbd5e1; font-size:9px; font-weight:700;">Baños</text>
+            </g>
+
+            <!-- Sanitarios Sur (Pie Pasillo Oeste) -->
+            <g class="blueprint-room" onclick="selectRoom('Sanitarios Sur 5° Piso', 'Servicios higiénicos en el extremo sur del pasillo.')">
+              <rect x="98" y="695" width="40" height="29" fill="#180a24" stroke="#ffffff" stroke-width="1.4" />
+              <line x1="118" y1="695" x2="118" y2="724" stroke="#fff" stroke-width="1" />
+              <text x="118" y="713" class="sub-label" style="fill:#cbd5e1; font-size:8px; font-weight:700;">Baños</text>
             </g>
 
             <!-- ========================================== -->
-            <!-- 3. CRUJÍA 2: CENTRO-OESTE                 -->
+            <!-- 4. CRUJÍA 2: CENTRO (COLUMNA INTERMEDIA)  -->
             <!-- ========================================== -->
-            <rect x="138" y="16" width="92" height="134" fill="#3a165f" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio Microsoft', 'Certificaciones oficiales, desarrollo .NET, Azure y software empresarial.')" />
-            <text x="184" y="75" class="room-label" style="font-size:12.5px; font-weight:800;">
-              <tspan x="184" dy="0">Laboratorio</tspan>
-              <tspan x="184" dy="16">Microsoft</tspan>
+            <!-- Laboratorio 7 de Redes -->
+            <rect x="138" y="16" width="132" height="119" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio 7 de Redes', 'Cisco Networking Academy, switches, routers y cableado estructurado.')" />
+            <text x="204" y="70" class="room-label" style="font-size:12.5px; font-weight:700;">
+              <tspan x="204" dy="0">Laboratorio 7</tspan>
+              <tspan x="204" dy="16">de Redes</tspan>
             </text>
 
-            <rect x="138" y="150" width="92" height="155" fill="#201138" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio 4 AS400', 'Bases de datos relacionales, cómputo centralizado y mainframes.')" />
-            <text x="184" y="225" class="room-label" style="font-size:12.5px;">
-              <tspan x="184" dy="0">Laboratorio 4</tspan>
-              <tspan x="184" dy="16">(AS400 / BD)</tspan>
+            <!-- Laboratorio 4 AS400 -->
+            <rect x="138" y="135" width="132" height="110" fill="#201138" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio 4 AS400', 'Servidores empresariales, bases de datos y cálculo distribuido.')" />
+            <text x="204" y="186" class="room-label" style="font-size:12.5px; font-weight:700;">
+              <tspan x="204" dy="0">Laboratorio 4</tspan>
+              <tspan x="204" dy="16">AS400</tspan>
             </text>
 
-            <rect x="138" y="305" width="92" height="50" fill="#2d1348" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Encargados Laboratorios ISI', 'Soporte técnico, mantenimiento de PCs y reserva de salas.')" />
-            <text x="184" y="336" class="room-label" style="font-size:11px;">Encargados ISI</text>
-
-            <rect x="138" y="430" width="92" height="155" fill="#240f3b" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio 5 Ciberseguridad', 'Auditoría de seguridad, pentesting y redes seguras.')" />
-            <text x="184" y="500" class="room-label" style="font-size:12px;">
-              <tspan x="184" dy="0">Laboratorio 5</tspan>
-              <tspan x="184" dy="16">(Ciberseguridad)</tspan>
+            <!-- Laboratorio 6 Microsoft -->
+            <rect x="138" y="245" width="132" height="130" fill="#3a165f" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Laboratorio 6 Microsoft', 'Certificaciones oficiales Microsoft, desarrollo .NET y Azure.')" />
+            <text x="204" y="306" class="room-label" style="font-size:13px; font-weight:800;">
+              <tspan x="204" dy="0">Laboratorio 6</tspan>
+              <tspan x="204" dy="18">Microsoft</tspan>
             </text>
 
-            <rect x="138" y="585" width="92" height="139" fill="#291143" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('ISI Investiga', 'Grupo de investigación y desarrollo de software de la UTN FRRO.')" />
-            <text x="184" y="650" class="room-label" style="font-size:12px; font-weight:700;">
-              <tspan x="184" dy="0">ISI</tspan>
-              <tspan x="184" dy="16">Investiga</tspan>
+            <!-- Aula 501 -->
+            <rect x="138" y="435" width="132" height="125" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 501', 'Aula de cursado presencial de comisiones de 1° a 5° año.')" />
+            <text x="204" y="502" class="room-label" style="font-size:14px; font-weight:700;">Aula 501</text>
+
+            <!-- Sala de Reuniones ISI -->
+            <rect x="138" y="560" width="66" height="75" fill="#291244" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Sala de Reuniones ISI', 'Reuniones de cátedra y proyectos académicos.')" />
+            <text x="171" y="594" class="room-label" style="font-size:10px;">
+              <tspan x="171" dy="0">Sala de</tspan>
+              <tspan x="171" dy="13">Reuniones</tspan>
+            </text>
+
+            <!-- Bedelía Sistemas -->
+            <rect x="204" y="560" width="66" height="75" fill="#321454" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Bedelía Sistemas', 'Atención para cursado, horarios de laboratorios y comisiones de Sistemas.')" />
+            <text x="237" y="602" class="room-label" style="font-size:11px; font-weight:700;">Bedelía</text>
+
+            <!-- Sala de Profesores ISI -->
+            <rect x="138" y="635" width="66" height="89" fill="#271141" stroke="#ffffff" stroke-width="1.6" class="blueprint-room" onclick="selectRoom('Sala de Profesores ISI', 'Espacio docente y consultas de cátedra.')" />
+            <text x="171" y="675" class="room-label" style="font-size:10px;">
+              <tspan x="171" dy="0">Sala de</tspan>
+              <tspan x="171" dy="13">Profesores</tspan>
+            </text>
+
+            <!-- Oficina de Director ISI -->
+            <rect x="204" y="635" width="66" height="89" fill="#2d1348" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Oficina de Director ISI', 'Dirección de Carrera del Departamento de Ingeniería en Sistemas.')" />
+            <text x="237" y="675" class="room-label" style="font-size:10px; font-weight:700;">
+              <tspan x="237" dy="0">Oficina de</tspan>
+              <tspan x="237" dy="13">Director</tspan>
             </text>
 
             <!-- ========================================== -->
-            <!-- 4. CRUJÍA CENTRAL: NÚCLEO VERTICAL        -->
+            <!-- 5. NÚCLEO CENTRAL: ASCENSORES, ESCALERA    -->
             <!-- ========================================== -->
+            <!-- Batería de Ascensores -->
+            <g class="blueprint-room" onclick="selectRoom('Ascensores 5° Piso', 'Batería de dos ascensores accesibles con parada terminal.')">
+              <rect x="300" y="325" width="80" height="50" fill="#3b1763" stroke="#ffffff" stroke-width="1.8" />
+              <line x1="340" y1="325" x2="340" y2="375" stroke="#ffffff" stroke-width="1.5" />
+              <!-- Puertas amarillas de ascensor -->
+              <rect x="308" y="368" width="24" height="7" fill="#facc15" />
+              <rect x="348" y="368" width="24" height="7" fill="#facc15" />
+              <text x="340" y="347" class="sub-label" style="fill:#fef08a; font-weight:800; font-size:9.5px;">ASCENSORES</text>
+            </g>
+
+            <!-- Hall de Llegada / "UD. ESTÁ AQUÍ" -->
             <g>
-              <rect x="230" y="16" width="90" height="289" fill="#10061c" stroke="#4a1c72" stroke-width="1.5" />
-              <line x1="230" y1="16" x2="320" y2="305" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
-              <line x1="320" y1="16" x2="230" y2="305" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
-              <text x="275" y="165" class="sub-label" style="fill:#7e22ce; font-size:10px; letter-spacing:1px;">PATIO DE LUZ</text>
+              <rect x="285" y="385" width="130" height="40" rx="18" fill="rgba(56, 189, 248, 0.15)" stroke="#38bdf8" stroke-width="2.5" />
+              <text x="350" y="409" text-anchor="middle" style="fill:#38bdf8; font-size:11.5px; font-weight:800; letter-spacing:0.8px;">📍 UD. ESTÁ AQUÍ</text>
             </g>
 
-            <g class="blueprint-room" onclick="selectRoom('Ascensores 5° Piso', 'Batería de dos ascensores accesibles con parada terminal en 5° Piso.')">
-              <rect x="245" y="310" width="60" height="45" fill="#3b1763" stroke="#ffffff" stroke-width="1.8" />
-              <line x1="275" y1="310" x2="275" y2="355" stroke="#ffffff" stroke-width="1.5" />
-              <rect x="250" y="348" width="20" height="6" fill="#facc15" />
-              <rect x="280" y="348" width="20" height="6" fill="#facc15" />
-              <text x="275" y="332" class="sub-label" style="fill:#fef08a; font-weight:800; font-size:9.5px;">ASCENSORES</text>
-            </g>
-
-            <g>
-              <text x="275" y="397" class="sub-label" style="fill:#e9d5ff; font-size:11px; font-weight:700; letter-spacing:1px;">PASILLO CENTRAL</text>
-            </g>
-
-            <g class="blueprint-room" onclick="selectRoom('Escalera Principal 5° Piso', 'Escalera central que conecta con todos los niveles inferiores.')">
-              <rect x="235" y="430" width="80" height="105" fill="#14532d" stroke="#22c55e" stroke-width="2" />
-              <line x1="275" y1="430" x2="275" y2="535" stroke="#22c55e" stroke-width="1.6" />
-              <line x1="235" y1="450" x2="275" y2="450" stroke="#86efac" stroke-width="1" />
-              <line x1="235" y1="470" x2="275" y2="470" stroke="#86efac" stroke-width="1" />
-              <line x1="235" y1="490" x2="275" y2="490" stroke="#86efac" stroke-width="1" />
-              <line x1="235" y1="510" x2="275" y2="510" stroke="#86efac" stroke-width="1" />
-              <line x1="275" y1="450" x2="315" y2="450" stroke="#86efac" stroke-width="1" />
-              <line x1="275" y1="470" x2="315" y2="470" stroke="#86efac" stroke-width="1" />
-              <line x1="275" y1="490" x2="315" y2="490" stroke="#86efac" stroke-width="1" />
-              <line x1="275" y1="510" x2="315" y2="510" stroke="#86efac" stroke-width="1" />
-              <text x="275" y="528" class="sub-label" style="fill:#ffffff; font-size:10.5px; font-weight:800;">ESCALERA</text>
-            </g>
-
-            <g>
-              <rect x="230" y="535" width="90" height="189" fill="#10061c" stroke="#4a1c72" stroke-width="1.5" />
-              <line x1="230" y1="535" x2="320" y2="724" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
-              <line x1="320" y1="535" x2="230" y2="724" stroke="rgba(255,255,255,0.22)" stroke-width="1.2" />
-              <text x="275" y="635" class="sub-label" style="fill:#7e22ce; font-size:10px; letter-spacing:1px;">PATIO DE LUZ</text>
+            <!-- Escalera Principal Central (Subida / Bajada) - Verde -->
+            <g class="blueprint-room" onclick="selectRoom('Escalera Principal 5° Piso', 'Escalera central que conecta con todos los pisos inferiores.')">
+              <rect x="270" y="435" width="155" height="105" fill="#14532d" stroke="#22c55e" stroke-width="2" />
+              <line x1="347" y1="435" x2="347" y2="540" stroke="#22c55e" stroke-width="1.6" />
+              <!-- Peldaños tramo izquierdo -->
+              <line x1="270" y1="455" x2="347" y2="455" stroke="#86efac" stroke-width="1.2" />
+              <line x1="270" y1="475" x2="347" y2="475" stroke="#86efac" stroke-width="1.2" />
+              <line x1="270" y1="495" x2="347" y2="495" stroke="#86efac" stroke-width="1.2" />
+              <line x1="270" y1="515" x2="347" y2="515" stroke="#86efac" stroke-width="1.2" />
+              <!-- Peldaños tramo derecho -->
+              <line x1="347" y1="455" x2="425" y2="455" stroke="#86efac" stroke-width="1.2" />
+              <line x1="347" y1="475" x2="425" y2="475" stroke="#86efac" stroke-width="1.2" />
+              <line x1="347" y1="495" x2="425" y2="495" stroke="#86efac" stroke-width="1.2" />
+              <line x1="347" y1="515" x2="425" y2="515" stroke="#86efac" stroke-width="1.2" />
+              <text x="347" y="532" class="sub-label" style="fill:#ffffff; font-size:10.5px; font-weight:800;">ESCALERA CENTRAL</text>
             </g>
 
             <!-- ========================================== -->
-            <!-- 5. CRUJÍA 3: CENTRO-ESTE                 -->
+            <!-- 6. FACHADA ZEBALLOS Y CONTORNO EXTERIOR    -->
             <!-- ========================================== -->
-            <rect x="320" y="16" width="92" height="134" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 502', 'Aula y laboratorio en 5° Piso (Sector Central Norte).')" />
-            <text x="366" y="88" class="room-label" style="font-size:15px;">Aula 502</text>
-
-            <rect x="320" y="150" width="92" height="155" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 504', 'Aula en 5° Piso (Sector Central).')" />
-            <text x="366" y="232" class="room-label" style="font-size:15px;">Aula 504</text>
-
-            <rect x="320" y="305" width="92" height="50" fill="#3a155e" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Depósito Sistemas', 'Almacén de discos, memorias y equipamiento de TI.')" />
-            <text x="366" y="336" class="room-label" style="font-size:11px;">Depósito TI</text>
-
-            <rect x="320" y="430" width="92" height="155" fill="#271141" stroke="#ffffff" stroke-width="1.8" class="blueprint-room" onclick="selectRoom('Sala Profesores Sistemas', 'Espacio docente y reuniones de cátedra de Sistemas.')" />
-            <text x="366" y="504" class="room-label" style="font-size:12px;">
-              <tspan x="366" dy="0">Sala</tspan>
-              <tspan x="366" dy="16">Profesores ISI</tspan>
-            </text>
-
-            <rect x="320" y="585" width="92" height="139" fill="#2d1348" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 510', 'Aula de gran capacidad en 5° Piso (Frente Calle Zeballos).')" />
-            <text x="366" y="658" class="room-label" style="font-size:15px;">Aula 510</text>
-
-            <!-- ========================================== -->
-            <!-- 6. SANITARIOS EN PASILLO ESTE              -->
-            <!-- ========================================== -->
-            <g class="blueprint-room" onclick="selectRoom('Sanitarios Norte 5° Piso', 'Batería de baños completos para alumnos y docentes (Sector Aulas 501/502).')">
-              <rect x="412" y="16" width="40" height="89" fill="#180a24" stroke="#ffffff" stroke-width="1.6" />
-              <line x1="412" y1="45" x2="452" y2="45" stroke="#fff" stroke-width="1" />
-              <line x1="412" y1="74" x2="452" y2="74" stroke="#fff" stroke-width="1" />
-              <text x="432" y="62" class="sub-label" style="fill:#cbd5e1; font-size:10px; font-weight:700;">Baños</text>
-            </g>
-
-            <g class="blueprint-room" onclick="selectRoom('Sanitarios Sur 5° Piso', 'Batería de baños completos para alumnos y docentes (Sector Aulas 510/511).')">
-              <rect x="412" y="610" width="40" height="114" fill="#180a24" stroke="#ffffff" stroke-width="1.6" />
-              <line x1="412" y1="648" x2="452" y2="648" stroke="#fff" stroke-width="1" />
-              <line x1="412" y1="686" x2="452" y2="686" stroke="#fff" stroke-width="1" />
-              <text x="432" y="670" class="sub-label" style="fill:#cbd5e1; font-size:10px; font-weight:700;">Baños</text>
-            </g>
-
-            <!-- ========================================== -->
-            <!-- 7. CRUJÍA 4: ALA ESTE (AULAS 501 A 511)   -->
-            <!-- ========================================== -->
-            <rect x="452" y="16" width="76" height="124" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 501', 'Aula en 5° Piso (Esquina Noreste). Luminosa y equipada con pupitres.')" />
-            <text x="490" y="82" class="room-label" style="font-size:14.5px;">Aula 501</text>
-
-            <rect x="452" y="140" width="76" height="130" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 503', 'Aula en 5° Piso (Ala Este). Cursado regular.')" />
-            <text x="490" y="208" class="room-label" style="font-size:14.5px;">Aula 503</text>
-
-            <rect x="452" y="270" width="76" height="140" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 505', 'Aula en 5° Piso (Ala Este Central).')" />
-            <text x="490" y="345" class="room-label" style="font-size:14.5px;">Aula 505</text>
-
-            <rect x="452" y="410" width="76" height="155" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 509', 'Aula en 5° Piso (Ala Este).')" />
-            <text x="490" y="492" class="room-label" style="font-size:14.5px;">Aula 509</text>
-
-            <rect x="452" y="565" width="76" height="159" fill="#2a1144" stroke="#ffffff" stroke-width="2" class="blueprint-room" onclick="selectRoom('Aula 511', 'Aula en 5° Piso (Frente Calle Zeballos / Esquina Este).')" />
-            <text x="490" y="648" class="room-label" style="font-size:14.5px;">Aula 511</text>
-
-            <!-- ========================================== -->
-            <!-- 8. FACHADA ZEBALLOS Y CONTORNO EXTERIOR    -->
-            <!-- ========================================== -->
+            <!-- Muro perimetral exterior (L.M. en Norte y Frente Zeballos en Sur) -->
             <rect x="12" y="16" width="516" height="708" fill="none" stroke="#ffffff" stroke-width="2.5" />
-            <text x="24" y="720" class="sub-label" style="fill:#cbd5e1; font-size:9.5px; font-weight:800;">L.M.</text>
+            <text x="24" y="32" class="sub-label" style="fill:#cbd5e1; font-size:10px; font-weight:800;">L.M.</text>
             <text x="270" y="746" class="room-label" style="fill:#d8b4fe; font-size:12.5px; font-weight:800; letter-spacing:1px;">
-              FRENTE: CALLE E. ZEBALLOS 1341 (5° PISO)
+              FRENTE: CALLE E. ZEBALLOS 1341 (5° PISO - DEPTO. SISTEMAS)
             </text>
           </svg>
         `
